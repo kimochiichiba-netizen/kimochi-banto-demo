@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>気持ち番頭 チーム版 ― デモ</title>
+<title>気持ち番頭 ― デモ（株式会社気持ち市場）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -706,6 +706,39 @@ svg{display:block;}
   .sh-today .n{display:flex;align-items:baseline;gap:8px;min-width:0;font-size:38px}
   .sh-today .n small{display:inline}
 }
+
+/* ==== 番頭に教える（2026-07-29 追加・当社で検証中） ==== */
+.os-warn{background:#fdf2f0;border:1px solid #f0c4bf;border-left:5px solid #b3271b;border-radius:10px;
+  padding:15px 18px;margin-bottom:20px;font-size:14.5px;line-height:1.85;color:#7d1e14}
+.os-warn b{font-weight:700}
+.os-ways{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:22px}
+.os-way{background:#fff;border:2px solid var(--line);border-radius:14px;padding:18px;position:relative}
+.os-way.on{border-color:var(--green)}
+.os-way.off{background:#f6f8fa;border-style:dashed}
+.os-way .no{width:30px;height:30px;border-radius:15px;background:var(--green);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:14px;margin-bottom:10px}
+.os-way.off .no{background:#c3ced8}
+.os-way h4{margin:0 0 6px;font-size:16.5px;font-weight:700;color:#16202b}
+.os-way p{margin:0;font-size:13.5px;line-height:1.8;color:#43525f}
+.os-way .badge2{display:inline-block;margin-top:9px;padding:3px 10px;border-radius:12px;
+  background:#b3271b;color:#fff;font-size:11.5px;font-weight:700}
+.os-way.on .badge2{background:var(--green)}
+.os-step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.os-step:last-child{border-bottom:0}
+.os-step .n{flex:0 0 28px;height:28px;border-radius:14px;background:#eef1f4;color:#667683;
+  display:grid;place-items:center;font-size:13px;font-weight:700}
+.os-step .t{font-size:15px;line-height:1.8}
+.os-book{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.os-item{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.os-item .h{padding:14px 18px;background:#eef5fb;border-bottom:1px solid #cfe0ef}
+.os-item .h h4{margin:0 0 4px;font-size:16px;font-weight:700;line-height:1.5;color:#16202b}
+.os-item .h .who{font-size:12.5px;color:#43525f}
+.os-item .h .who b{color:#1c5f9e}
+.os-item ol{margin:0;padding:14px 18px 14px 38px}
+.os-item ol li{font-size:14px;line-height:1.85;color:#43525f;padding:3px 0}
+.os-item .cau{margin:0 18px 16px;padding:12px 14px;background:#fdf2f0;border:1px solid #f0c4bf;
+  border-radius:8px;font-size:13.5px;line-height:1.8;color:#7d1e14}
+.os-item .cnt{padding:0 18px 14px;font-size:12.5px;color:#667683}
 </style>
 </head>
 <body>
@@ -719,7 +752,7 @@ svg{display:block;}
       <div class="sb-logo">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="2"/><circle cx="9" cy="13.5" r="1.1" fill="#fff" stroke="none"/><circle cx="15" cy="13.5" r="1.1" fill="#fff" stroke="none"/><path d="M12 4v3M9.5 4h5"/></svg>
       </div>
-      <div class="nm">気持ち番頭<small>Team Edition</small></div>
+      <div class="nm">気持ち番頭<small>KIMOCHI BANTO</small></div>
     </div>
     <nav class="sb-nav" id="nav"></nav>
     <div class="sb-foot" id="sbFoot"></div>
@@ -791,6 +824,7 @@ const I = {
 /* sec: "main" = 標準パック / "opt" = 別オプション。サイドバーを2セクションに分ける */
 const NAV = [
   {id:"shonin",    ic:I.check, label:"今日の承認箱", sec:"main"},
+  {id:"oshieru",   ic:I.ai,    label:"番頭に教える", sec:"main"},
   {id:"banto",     ic:I.ai,   label:"番頭（経営参謀AI）", sec:"main"},
   {id:"dashboard", ic:I.home, label:"ダッシュボード", sec:"main"},
   {id:"weekly",    ic:I.nippo, label:"週次レポート", sec:"main"},
@@ -5521,7 +5555,7 @@ function viewOptions(){
 ==================================================================== */
 function footer(){
   const f=el("div","foot");
-  f.innerHTML=`気持ち番頭「チーム版」 デモ ／ どの操作も <b>AIは下書き・案・通知まで。送信・支払い・確定は人</b> が行います。<br>シフト案は「案」であり、労基法の確認と確定は雇用主が行います。補助金は採択を保証しません（申請は本人）。<br><span style="color:var(--muted-soft)">効果は業務により異なり保証しません。表示はすべて架空のサンプルデータです。</span>`;
+  f.innerHTML=`気持ち番頭 デモ ／ どの操作も <b>AIは下書き・案・通知まで。送信・支払い・確定は人</b> が行います。<br>シフト案は「案」であり、労基法の確認と確定は雇用主が行います。補助金は採択を保証しません（申請は本人）。<br><span style="color:var(--muted-soft)">効果は業務により異なり保証しません。表示はすべて架空のサンプルデータです。</span>`;
   return f;
 }
 
@@ -5592,7 +5626,7 @@ function viewShorui(){
   const quo=`<div style="font-size:12px;color:#333">
    <div style="display:flex;justify-content:space-between;border-bottom:2px solid #1f6b3a;padding-bottom:10px;margin-bottom:12px"><div style="font-size:20px;font-weight:900;color:#14512a">御　見　積　書</div><div style="text-align:right;font-size:11px;color:#555">No. EST-2026-014 ／ 2026/06/15<br>有効期限 2026/07/15</div></div>
    <div style="font-size:13.5px;margin-bottom:8px"><b>サンプル建設 株式会社</b> 御中</div>
-   <div style="font-size:12px;margin-bottom:12px">件名：事務まわりのAI導入（チーム版）　お見積金額：<b style="font-size:15px;color:#14512a">¥146,080</b>（税込）</div>
+   <div style="font-size:12px;margin-bottom:12px">件名：事務まわりのAI導入（）　お見積金額：<b style="font-size:15px;color:#14512a">¥146,080</b>（税込）</div>
    <table style="width:100%;border-collapse:collapse;font-size:11.5px">
     <tr style="background:#14512a;color:#fff"><th style="padding:7px;text-align:left">項目</th><th style="padding:7px;text-align:right">金額</th></tr>
     <tr><td style="padding:7px;border-bottom:1px solid #eee">スタンダード 初期費用</td><td style="padding:7px;text-align:right;border-bottom:1px solid #eee">¥98,000</td></tr>
@@ -6609,8 +6643,104 @@ function viewShoninOne(){
   return v;
 }
 
+
+/* ====================================================================
+   番頭に教える（当社で検証中）
+   Anthropic公式の Record a skill（Mac版Cowork・Pro以上限定）を踏まえた当社版の構想。
+   未実装であることを画面に明記する。
+==================================================================== */
+var OSHIERU_BOOK=[
+ {t:"手書きの仕入れ表を、仕入台帳と仕入先別の集計にする",who:"仕入担当リーダー（表示名 やまもと・勤続18年）",gyo:"青果・食品卸",n:"これまで142回",
+  s:["朝、FAXと手書きの仕入れ表を受け口に入れる",
+     "品名の略号（キャベツ→キャ、玉ねぎ→タマ）を正式名に直す",
+     "単価が空欄の行は前回の単価を仮置きし、赤で『要確認』を付ける",
+     "仕入先ごとに合計を出し、いつもの並び順（配送が近い順）で台帳に並べる"],
+  c:"赤い『要確認』の行は必ず人が見てください。相場が動いた日は仮置きの単価が実際と離れます。金額を確定するのは人です。"},
+ {t:"レセプト前に、負傷原因の書き方をそろえる",who:"受付主任（表示名 さかい）",gyo:"整骨院・接骨院",n:"これまで37回",
+  s:["施術録から負傷名と負傷原因の組み合わせを取り出す",
+     "『いつ・どこで・何をして』の3点が抜けている行を先に並べる",
+     "近接部位・長期施術にあたる行に印を付ける",
+     "前回返戻になった型と同じ書き方の行を並べて出す"],
+  c:"返戻が減るかどうかは保険者と所属団体の運用で変わります。番頭は判断せず、確認すべき行を並べるだけです。締切日は団体により異なるため設定式です。最終判断は院の先生と所属団体。"},
+ {t:"月末の出来高請求と、そろっていない書類の洗い出し",who:"工務部の事務（表示名 みやざき）",gyo:"建設・工務店",n:"これまで58回",
+  s:["現場ごとの進捗を日報と写真の枚数から拾い、出来高の下書きを作る",
+     "元請けごとに締め日が違うので、締め日の早い順に並べる",
+     "保存が要る図書（完成図・打合せ記録・施工体系図）が入っていない現場に印を付ける",
+     "請求の下書きと、足りない書類の一覧を1枚にして承認箱へ出す"],
+  c:"進捗は日報の書き方に左右されます。金額は必ず現場代理人が見てから承認してください。書類の保存年限は建設業法の条文で最新を確認したうえで設定します（商談では年数を断定しません）。"},
+ {t:"加算の書類がそろっているかの見張り",who:"サービス提供責任者（表示名 こんどう）",gyo:"介護事業所",n:"これまで21回",
+  s:["今月算定している加算を一覧にする",
+     "加算ごとに要る書類（計画・記録・同意）が保存先にあるか照らす",
+     "無い・古い・署名が抜けている物を利用者ごとに並べる",
+     "期限が近い順に承認箱へ出す"],
+  c:"加算の要件は改定と保険者の解釈で変わります。番頭は『あるか無いか』を見るだけで、算定してよいかは判断しません。利用者の氏名が入る書類は外に出さない経路で扱い、体験談・治療効果の文章は作りません。"}
+];
+
+function viewOshieru(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>番頭に教える <span style="font-size:12px;font-weight:700;color:#fff;background:#b3271b;padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:middle">当社で検証中</span></h1>'+
+    '<p>いつものやり方を一度教えると、番頭がその手順を覚えて、次から同じ形で下書きを作ります。</p></div>';
+
+  var w=el("div","os-warn");
+  w.innerHTML='<b>先に正直に申し上げます。</b>この画面は<b>まだ作っていない機能の見本</b>です。'+
+    'もとになっているAnthropic社の公式機能「Record a skill（画面を録画して手順を覚えさせる）」は実在しますが、'+
+    '<b>Mac版Claudeの Cowork 内・Pro／Max／Team プラン限定で、Windowsでは使えません</b>（公式に明記されています）。'+
+    'また公式は「録画中はパスワードや秘密情報を入力せず、機密情報や私的な会話を画面に出さないこと。画面に映った物と話した内容がすべて取り込まれる」と警告しています。'+
+    '中小企業の画面には請求書・顧客名簿・カルテが常に開いているため、<b>当社版はこの危険を先に潰してからでないと出しません。</b>'+
+    '提供時期はお約束しません。';
+  v.appendChild(w);
+
+  v.appendChild(el("div","card-h","<h3>教え方は3つ（第1版で出すのは①と②です）</h3>"));
+  var ways=el("div","os-ways");
+  [[1,"言葉で伝える","「月末の請求書は、締め日の早い元請から順に作って」のように話すだけ。番頭が手順の下書きを出します。","on","第1版で提供"],
+   [2,"いつもの書類を1枚見せる","出来上がりの見本を1枚置くだけ。番頭が「こういう形ですね」と型を読み取ります。","on","第1版で提供"],
+   [3,"画面を見せて教える","作業しながら声で説明すると、その手順を覚えます。Anthropic公式の機能はMac限定のため、当社版は検証中です。","off","当社で検証中"]
+  ].forEach(function(x){
+    var d=el("div","os-way "+x[3]);
+    d.innerHTML='<div class="no">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p><span class="badge2">'+x[4]+'</span>';
+    ways.appendChild(d);
+  });
+  v.appendChild(ways);
+
+  var flow=el("div","card");
+  flow.innerHTML='<div class="card-h"><h3>覚えさせるまでの流れ</h3></div>';
+  [["1","［番頭に教える］を押して、覚えさせたい仕事を一言だけ書く（例：月末の請求書づくり）"],
+   ["2","教え方を選ぶ（言葉で伝える／書類を1枚見せる）"],
+   ["3","番頭が「こういう手順ですね」と手順カードの下書きを出す。分からなかった所は空欄のまま『ここは教えてください』として残る"],
+   ["4","人が読んで直す。数字・締め日・並び順など、間違えると困る所は赤枠で必ず確認を求める"],
+   ["5","［覚えさせる］を押すと『やり方帳』に並ぶ。次から承認カードの下に「◯◯さんのやり方で作りました」と出る"]
+  ].forEach(function(x){
+    var s=el("div","os-step");
+    s.innerHTML='<div class="n">'+x[0]+'</div><div class="t">'+x[1]+'</div>';
+    flow.appendChild(s);
+  });
+  v.appendChild(flow);
+
+  v.appendChild(el("div","card-h","<h3>やり方帳（覚えさせた手順）<span class='sub'>デモ用の見本です。会社名・お名前・回数はすべて架空のサンプル値です</span></h3>"));
+  var book=el("div","os-book");
+  OSHIERU_BOOK.forEach(function(b){
+    var it=el("div","os-item");
+    var ol='<ol>'+b.s.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol>';
+    it.innerHTML='<div class="h"><h4>'+b.t+'</h4><div class="who">教えた人：<b>'+b.who+'</b>　／　'+b.gyo+'</div></div>'+
+      ol+'<div class="cau"><b>ここは人が見てください：</b>'+b.c+'</div><div class="cnt">'+b.n+'（デモ用の架空サンプル値）</div>';
+    book.appendChild(it);
+  });
+  v.appendChild(book);
+
+  var n=el("div","note box");
+  n.style.marginTop="20px";
+  n.innerHTML="<b>この機能で守ることを先に決めています。</b><br>"+
+    "・覚えるのは<b>手順書</b>であって、マウスの動きをそのまま再生するマクロではありません。同じ画面を1ピクセルもずれずになぞる保証はしません。<br>"+
+    "・覚えさせた手順が正しいかは<b>人が読んで確認</b>します。番頭が勝手に保存することはありません。<br>"+
+    "・<b>送信・投稿・振込・公開・削除は、手順として教えても番頭は実行しません。</b>ここは設定で外せない仕様として固定します。<br>"+
+    "・効果（何時間減るか）は保証しません。当社の導入実績は0社です。数字は1号のお客様と一緒に測ってから出します。";
+  v.appendChild(n);
+  return v;
+}
+
 const VIEWS={
   shonin:viewShonin,
+  oshieru:viewOshieru,
   banto:viewBanto, weekly:viewWeekly, teiki:viewTeiki, sim:viewSim, donyu:viewDonyu, soudan:viewSoudan,
   dashboard:viewDashboard, eigyo:viewEigyo, tasks:viewTasks, nippo:viewNippo, shift:viewShift,
   shushi:viewShushi, seikyu:viewSeikyu, hojokin:viewHojokin, kioku:viewKioku,
