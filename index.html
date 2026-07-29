@@ -878,6 +878,18 @@ svg{display:block;}
   .kb-deal .two{grid-template-columns:minmax(0,1fr)}
   .kb-lang{grid-template-columns:minmax(0,1fr)}
 }
+
+/* ==== まだ手作業で残っていること（2026-07-30 追加） ==== */
+.kb-nokori{margin-top:16px;border:2px solid #e6c68c;border-radius:14px;overflow:hidden;background:#fffdf8}
+.kb-nokori .hd{padding:14px 18px;background:#fdf7ec;border-bottom:1px solid #e6c68c}
+.kb-nokori .hd b{font-size:15.5px;color:#8a5a1a}
+.kb-nokori .hd span{display:block;margin-top:3px;font-size:12.5px;color:#9a7a4a}
+.kb-nokori .bd{padding:16px 18px}
+.kb-nokori .ttl{font-size:17px;font-weight:800;color:#16202b;margin-bottom:8px;line-height:1.5}
+.kb-nokori .ev{margin:10px 0 0;padding:12px 14px;background:#f4f7f9;border-radius:9px;font-size:13px;line-height:1.8;color:#43525f}
+.kb-nokori .ev b{color:#16202b}
+.kb-nokori .why{margin-top:12px;font-size:13px;line-height:1.85;color:#43525f}
+.kb-nokori .acts{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -6498,6 +6510,7 @@ function viewTeiki(){
   const pb=el("button","btn btn-green btn-sm mt16","📤 今すぐプレビュー配信（社内チャットへ）");
   pb.onclick=()=>toast("経営レポートを社内チャットに配信しました（デモ・送信は人）");
   cfg.append(pb);v.append(cfg);
+  v.append(nokoriBox());
   v.append(el("div","note box","数値・見通しはデモ用の試算で、売上・受注を保証するものではありません。配信は人が確認して行います。定期便は今後実装する新機能を含みます。"));
   v.append(footer());
   return v;
@@ -7637,6 +7650,47 @@ function viewUketsuke(){
     t.push(e);
   });
 })();
+
+
+/* ====================================================================
+   まだ手作業で残っていること（2026-07-30 追加）
+   毎月1件だけ。売り込みではなく、実際に詰まった記録がそのまま出てくるだけ。
+==================================================================== */
+var NOKORI={
+  title:"手書きの日報から、材料の使用量を人が転記しています",
+  count:"今月 23件（先月 21件）",
+  time:"1件あたり約4分／今月およそ1時間30分",
+  ev:["番頭が読めたのは、日付・現場名・作業時間まででした。",
+      "材料の欄は手書きの略号（「Gボード12.5」など）で、社内でしか通じない書き方でした。",
+      "略号の読み替え表が番頭に入っていないため、勝手に当てはめませんでした。"],
+  why:"読み替え表を1枚いただければ、来月から番頭が下書きまで作れます。"+
+      "作れないままにしておくと、この1時間30分は毎月かかり続けます。",
+  note:"これは売り込みではありません。今月、番頭が実際に詰まった記録がそのまま出ています。"+
+       "直すかどうかは社長がお決めください。そのままでもかまいません。"
+};
+
+function nokoriBox(){
+  var d=el("div","kb-nokori");
+  var hd=el("div","hd");
+  hd.innerHTML='<b>まだ手作業で残っていること（今月は1件）</b>'+
+    '<span>毎月1件だけお出しします。たくさん出すと読まれないためです。</span>';
+  d.appendChild(hd);
+  var bd=el("div","bd");
+  bd.innerHTML='<div class="ttl">'+NOKORI.title+'</div>'+
+    '<div style="font-size:13px;color:var(--muted)">'+NOKORI.count+'　／　'+NOKORI.time+'</div>'+
+    '<div class="ev"><b>番頭がどこで止まったか</b><br>'+NOKORI.ev.map(function(x){return '・'+x;}).join("<br>")+'</div>'+
+    '<div class="why">'+NOKORI.why+'</div>';
+  var acts=el("div","acts");
+  var b1=el("button","btn btn-green btn-sm","読み替え表を番頭に入れる");b1.type="button";
+  b1.onclick=function(){toast("読み替え表の取り込み画面をひらきます（このデモでは中身までは動きません）");};
+  var b2=el("button","btn btn-sm btn-opt-o","今月はそのままにする");b2.type="button";
+  b2.onclick=function(){toast("今月はそのままにしました。来月もう一度お出しします");};
+  acts.appendChild(b1);acts.appendChild(b2);
+  bd.appendChild(acts);
+  bd.appendChild(el("div","note box",NOKORI.note));
+  d.appendChild(bd);
+  return d;
+}
 
 const VIEWS={
   shonin:viewShonin,
