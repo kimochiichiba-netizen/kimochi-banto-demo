@@ -739,6 +739,35 @@ svg{display:block;}
 .os-item .cau{margin:0 18px 16px;padding:12px 14px;background:#fdf2f0;border:1px solid #f0c4bf;
   border-radius:8px;font-size:13.5px;line-height:1.8;color:#7d1e14}
 .os-item .cnt{padding:0 18px 14px;font-size:12.5px;color:#667683}
+
+/* ==== 番頭に教える：さわれるデモ（2026-07-29） ==== */
+.os-tape{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:18px}
+.os-tape button{background:#fff;border:2px solid var(--line);border-radius:14px;padding:16px 18px;text-align:left;cursor:pointer}
+.os-tape button:hover{border-color:var(--green)}
+.os-tape button .tt{font-size:16px;font-weight:700;color:#16202b;line-height:1.5;margin-bottom:6px}
+.os-tape button .mm{font-size:13px;color:#667683}
+.os-tape button .mm b{color:#12704a}
+.os-run{background:#16202b;color:#fff;border-radius:14px;padding:18px 20px;margin-bottom:18px}
+.os-run .ttl{font-size:15px;font-weight:700;margin-bottom:10px}
+.os-run .ln{display:flex;gap:10px;padding:6px 0;font-size:14px;color:rgba(255,255,255,.86);align-items:flex-start}
+.os-run .ln .tm{flex:0 0 52px;color:#7fd3ab;font-weight:700;font-variant-numeric:tabular-nums}
+.os-run .ln.say{color:#ffe0a3}
+.os-run .ln.say .tm{color:#c8934a}
+.os-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.os-fr{background:#f6f8fa;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12px;color:#43525f;line-height:1.6}
+.os-fr b{display:block;color:#12704a;font-size:12.5px;margin-bottom:3px;font-variant-numeric:tabular-nums}
+.os-draft{background:#fff;border:2px solid var(--green);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.os-draft .hd{padding:14px 18px;background:#f0f8f3;border-bottom:1px solid #cbe5d8;font-size:16px;font-weight:700}
+.os-draft .bd{padding:16px 18px}
+.os-draft ol{margin:0 0 4px;padding-left:22px}
+.os-draft ol li{font-size:15px;line-height:1.95;padding:2px 0}
+.os-draft .blank{background:#fdf2f0;border:1px dashed #b3271b;border-radius:6px;padding:2px 8px;color:#b3271b;font-weight:700}
+.os-draft h5{margin:16px 0 6px;font-size:14px;font-weight:700;color:#667683}
+.os-draft .jd{background:#fff8e8;border-left:4px solid #c8934a;border-radius:8px;padding:12px 14px;font-size:14px;line-height:1.85;color:#6b4d12}
+.os-ok{display:flex;gap:10px;flex-wrap:wrap;padding:14px 18px 18px;border-top:1px solid var(--line)}
+.os-done{background:#f0f8f3;border:2px solid var(--green);border-radius:14px;padding:20px;margin-bottom:18px}
+.os-done .bg{font-size:19px;font-weight:700;color:#12704a;margin-bottom:6px}
+.os-done .sm{font-size:14px;line-height:1.85;color:#43525f}
 </style>
 </head>
 <body>
@@ -6645,9 +6674,7 @@ function viewShoninOne(){
 
 
 /* ====================================================================
-   番頭に教える（当社で検証中）
-   Anthropic公式の Record a skill（Mac版Cowork・Pro以上限定）を踏まえた当社版の構想。
-   未実装であることを画面に明記する。
+   番頭に教える（当社で検証中）— さわれるデモ
 ==================================================================== */
 var OSHIERU_BOOK=[
  {t:"手書きの仕入れ表を、仕入台帳と仕入先別の集計にする",who:"仕入担当リーダー（表示名 やまもと・勤続18年）",gyo:"青果・食品卸",n:"これまで142回",
@@ -6676,6 +6703,52 @@ var OSHIERU_BOOK=[
   c:"加算の要件は改定と保険者の解釈で変わります。番頭は『あるか無いか』を見るだけで、算定してよいかは判断しません。利用者の氏名が入る書類は外に出さない経路で扱い、体験談・治療効果の文章は作りません。"}
 ];
 
+/* デモ用の録画サンプル（架空）。コマ＝画面の動き、声＝作業者の説明 */
+var OSHIERU_TAPES=[
+ {id:"seikyu",title:"月末の請求書づくり",gyo:"青果・食品卸",len:"3分12秒",voice:true,
+  who:"経理担当（表示名 のむら・勤続11年）",
+  frames:[["00:04","受け口フォルダを開いた"],["00:11","今月の納品書 170枚を選んだ"],["00:26","単価が空欄の3枚をよけた"],
+          ["00:48","取引先ごとに並べ替えた"],["01:15","請求書の様式を開いた"],["01:40","軽減税率の欄を8%に直した"],
+          ["02:10","配送料の行を10%に分けた"],["02:35","締め日が20日の3社を先に並べた"],["03:02","PDFにして保存した"]],
+  says:[["00:06","今日は月末の請求書を作ります。まず受け口に今月ぶんが全部そろってるか見ます"],
+        ["00:28","単価が入ってない納品書は、ここでは飛ばします。あとで営業に聞かないと決められないので"],
+        ["01:42","野菜は8%、配送料と資材は10%。ここを混ぜると相手の経理さんから必ず電話がきます"],
+        ["02:37","締め日が20日の会社は先に出します。月末まとめて出すと入金が1か月ずれるので"],
+        ["03:05","金額は必ず自分で見てから送ります。番頭には送らせません"]],
+  draft:{name:"月末の請求書づくり",when:"毎月25日〜末日（締め日が20日の取引先は20日締め後すぐ）",
+    uses:["受け口フォルダ（納品書）","取引先ごとの単価表Excel","請求書の様式"],
+    steps:["受け口フォルダから、今月ぶんの納品書をすべて読む",
+           "単価が空欄の納品書は<span class='blank'>よけて別に出す</span>（合計には入れない）",
+           "取引先ごとにまとめ、軽減税率8%（野菜）と10%（配送料・資材）を分けて計算する",
+           "締め日が20日の取引先を<span class='blank'>先に</span>並べる",
+           "請求書のPDFを作り、承認箱へ出す（送信はしない）"],
+    judge:"単価が空欄の納品書をどう扱うか（営業に確認が要る）。値引きの口約束がある取引先。相場が動いた月の単価。",
+    blank:["締め日が20日の取引先が何社あるか（録画では3社と言っていましたが、増減するはずです）",
+           "よけた納品書を、いつ・誰に確認するか"]}},
+ {id:"henrei",title:"返戻になった申請の直し方",gyo:"整骨院・接骨院",len:"2分40秒",voice:true,
+  who:"受付主任（表示名 さかい）",
+  frames:[["00:03","返戻の通知を開いた"],["00:14","申請No.084をカルテと並べた"],["00:33","負傷原因の欄を読み上げた"],
+          ["00:58","近接部位のところに印を付けた"],["01:20","施術録の日付を確かめた"],["01:52","書き直した文を入れた"],
+          ["02:20","次回の提出分に回した"]],
+  says:[["00:05","返戻の理由は、だいたい負傷原因の書き方です。まずどこを指摘されたか見ます"],
+        ["00:35","『いつ・どこで・何をして』の3つが入ってないと返ってきます。ここが抜けてました"],
+        ["01:00","右膝と右足首は近接部位なので、1つの原因で2部位は書けません。分けて書きます"],
+        ["01:22","日付は絶対に推測で埋めません。カルテを見て、先生に確認します"],
+        ["02:22","直した分は次回の提出に回します。期限は団体によって違うので確認します"]],
+  draft:{name:"返戻になった申請の直し方",when:"返戻の通知が届いたとき（次の提出締切まで）",
+    uses:["返戻の通知","施術録・カルテ","前回の申請書"],
+    steps:["返戻の通知から、指摘された申請番号と理由を読み取る",
+           "施術録と並べて、負傷原因に『いつ・どこで・何をして』が入っているか見る",
+           "近接部位（右膝と右足首など）が1つの原因で書かれていないか調べる",
+           "日付が抜けている所は<span class='blank'>空欄のまま残す</span>（推測で埋めない）",
+           "直した案を承認箱へ出す（提出は人）"],
+    judge:"負傷原因の書き直し（事実の確認が要る）。近接部位にあたるかどうか。次の提出に回すか、今回に間に合わせるか。",
+    blank:["所属団体の提出締切日（録画では言っていませんでした）",
+           "先生に確認する手順（誰に・どのタイミングで）"]}}
+];
+
+function osStep(){ return STATE.osStep||0; }
+
 function viewOshieru(){
   var v=el("div","view");
   v.innerHTML='<div class="page-head"><h1>番頭に教える <span style="font-size:12px;font-weight:700;color:#fff;background:#b3271b;padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:middle">当社で検証中</span></h1>'+
@@ -6686,56 +6759,131 @@ function viewOshieru(){
     'もとになっているAnthropic社の公式機能「Record a skill（画面を録画して手順を覚えさせる）」は実在しますが、'+
     '<b>Mac版Claudeの Cowork 内・Pro／Max／Team プラン限定で、Windowsでは使えません</b>（公式に明記されています）。'+
     'また公式は「録画中はパスワードや秘密情報を入力せず、機密情報や私的な会話を画面に出さないこと。画面に映った物と話した内容がすべて取り込まれる」と警告しています。'+
-    '中小企業の画面には請求書・顧客名簿・カルテが常に開いているため、<b>当社版はこの危険を先に潰してからでないと出しません。</b>'+
-    '提供時期はお約束しません。';
+    '中小企業の画面には請求書・顧客名簿・カルテが常に開いているため、<b>当社版はこの危険を先に潰してからでないと出しません。</b>提供時期はお約束しません。';
   v.appendChild(w);
 
-  v.appendChild(el("div","card-h","<h3>教え方は3つ（第1版で出すのは①と②です）</h3>"));
-  var ways=el("div","os-ways");
-  [[1,"言葉で伝える","「月末の請求書は、締め日の早い元請から順に作って」のように話すだけ。番頭が手順の下書きを出します。","on","第1版で提供"],
-   [2,"いつもの書類を1枚見せる","出来上がりの見本を1枚置くだけ。番頭が「こういう形ですね」と型を読み取ります。","on","第1版で提供"],
-   [3,"画面を見せて教える","作業しながら声で説明すると、その手順を覚えます。Anthropic公式の機能はMac限定のため、当社版は検証中です。","off","当社で検証中"]
-  ].forEach(function(x){
-    var d=el("div","os-way "+x[3]);
-    d.innerHTML='<div class="no">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p><span class="badge2">'+x[4]+'</span>';
-    ways.appendChild(d);
-  });
-  v.appendChild(ways);
+  var step=osStep();
 
-  var flow=el("div","card");
-  flow.innerHTML='<div class="card-h"><h3>覚えさせるまでの流れ</h3></div>';
-  [["1","［番頭に教える］を押して、覚えさせたい仕事を一言だけ書く（例：月末の請求書づくり）"],
-   ["2","教え方を選ぶ（言葉で伝える／書類を1枚見せる）"],
-   ["3","番頭が「こういう手順ですね」と手順カードの下書きを出す。分からなかった所は空欄のまま『ここは教えてください』として残る"],
-   ["4","人が読んで直す。数字・締め日・並び順など、間違えると困る所は赤枠で必ず確認を求める"],
-   ["5","［覚えさせる］を押すと『やり方帳』に並ぶ。次から承認カードの下に「◯◯さんのやり方で作りました」と出る"]
-  ].forEach(function(x){
-    var s=el("div","os-step");
-    s.innerHTML='<div class="n">'+x[0]+'</div><div class="t">'+x[1]+'</div>';
-    flow.appendChild(s);
-  });
-  v.appendChild(flow);
+  if(step===0){
+    v.appendChild(el("div","card-h","<h3>覚えさせたい作業の録画をえらぶ<span class='sub'>デモ用の見本です。会社名・お名前・回数はすべて架空のサンプル値です</span></h3>"));
+    var tp=el("div","os-tape");
+    OSHIERU_TAPES.forEach(function(t,i){
+      var b=el("button");b.type="button";
+      b.innerHTML='<div class="tt">'+t.title+'</div><div class="mm">'+t.gyo+'　／　'+t.len+'　／　'+
+        (t.voice?'<b>声の説明あり</b>':'声なし')+'<br>録った人：'+t.who+'</div>';
+      b.onclick=function(){STATE.osTape=i;STATE.osStep=1;render();
+        setTimeout(function(){STATE.osStep=2;render();},1400);};
+      tp.appendChild(b);
+    });
+    v.appendChild(tp);
 
-  v.appendChild(el("div","card-h","<h3>やり方帳（覚えさせた手順）<span class='sub'>デモ用の見本です。会社名・お名前・回数はすべて架空のサンプル値です</span></h3>"));
+    v.appendChild(el("div","card-h","<h3>教え方は3つ（第1版で出すのは①と②です）</h3>"));
+    var ways=el("div","os-ways");
+    [[1,"言葉で伝える","「月末の請求書は、締め日の早い元請から順に作って」のように話すだけ。番頭が手順の下書きを出します。","on","第1版で提供"],
+     [2,"いつもの書類を1枚見せる","出来上がりの見本を1枚置くだけ。番頭が「こういう形ですね」と型を読み取ります。","on","第1版で提供"],
+     [3,"画面を見せて教える","作業しながら声で説明すると、その手順を覚えます。Anthropic公式の機能はMac限定のため、当社版は検証中です。","off","当社で検証中"]
+    ].forEach(function(x){
+      var d=el("div","os-way "+x[3]);
+      d.innerHTML='<div class="no">'+x[0]+'</div><h4>'+x[1]+'</h4><p>'+x[2]+'</p><span class="badge2">'+x[4]+'</span>';
+      ways.appendChild(d);
+    });
+    v.appendChild(ways);
+
+    v.appendChild(osBook());
+    v.appendChild(osFooterNote());
+    return v;
+  }
+
+  var T=OSHIERU_TAPES[STATE.osTape||0];
+
+  if(step===1){
+    var r=el("div","os-run");
+    r.innerHTML='<div class="ttl">「'+T.title+'」を読み取っています…</div>'+
+      '<div class="ln"><span class="tm">画面</span><span>コマを '+T.frames.length+' 枚に分けました</span></div>'+
+      '<div class="ln say"><span class="tm">声</span><span>このパソコンの中だけで文字にしています（外に送っていません）</span></div>';
+    v.appendChild(r);
+    v.appendChild(osFooterNote());
+    return v;
+  }
+
+  /* step 2 = 読み取り結果と手順書の下書き */
+  var run=el("div","os-run");
+  var lines='<div class="ttl">読み取りました：「'+T.title+'」（'+T.len+'）</div>';
+  T.says.forEach(function(s){ lines+='<div class="ln say"><span class="tm">'+s[0]+'</span><span>「'+s[1]+'」</span></div>'; });
+  run.innerHTML=lines;
+  v.appendChild(run);
+
+  v.appendChild(el("div","card-h","<h3>画面の動き（コマ）</h3>"));
+  var g=el("div","os-grid");
+  T.frames.forEach(function(f){
+    var d=el("div","os-fr");
+    d.innerHTML='<b>'+f[0]+'</b>'+f[1];
+    g.appendChild(d);
+  });
+  v.appendChild(g);
+
+  var D=T.draft;
+  var dr=el("div","os-draft");
+  var body='<div class="bd"><div style="font-size:13.5px;color:#667683;margin-bottom:10px">いつやるか：'+D.when+'　／　使うもの：'+D.uses.join("・")+'</div>'+
+    '<ol>'+D.steps.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol>'+
+    '<h5>判断がいるところ（番頭は決めません）</h5><div class="jd">'+D.judge+'</div>'+
+    '<h5>分からなかったところ</h5><div class="jd" style="background:#fdf2f0;border-left-color:#b3271b;color:#7d1e14">'+
+      D.blank.map(function(x){return '【ここは教えてください】'+x;}).join('<br>')+'</div></div>';
+  dr.innerHTML='<div class="hd">番頭がまとめた手順の下書き：'+D.name+'</div>'+body;
+  var ok=el("div","os-ok");
+  var b1=el("button","sh-btn g");b1.type="button";b1.textContent="この手順で覚えさせる";
+  b1.onclick=function(){
+    OSHIERU_BOOK.unshift({t:D.name,who:T.who,gyo:T.gyo,n:"覚えたばかり（0回）",
+      s:D.steps.map(function(x){return String(x).replace(/<[^>]+>/g,"");}),c:D.judge});
+    STATE.osStep=3;render();
+  };
+  ok.appendChild(b1);
+  var b2=el("button","sh-btn s");b2.type="button";b2.textContent="直す";
+  b2.onclick=function(){toast("手順を直す画面をひらきます（このデモでは中身までは動きません）");};
+  ok.appendChild(b2);
+  var b3=el("button","sh-btn s");b3.type="button";b3.textContent="やめる";
+  b3.onclick=function(){STATE.osStep=0;render();};
+  ok.appendChild(b3);
+  dr.appendChild(ok);
+  v.appendChild(dr);
+
+  if(step===3){
+    var dn=el("div","os-done");
+    dn.innerHTML='<div class="bg">やり方帳に入れました</div><div class="sm">次から承認カードの下に「'+T.who+'のやり方で作りました（やり方帳を見る）」と出ます。'+
+      '覚えた手順はいつでも直せます。<b>送信・投稿・振込・公開・削除は、手順として覚えても番頭は実行しません。</b></div>';
+    v.insertBefore(dn, v.children[2]);
+  }
+
+  v.appendChild(osBook());
+  v.appendChild(osFooterNote());
+  return v;
+}
+
+function osBook(){
+  var wrap=el("div");
+  wrap.appendChild(el("div","card-h","<h3>やり方帳（覚えさせた手順）<span class='sub'>デモ用の見本です。会社名・お名前・回数はすべて架空のサンプル値です</span></h3>"));
   var book=el("div","os-book");
   OSHIERU_BOOK.forEach(function(b){
     var it=el("div","os-item");
     var ol='<ol>'+b.s.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol>';
     it.innerHTML='<div class="h"><h4>'+b.t+'</h4><div class="who">教えた人：<b>'+b.who+'</b>　／　'+b.gyo+'</div></div>'+
-      ol+'<div class="cau"><b>ここは人が見てください：</b>'+b.c+'</div><div class="cnt">'+b.n+'（デモ用の架空サンプル値）</div>';
+      ol+'<div class="cau"><b>ここは人が見てください：</b>'+b.c+'</div><div class="cnt">'+b.n+'</div>';
     book.appendChild(it);
   });
-  v.appendChild(book);
+  wrap.appendChild(book);
+  return wrap;
+}
 
+function osFooterNote(){
   var n=el("div","note box");
   n.style.marginTop="20px";
   n.innerHTML="<b>この機能で守ることを先に決めています。</b><br>"+
-    "・覚えるのは<b>手順書</b>であって、マウスの動きをそのまま再生するマクロではありません。同じ画面を1ピクセルもずれずになぞる保証はしません。<br>"+
+    "・覚えるのは<b>手順書</b>であって、マウスの動きをそのまま再生するマクロではありません。<br>"+
     "・覚えさせた手順が正しいかは<b>人が読んで確認</b>します。番頭が勝手に保存することはありません。<br>"+
-    "・<b>送信・投稿・振込・公開・削除は、手順として教えても番頭は実行しません。</b>ここは設定で外せない仕様として固定します。<br>"+
+    "・<b>送信・投稿・振込・公開・削除は、手順として教えても番頭は実行しません。</b>設定で外せない仕様として固定します。<br>"+
+    "・録画する前に、請求台帳・顧客名簿・カルテ・パスワード画面は<b>閉じてから</b>録ってください。映ったものと話した内容は全部取り込まれます。<br>"+
     "・効果（何時間減るか）は保証しません。当社の導入実績は0社です。数字は1号のお客様と一緒に測ってから出します。";
-  v.appendChild(n);
-  return v;
+  return n;
 }
 
 const VIEWS={
@@ -6791,6 +6939,7 @@ function buildNav(){
 }
 
 function go(id){
+  if(id!=="oshieru")STATE.osStep=0;
   STATE.view=id;
   document.body.classList.remove("nav-open");
   buildNav();
