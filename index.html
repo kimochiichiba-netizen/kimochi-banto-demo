@@ -1,0 +1,4183 @@
+<!DOCTYPE html>
+<html lang="ja" data-easy="off">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="中小企業の事務の下書きをAIが作り、人が押して確定するデモ画面。株式会社気持ち市場。">
+<title>帳場（デモ）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   帳場（ちょうば） — 番頭デモ スタイル
+   気持ち市場ハウススタイル準拠：見出し明朝／濃紺×生成り／金はアクセント1色
+   角丸ゼロ・影ゼロ。構造は罫線と余白で作る。
+   ========================================================================== */
+
+:root {
+  /* 紙と墨 */
+  --paper:      #f6f3ee;   /* 生成り＝帳面の紙 */
+  --paper-2:    #fffdf9;   /* カードの面 */
+  --paper-3:    #efeae1;   /* 沈んだ面（見出し帯・空状態） */
+  --sumi:       #0e1b2a;   /* 濃紺＝墨 */
+  --sumi-2:     #33404e;   /* 弱い文字 */
+  --sumi-3:     #6b7684;   /* 補足 */
+  --rule:       #ddd6cb;   /* 罫 */
+  --rule-2:     #c9c0b2;   /* 濃い罫 */
+
+  /* 差し色は2つだけ */
+  --kin:        #c8934a;   /* 金＝当社のアクセント */
+  --shu:        #9b2c1c;   /* 朱＝お金・社外に出るもの */
+  --shu-bg:     #fbf1ee;
+  --midori:     #1f5b3a;   /* 済み・通ったもの */
+
+  /* 寸法 */
+  --tap:        48px;      /* 押す場所の最小の高さ */
+  --gap:        8px;       /* 押す場所どうしの最小の間隔 */
+  --body:       16px;
+  --line:       1.75;
+  --rail:       236px;
+
+  --mincho: "Noto Serif JP", "游明朝", YuMincho, "Hiragino Mincho ProN", "MS P明朝", serif;
+  --gothic: "Noto Sans JP", "游ゴシック体", YuGothic, "游ゴシック", "Hiragino Sans", "Meiryo", sans-serif;
+}
+
+/* らくらく表示：文字とボタンを大きく、線を濃く */
+:root[data-easy="on"] {
+  --body: 20px;
+  --tap: 64px;
+  --rule: #c9c0b2;
+  --rule-2: #a89c88;
+  --sumi-3: #4c5866;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--sumi);
+  font-family: var(--gothic);
+  font-size: var(--body);
+  line-height: var(--line);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt" 1;
+}
+
+/* 紙の目。うるさくならない程度に */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .5;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(14,27,42,.014) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(14,27,42,.010) 0 1px, transparent 1px 4px);
+}
+
+h1, h2, h3, .mincho { font-family: var(--mincho); font-weight: 600; letter-spacing: .02em; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+.num { font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+
+/* ==========================================================================
+   全体の骨組み
+   ========================================================================== */
+
+.shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* ---- 左の縦メニュー：5項目だけ ---- */
+.rail {
+  background: var(--sumi);
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--sumi);
+}
+
+.rail-brand {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(246,243,238,.14);
+}
+.rail-brand .mark {
+  font-family: var(--mincho);
+  font-size: 21px;
+  line-height: 1.3;
+  color: var(--paper);
+}
+.rail-brand .sub {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: rgba(246,243,238,.55);
+}
+
+.rail-nav { padding: 10px 0; flex: 1; }
+
+.rail-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 10px 18px;
+  background: none;
+  border: 0;
+  border-left: 3px solid transparent;
+  color: rgba(246,243,238,.78);
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s linear, color .12s linear;
+}
+.rail-item .kanji {
+  font-family: var(--mincho);
+  font-size: 19px;
+  color: rgba(246,243,238,.5);
+  text-align: center;
+  transition: color .12s linear;
+}
+.rail-item .label { font-size: 14px; line-height: 1.35; }
+.rail-item .label small { display: block; font-size: 11px; color: rgba(246,243,238,.45); }
+
+.rail-item:hover { background: rgba(246,243,238,.06); color: var(--paper); }
+.rail-item:focus-visible { outline: 2px solid var(--kin); outline-offset: -2px; }
+.rail-item[aria-current="true"] {
+  background: rgba(246,243,238,.10);
+  border-left-color: var(--kin);
+  color: var(--paper);
+}
+.rail-item[aria-current="true"] .kanji { color: var(--kin); }
+
+.rail-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--sumi);
+  background: var(--kin);
+  min-width: 22px;
+  padding: 0 6px;
+  text-align: center;
+}
+
+.rail-foot {
+  padding: 14px 18px 18px;
+  border-top: 1px solid rgba(246,243,238,.14);
+  font-size: 11px;
+  color: rgba(246,243,238,.5);
+}
+.rail-foot .role { color: rgba(246,243,238,.8); font-size: 12px; }
+
+/* ---- 上の帯 ---- */
+.top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 28px;
+  min-height: 62px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+.top .who { font-family: var(--mincho); font-size: 17px; }
+.top .who em { font-style: normal; color: var(--kin); }
+.top .spacer { flex: 1; }
+
+.ghost {
+  min-height: 38px;
+  padding: 0 14px;
+  background: none;
+  border: 1px solid var(--rule-2);
+  color: var(--sumi-2);
+  cursor: pointer;
+  transition: border-color .12s linear, color .12s linear;
+}
+.ghost:hover { border-color: var(--sumi); color: var(--sumi); }
+.ghost:focus-visible { outline: 2px solid var(--kin); outline-offset: 2px; }
+.ghost[aria-pressed="true"] { border-color: var(--sumi); background: var(--sumi); color: var(--paper); }
+
+/* ---- 本文 ---- */
+.main { min-width: 0; }
+.page { max-width: 980px; padding: 30px 28px 96px; }
+
+.page-title {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 4px;
+  font-size: 27px;
+}
+.page-lead { margin: 0 0 26px; color: var(--sumi-3); font-size: 14px; }
+
+/* 大きな連番（ハウススタイル） */
+.serial {
+  font-family: var(--mincho);
+  font-size: 13px;
+  letter-spacing: .3em;
+  color: var(--kin);
+  border-bottom: 1px solid var(--kin);
+  padding-bottom: 2px;
+}
+
+/* ==========================================================================
+   ① 今日の承認箱
+   ========================================================================== */
+
+.today {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  padding: 18px 22px;
+  margin-bottom: 26px;
+  background: var(--sumi);
+  color: var(--paper);
+}
+.today .kazu {
+  font-family: var(--mincho);
+  font-size: 54px;
+  line-height: 1;
+  color: var(--kin);
+}
+.today .kazu small { font-size: 20px; margin-left: 4px; color: var(--paper); }
+.today .say { font-size: 14px; line-height: 1.7; color: rgba(246,243,238,.86); }
+.today .say b { color: var(--paper); font-weight: 700; }
+
+.ask {
+  display: flex;
+  gap: 0;
+  margin-bottom: 14px;
+  border: 1px solid var(--rule-2);
+  background: var(--paper-2);
+}
+.ask input {
+  flex: 1 1 0;
+  min-width: 0;          /* これが無いと入力欄が中身の幅を主張して横にはみ出す */
+  min-height: var(--tap);
+  padding: 0 16px;
+  background: none;
+  border: 0;
+  outline: none;
+  font-size: 15px;
+}
+.ask input::placeholder { color: var(--sumi-3); }
+.ask button {
+  min-height: var(--tap);
+  padding: 0 22px;
+  background: var(--sumi);
+  color: var(--paper);
+  border: 0;
+  cursor: pointer;
+  font-family: var(--mincho);
+}
+.ask button:hover { background: #16293c; }
+
+.chips { display: flex; flex-wrap: wrap; gap: var(--gap); margin-bottom: 28px; }
+.chip {
+  min-height: 40px;
+  padding: 0 14px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  color: var(--sumi-2);
+  cursor: pointer;
+  font-size: 13px;
+  transition: border-color .12s linear, background .12s linear;
+}
+.chip:hover { border-color: var(--sumi-2); background: #fff; }
+.chip:focus-visible { outline: 2px solid var(--kin); outline-offset: 2px; }
+
+.stack { display: flex; flex-direction: column; gap: 14px; }
+
+/* ---- 承認カード ---- */
+.card {
+  position: relative;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--rule-2);
+  overflow: hidden;
+}
+.card[data-risk="gray"]  { border-left-color: var(--rule-2); }
+.card[data-risk="white"] { border-left-color: var(--sumi-2); }
+.card[data-risk="red"]   { border-left-color: var(--shu); }
+.card[data-done="1"]     { background: var(--paper-3); }
+
+/* 押した札は畳む。今日の残りが目で減っていくようにする */
+.card[data-done="1"] .four,
+.card[data-done="1"] .diff,
+.card[data-done="1"] .trace,
+.card[data-done="1"] .need { display: none; }
+.card[data-done="1"] .card-top { border-bottom: 0; padding-right: 78px; }
+.card[data-done="1"] .card-top h3 { color: var(--sumi-2); }
+.card[data-done="1"] .acts { padding-top: 0; }
+.card[data-done="1"] .stamp {
+  top: 8px; right: 12px; width: 58px; height: 58px; font-size: 12px; border-width: 2px;
+}
+
+.stack-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 30px 0 -2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mincho);
+  font-size: 14px;
+  color: var(--sumi-3);
+  letter-spacing: .1em;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--rule);
+}
+.tag {
+  font-size: 11px;
+  letter-spacing: .08em;
+  padding: 3px 8px;
+  border: 1px solid var(--rule-2);
+  color: var(--sumi-3);
+}
+.card[data-risk="red"] .tag.risk { border-color: var(--shu); color: var(--shu); background: var(--shu-bg); }
+.card[data-risk="white"] .tag.risk { border-color: var(--sumi-2); color: var(--sumi); }
+.card-top h3 { margin: 0; font-size: 17px; flex: 1; min-width: 0; }
+
+/* 何を・いくら・誰に・いつまでに */
+.four {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 0;
+  padding: 4px 18px 12px;
+}
+.four dt {
+  padding: 9px 0;
+  font-size: 13px;
+  color: var(--sumi-3);
+  border-bottom: 1px dotted var(--rule);
+}
+.four dd {
+  margin: 0;
+  padding: 9px 0;
+  font-size: 15px;
+  border-bottom: 1px dotted var(--rule);
+}
+.four dd.money { font-family: var(--mincho); font-size: 19px; }
+.four dt:last-of-type, .four dd:last-of-type { border-bottom: 0; }
+
+/* 差分 */
+.diff { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--rule); }
+.diff > div { padding: 14px 18px; font-size: 13px; line-height: 1.7; }
+.diff .from { background: var(--paper-3); color: var(--sumi-2); border-right: 1px solid var(--rule); }
+.diff .to { background: var(--paper-2); }
+.diff .cap {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--sumi-3);
+}
+.diff .to .cap { color: var(--kin); }
+
+/* 3行の足あと（2行目＝できなかったこと） */
+.trace { list-style: none; margin: 0; padding: 12px 18px; border-top: 1px solid var(--rule); }
+.trace li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 13px;
+  color: var(--sumi-2);
+  line-height: 1.9;
+}
+.trace li::before {
+  content: attr(data-n);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--mincho);
+  font-size: 12px;
+  color: var(--sumi-3);
+}
+.trace li[data-skip="1"] { color: var(--shu); }
+.trace li[data-skip="1"]::before { color: var(--shu); }
+
+.need {
+  margin: 0 18px 14px;
+  padding: 10px 14px;
+  background: var(--shu-bg);
+  border-left: 3px solid var(--shu);
+  font-size: 13px;
+  color: #6d2115;
+}
+.need b { font-family: var(--mincho); }
+
+/* 3つのボタン */
+.acts { display: flex; gap: var(--gap); padding: 0 18px 18px; flex-wrap: wrap; }
+.btn {
+  min-height: var(--tap);
+  padding: 0 24px;
+  border: 1px solid var(--sumi);
+  background: var(--sumi);
+  color: var(--paper);
+  cursor: pointer;
+  font-size: 15px;
+  transition: background .12s linear, color .12s linear;
+}
+.btn:hover { background: #16293c; }
+.btn:active { background: #091320; }
+.btn:focus-visible { outline: 2px solid var(--kin); outline-offset: 2px; }
+.btn.sub { background: none; color: var(--sumi); }
+.btn.sub:hover { background: var(--paper-3); }
+.btn[disabled] { border-color: var(--rule-2); background: var(--paper-3); color: var(--sumi-3); cursor: not-allowed; }
+.card[data-risk="red"] .btn.go { background: var(--shu); border-color: var(--shu); }
+.card[data-risk="red"] .btn.go:hover { background: #822415; }
+
+/* ---- 朱の角印。押した瞬間に落ちる ---- */
+.stamp {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--shu);
+  color: var(--shu);
+  font-family: var(--mincho);
+  font-size: 15px;
+  line-height: 1.15;
+  text-align: center;
+  letter-spacing: .04em;
+  opacity: 0;
+  visibility: hidden;      /* 押す前は場所も取らせない（拡大状態で幅を主張するため） */
+  transform: scale(2.1) rotate(-16deg);
+  pointer-events: none;
+}
+.card[data-done="1"] .stamp { visibility: visible; }
+.card[data-done="1"] .stamp { animation: press .34s cubic-bezier(.2,.9,.3,1) forwards; }
+@keyframes press {
+  0%   { opacity: 0;   transform: scale(2.1) rotate(-16deg); }
+  55%  { opacity: .95; transform: scale(.94) rotate(-7deg); }
+  100% { opacity: .88; transform: scale(1)   rotate(-7deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card[data-done="1"] .stamp { animation: none; opacity: .88; transform: rotate(-7deg); }
+}
+
+/* 空っぽの状態 */
+.empty {
+  padding: 46px 24px;
+  text-align: center;
+  background: var(--paper-3);
+  border: 1px dashed var(--rule-2);
+  color: var(--sumi-3);
+}
+.empty .big { font-family: var(--mincho); font-size: 21px; color: var(--sumi); display: block; margin-bottom: 6px; }
+
+/* 読み込み中は件数で出す（スピナーは使わない） */
+.loading { padding: 18px; border: 1px solid var(--rule); background: var(--paper-2); font-size: 14px; color: var(--sumi-3); }
+
+/* ==========================================================================
+   ③ 受け口ボード
+   ========================================================================== */
+
+.board { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 12px; }
+.pipe {
+  padding: 16px 16px 14px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--midori);
+  text-align: left;
+  cursor: pointer;
+  min-height: 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color .12s linear;
+}
+.pipe:hover { border-color: var(--sumi-2); }
+.pipe:focus-visible { outline: 2px solid var(--kin); outline-offset: 2px; }
+.pipe .nm { font-family: var(--mincho); font-size: 16px; }
+.pipe .st { font-size: 12px; color: var(--midori); }
+.pipe .ct { margin-top: auto; font-size: 13px; color: var(--sumi-2); }
+.pipe .ct b { font-family: var(--mincho); font-size: 20px; }
+
+.pipe[data-st="csv"] { border-top-color: var(--kin); }
+.pipe[data-st="csv"] .st { color: #8a6222; }
+.pipe[data-st="pending_customer"],
+.pipe[data-st="pending_us"],
+.pipe[data-st="not_yet"] {
+  background: var(--paper-3);
+  border-top-color: var(--rule-2);
+  color: var(--sumi-3);
+}
+.pipe[data-st="pending_customer"] .nm,
+.pipe[data-st="pending_us"] .nm,
+.pipe[data-st="not_yet"] .nm { color: var(--sumi-2); }
+.pipe[data-st="pending_customer"] .st,
+.pipe[data-st="pending_us"] .st,
+.pipe[data-st="not_yet"] .st { color: var(--sumi-3); }
+
+.note {
+  margin-top: 22px;
+  padding: 16px 18px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--kin);
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--sumi-2);
+}
+.note b { font-family: var(--mincho); color: var(--sumi); }
+
+/* ==========================================================================
+   ④ 今月の1枚
+   ========================================================================== */
+
+.figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--rule); background: var(--paper-2); }
+.fig { padding: 20px; border-right: 1px solid var(--rule); }
+.fig:last-child { border-right: 0; }
+.fig .k { font-size: 12px; color: var(--sumi-3); letter-spacing: .06em; }
+.fig .v { font-family: var(--mincho); font-size: 38px; line-height: 1.2; }
+.fig .v small { font-size: 15px; margin-left: 3px; }
+.fig .u { font-size: 12px; color: var(--sumi-3); }
+
+.bars { margin-top: 22px; border: 1px solid var(--rule); background: var(--paper-2); padding: 20px; }
+.bar { display: grid; grid-template-columns: 56px minmax(0, 1fr) 64px; align-items: center; gap: 12px; padding: 5px 0; }
+.bar .m { font-size: 12px; color: var(--sumi-3); }
+.bar .t { height: 14px; background: var(--paper-3); }
+.bar .t i { display: block; height: 100%; background: var(--sumi); }
+.bar:last-child .t i { background: var(--kin); }
+.bar .n { font-size: 13px; text-align: right; }
+
+table.ledger { width: 100%; border-collapse: collapse; margin-top: 22px; background: var(--paper-2); }
+table.ledger th, table.ledger td { padding: 11px 14px; border-bottom: 1px solid var(--rule); text-align: left; font-size: 13.5px; }
+table.ledger th { background: var(--paper-3); font-family: var(--mincho); font-weight: 600; font-size: 13px; }
+table.ledger tr:last-child td { border-bottom: 0; }
+
+.rest {
+  margin-top: 26px;
+  padding: 22px;
+  background: var(--sumi);
+  color: var(--paper);
+}
+.rest .h { font-family: var(--mincho); font-size: 13px; letter-spacing: .18em; color: var(--kin); }
+.rest .b { font-family: var(--mincho); font-size: 21px; margin: 8px 0 10px; }
+.rest .s { font-size: 13.5px; color: rgba(246,243,238,.8); line-height: 1.85; }
+
+/* ==========================================================================
+   設定ドロワー
+   ========================================================================== */
+
+.veil { position: fixed; inset: 0; background: rgba(14,27,42,.42); z-index: 40; }
+.drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(420px, 92vw);
+  background: var(--paper);
+  border-left: 1px solid var(--rule-2);
+  z-index: 41;
+  overflow-y: auto;
+  padding: 24px;
+}
+.drawer h2 { margin: 0 0 18px; font-size: 20px; }
+.drawer section { padding: 16px 0; border-top: 1px solid var(--rule); }
+.drawer .lbl { font-size: 13px; color: var(--sumi-3); margin-bottom: 8px; }
+.gyoshu-pick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+.gyoshu-pick button {
+  min-height: var(--tap);
+  padding: 8px 10px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  text-align: left;
+  font-size: 13.5px;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+.gyoshu-pick button .kanji { font-family: var(--mincho); font-size: 16px; color: var(--kin); }
+.gyoshu-pick button:hover { border-color: var(--sumi-2); }
+.gyoshu-pick button[aria-pressed="true"] { background: var(--sumi); color: var(--paper); border-color: var(--sumi); }
+.gyoshu-pick button[aria-pressed="true"] .kanji { color: var(--kin); }
+
+/* ==========================================================================
+   スマホ（手のひら承認）
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    flex-direction: row;
+    border-right: 0;
+    border-top: 1px solid rgba(246,243,238,.2);
+    z-index: 30;
+  }
+  .rail-brand, .rail-foot { display: none; }
+  .rail-nav { display: flex; padding: 0; width: 100%; }
+  .rail-item {
+    flex: 1;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 2px;
+    padding: 8px 4px;
+    border-left: 0;
+    border-top: 3px solid transparent;
+    text-align: center;
+  }
+  .rail-item[aria-current="true"] { border-left-color: transparent; border-top-color: var(--kin); }
+  .rail-item .label { font-size: 11px; }
+  .rail-item .label small { display: none; }
+  .rail-count { position: absolute; top: 4px; right: 22%; }
+
+  .top { flex-wrap: wrap; gap: var(--gap); min-height: 0; padding: 10px 16px; }
+  .top .who { width: 100%; font-size: 15px; }
+  .top .spacer { display: none; }
+  .top .ghost { flex: 1 1 0; min-width: 0; }
+
+  .page { padding: 20px 16px 120px; max-width: 100%; }
+  .today .kazu { font-size: 44px; }
+  .four { grid-template-columns: 74px minmax(0, 1fr); }
+  .card-top { flex-wrap: wrap; }
+  .card-top h3 { flex-basis: 100%; font-size: 16px; }
+  .diff { grid-template-columns: 1fr; }
+  .diff .from { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .figs { grid-template-columns: 1fr; }
+  .fig { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .today { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .acts { position: sticky; bottom: 64px; background: var(--paper-2); padding-top: 12px; }
+  .acts .btn { flex: 1; min-width: 46%; }
+}
+
+/* 印刷（商談で紙に出す） */
+@media print {
+  .rail, .top, .acts, .ask, .chips { display: none; }
+  .shell { grid-template-columns: 1fr; }
+  .card { break-inside: avoid; }
+  body::before { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* 気持ち番頭 デモ用データ。会社名・金額・件数・時間はすべて架空のサンプル値。 */
+window.META = {
+  "name": "気持ち番頭",
+  "tagline": "KIMOCHI BANTO",
+  "company": "株式会社気持ち市場",
+  "footnote": "デモ／導入実績0社／効果は保証しません"
+};
+
+window.GYOSHU = [
+ {
+  "id": "yasai",
+  "label": "青果・食品卸",
+  "tagline": "夜9時、手書きの仕入れ表を見ながら電卓で単価を打ち直していませんか。",
+  "icon": "青果",
+  "words": {
+   "approval_box": "今日の伝票箱",
+   "intake": "荷受け口",
+   "report": "今月の帳面",
+   "unit": "納品（取引先1件ぶん）",
+   "partner": "取引先"
+  },
+  "hero": {
+   "name": "電卓じまい",
+   "one_line": "手書きの仕入れ表を写真に撮って置くだけで、単価が入った納品書と請求書の下書きが伝票箱に並びます。",
+   "how_it_works": [
+    "朝、市場から戻ったら（5時ごろ）、手書きの仕入れ表をスマホで撮って荷受け口に置きます。前夜からのFAX注文書も同じ口に入れます。",
+    "このパソコンの中だけで文字にします（外に送りません）。そこから取引先ごとの納品書と請求書の下書きを作ります。",
+    "あなたは伝票箱で中身を見て、［これでOK］を押します。読めなかった行は赤で出るので、そこだけ直します。"
+   ],
+   "why_it_hurts_now": "取引先から来るのは手書きの仕入れ表とFAXの注文書で、夜に社長か家族が電卓で単価を入れ直して納品書と請求書を作っています。中小企業の受発注は電話・FAXが24.6%、顧客管理は紙の台帳6.2%とExcel 37.8%です（東京商工会議所・2024年11月・n=1,218／対象は主に東京23区）。売上1千万円以下の事業者は92.0%が経理を1人で行い、78.1%が兼務しています（日商・東商・2024年9月・n=3,149）。"
+  },
+  "cards": [
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "今朝の市場の仕入れ表（手書き1枚）を読みました",
+    "what": "手書きの仕入れ表14行のうち、読み取れた12行を品目・数量・仕入額の表にしました。社内メモです。押さなければ、この下書きは残りません（お客様の元のデータは消しません）",
+    "who": "社内（仕入メモ）",
+    "when": "今日7時30分の積み込みまで",
+    "amount": "14行のうち12行／仕入 計 47,710円（読めなかった2行は入っていません）",
+    "before": "（写真 07/29 05:12 中央市場）\nきゅうり 2c ￥3,260\nトマト大玉 4c ￥5,800\nなす 3c ￥2,950\nレタス 5c ￥6,400\n…（手書き・下2行はにじみ）",
+    "after": "7/29 仕入\nきゅうり 2ケース @1,630 3,260\nトマト（大玉）4ケース @1,450 5,800\nなす 3ケース 2,950（単価は割り切れないので合計のまま置いています）\nレタス 5ケース @1,280 6,400\n…12行 計 47,710円",
+    "trace": [
+     "仕入れ表1枚・14行を読みました。",
+     "にじんで読めなかった2行（下から3行目・4行目）は飛ばしました。合計にも入っていません。なすは1ケースあたりの単価が割り切れないので、単価の欄を空けて、仕入額はメモのまま2,950円で置いています。",
+     "品目・数量・合計金額の表にしました。単価が割り切れない行は、合計金額をそのまま残しています（勝手に丸めると請求が1円ずつずれるためです）。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "FAXで届いた今日の注文8枚を、納品書の下書きにしました",
+    "what": "注文書8枚から、取引先8件・21品目ぶんの納品書の下書き（数量が読めない1行は入れていません）。押すと社内で確定します（配送票の印刷はこの後です）",
+    "who": "みどり青果店ほか7件",
+    "when": "今日7時30分の積み込みまで",
+    "amount": "この日8件（日によって7〜8件と変わります）／21品目／合計 59,250円（読めない1行を除く）",
+    "before": "（FAX受信 07/29 06:12）\nさくら給食センター 様\n じゃがいも 20kg\n にんじん 15kg\n たまねぎ □□kg（手書きが潰れています）\n ほうれん草 3束",
+    "after": "納品書 No.2907-03 さくら給食センター 御中\n じゃがいも 20kg @198 3,960\n にんじん 15kg @250 3,750\n たまねぎ ―（数量が読めません）\n ほうれん草 3束 @160 480\n 小計 8,190円 ＋ 読めない1行",
+    "trace": [
+     "FAX8枚・22行を読みました。",
+     "数量が潰れていた1行（さくら給食センターのたまねぎ）は入れませんでした。電話で確認してください。",
+     "単価は、置いていただいた単価表Excel（7月版）から引きました。単価表に無い品目は空欄にしています。",
+     "取引先ごとに8枚の納品書の下書きにしました。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "LINEで届いた追加注文への返事と、レタスの単価変更のお知らせ（社外に出ます）",
+    "what": "追加注文3件の受け取り返事と、相場が動いているぶんの単価変更をお知らせする文の下書き",
+    "who": "ひまわり食堂・こもれび食堂・やまびこストア（3件）",
+    "when": "今日6時30分の注文締め（当日便）",
+    "amount": "3件／うち単価変更のお知らせ1件（レタス 1玉172円→新しい単価は空欄のまま）",
+    "before": "（LINE公式 07/29 05:48 ひまわり食堂）\n「おはようございます。今日レタス2箱追加でお願いできますか」",
+    "after": "（下書きです。送信していません）\nおはようございます。レタス2箱、今日の便で追加します。\n1点ご連絡です。市場の相場が動いているため、7月29日ぶんからレタスの単価を【　　円】でお願いできればと思います（これまで1玉172円）。ご都合が悪ければご返信ください。\n※新しい単価は資料に書かれていないので、足していません。人が入れてください。",
+    "trace": [
+     "LINE公式アカウントに届いた4件を読みました。",
+     "クレームらしい1件（配送時間の遅れについて）は下書きを作りませんでした。人が読んで返してください。",
+     "注文3件への返事と、単価変更のお知らせ1通を作りました。"
+    ],
+    "needs_human": "値上げの幅と、いつぶんから変えるかは人が決めてください（相場は下がることもあります）。新しい単価は資料に書かれていないので空欄です。人が入れてください。長い付き合いの相手に文面が事務的すぎないか、値引きの口約束をしていないかも見てください。送信ボタンは押されていません。"
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月分の請求書12枚（12社・合計 1,236,800円）",
+    "what": "7月の納品書167枚を取引先ごとにまとめた請求書の下書き12枚。適格請求書の必須項目（登録番号・適用税率・税率ごとの合計）を埋めてあります",
+    "who": "みどり青果店ほか11社",
+    "when": "7月31日（金）まで ※あと2日",
+    "amount": "12枚／合計 1,236,800円（軽減税率8%対象 1,152,400円／10%対象 84,400円）",
+    "before": "7月の納品書 170枚\n07/03 ひまわり食堂 ￥18,700\n07/05 さくら給食センター ￥24,600\n07/12 あおば商店 単価欄が空\n…（3枚は単価が入っていません）",
+    "after": "請求書 12社ぶん・12枚\nひまわり食堂 御中 7月分 ご請求額 215,300円（税込）\n 内訳：軽減税率8%対象 199,400円／10%対象（配送料・資材）15,900円\n 登録番号・適用税率・税率ごとの合計を記載済み",
+    "trace": [
+     "7月の納品書170枚を読みました。",
+     "単価が入っていない3枚（7/12あおば商店・7/18やまびこストア・7/25こもれび食堂）は飛ばしました。この3枚は請求に入っていません。",
+     "167枚の納品書から、12社ぶんの請求書の下書きを作りました。"
+    ],
+    "needs_human": "飛ばした3枚を入れるかどうか（入れると合計が変わります）。値引きの約束をした取引先が混ざっていないか。送り先のメールアドレスと、郵送かメールかの区別。押すまで1通も送りません。"
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "昨日の入金11件と、請求の突き合わせ（候補まで）",
+    "what": "銀行のCSVから入金11件を読み、6月・7月の請求のどれに当たるかの候補を出しました。消し込みの確定は人です",
+    "who": "社内（入金の記録）",
+    "when": "今日中",
+    "amount": "入金11件 計 605,900円／一致9件・要確認2件",
+    "before": "（入金CSV 07/28）\nカ)ヒマワリ 198,600\nサクラキユウシヨク 96,400\nアオバ 46,900\nフリコミニン不明 31,500\n…",
+    "after": "一致 9件（消し込みの候補にしました）\n要確認 2件\n・「アオバ 46,900」… あおば商店への請求は52,000円。差額5,100円\n・「振込人名 不明 31,500」… 当たる請求が見つかりません",
+    "trace": [
+     "入金11件と、6月・7月の請求24件（12社ぶん×2か月）を突き合わせました。",
+     "差額のある1件と、振込人名から相手が分からない1件は候補を出せませんでした。",
+     "一致した9件を消し込みの候補として並べました。会計ソフトには書き込んでいません。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "入金がまだの2社への、お伺いの文の下書き（社外に出ます）",
+    "what": "6月分の請求で入金を確認できていない2社あての、支払いのお伺いメールの下書き2通",
+    "who": "つばき弁当・なのはな青果（2社）",
+    "when": "今日中（月末前に出すなら）",
+    "amount": "2社／未入金 計 268,400円（6月分・お支払い期日 7月20日）",
+    "before": "請求台帳\n6月分 つばき弁当 152,900円 期日07/20 入金なし\n6月分 なのはな青果 115,500円 期日07/20 入金なし",
+    "after": "（下書きです。送信していません）\nいつもお世話になっております。6月分のご請求（152,900円・お支払い期日7月20日）につきまして、当方で入金を確認できておりません。行き違いでしたら申し訳ありません。ご確認いただけますか。",
+    "trace": [
+     "請求台帳の6月分12件と、7月28日までの入金を照らしました。",
+     "7月29日以降の入金は見ていません。銀行のCSVが7月28日ぶんまでしか入っていないためです。",
+     "入金を確認できない2社あてに、お伺いの文を2通作りました。"
+    ],
+    "needs_human": "今日の記帳でもう入金が来ていないか。手形や現金での受け取り、値引きの約束が別にないか。相手との関係で、メールではなく電話がよい先かどうか。押すまで送りません。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "配送車の燃料代・高速代など12枚の仕訳の下書き",
+    "what": "レシート12枚を読んで、勘定科目の候補をつけた仕訳の下書き。会計ソフトへの登録は人が押してからです",
+    "who": "社内（7月の経費）",
+    "when": "7月31日（金）の締めまで",
+    "amount": "12枚／計 38,790円",
+    "before": "（レシート写真12枚）\n07/22 給油 軽油 6,050円（2t保冷車）\n07/24 高速道路 ETC 1,380円\n07/26 ホームセンター 3,480円（品目の印字がかすれ）",
+    "after": "07/22 燃料費 6,050円（2t保冷車）\n07/24 旅費交通費 1,380円\n07/26 ―（何を買ったか読めません。科目を選んでください）",
+    "trace": [
+     "レシートの写真12枚を読みました。",
+     "品目が読めない1枚（7/26ホームセンター 3,480円）は科目を決められませんでした。空欄のままにしています。",
+     "11枚に科目の候補をつけて、仕訳の下書きにしました。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "シフト",
+    "title": "来週の配送シフトの下書き（パート2名・6日ぶん）",
+    "what": "8月3日（月）から8日（土）までの配送シフトの下書き。休み希望と、朝5時の市場当番の重なりを見ました",
+    "who": "社内（配送パート2名）",
+    "when": "7月31日（金）までに掲示",
+    "amount": "6日間／1日2便（早朝便・日中便）／延べ12コマ／1コマ不足",
+    "before": "休み希望（グループの書き込みから）\n・8/4(火) 1名 私用\n・8/5(水) 1名 通院\n・8/6(木) 1名 家庭の都合\n・8/7(金) 1名 子どもの行事",
+    "after": "8/3(月)〜8/8(土) の下書き\n8/5(水) 早朝便：1名不足（市場当番と重なっています）\nそのほかの日は埋まりました",
+    "trace": [
+     "休み希望の書き込み4件と、先月の勤務実績を見ました。",
+     "時給や残業の計算はしていません。給与の締めはこのカードに入っていません。",
+     "6日ぶんの下書きを作り、埋まらなかった1コマを赤にしました。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "明日の仕入れ案（注文のクセと、今日の相場から）",
+    "what": "明日7月30日ぶんの市場での仕入れ数量の案。社内メモです。押さなければ、この下書きは残りません（お客様の元のデータは消しません）",
+    "who": "社内（明朝の仕入れメモ）",
+    "when": "明日4時30分の出発まで",
+    "amount": "18品目のうち15品目／この15品目ぶんの想定仕入 約48,000円（数量を出していない3品目は入っていません）",
+    "before": "直近4週の木曜の出荷実績\nきゅうり 平均2.4ケース\nトマト 平均3.8ケース\nレタス 平均5.1ケース",
+    "after": "明日（木）の仕入れ案\nきゅうり 3ケース（直近4週の平均2.4ケースを切り上げた案です）\nトマト 4ケース（直近4週の平均3.8ケースを切り上げた案です）\nレタス ―（相場が動いているので数量を出していません）",
+    "trace": [
+     "直近4週ぶんの出荷実績と、今日届いた注文を見ました。",
+     "相場が大きく動いている3品目（レタス・ほうれん草・しめじ）は数量を出しませんでした。市場で見て決めてください。",
+     "15品目ぶんの仕入れ数量の案を作りました。切り上げるかどうかは人が決めてください。"
+    ],
+    "needs_human": ""
+   }
+  ],
+  "intakes": [
+   {
+    "name": "紙・FAX・手書き（このパソコンの中で読み取り）",
+    "status": "connected",
+    "note": "写真かPDFを置くだけです。読み取りはこのパソコンの中で終わり、外に送りません（PaddleOCR・Apache 2.0・商用可）。精度は帳票の書式と筆跡で大きく変わるので、契約前に実物をその場で読ませます。",
+    "today_count": "23枚（仕入れ表1・FAX注文8・レシート12・その他2）",
+    "customer_action": ""
+   },
+   {
+    "name": "Excel／CSV（単価表・勤務実績）",
+    "status": "connected",
+    "note": "決まったフォルダに置くだけです。列の名前が変わったときは、こちらで対応表を直します。",
+    "today_count": "3ファイル",
+    "customer_action": ""
+   },
+   {
+    "name": "LINE公式アカウント",
+    "status": "connected",
+    "note": "当社（青果卸）の自社アカウントでつないでいます。お客様の会社でつなぐには、ご本人の操作でアカウントとチャネルの作成・トークン発行が要ります。届いた問い合わせへの返事は通数の課金がかかりませんが、こちらから送るお知らせは通数の課金がかかります。",
+    "today_count": "4件",
+    "customer_action": "LINE公式アカウントの開設と、チャネルの作成・トークン発行"
+   },
+   {
+    "name": "銀行の入金明細",
+    "status": "csv",
+    "note": "ネットバンキングから書き出したCSVを置く方式です。会計ソフト経由での自動取得は、別に申請が要るため今は使っていません。",
+    "today_count": "1ファイル（11件）",
+    "customer_action": "ネットバンキングにログインして明細を書き出す"
+   },
+   {
+    "name": "freee（会計・請求書）",
+    "status": "pending_customer",
+    "note": "つながっていません。お客様ご本人が連携を許可する操作が要ります。つないだ後も読み取りだけで接続し、仕訳の確定と入金の消し込みは人が押します。",
+    "today_count": "",
+    "customer_action": "freeeにログインして、当社アプリとの連携を許可する"
+   },
+   {
+    "name": "Gmail（注文メール・問い合わせ）",
+    "status": "pending_customer",
+    "note": "つながっていません。受信を読む許可は、お客様ご本人にGoogleの画面で押していただきます。当社名義の1本のアプリで全社ぶんを読む形にはせず、お客様のGoogle Cloudに社内用のアプリとして置きます。",
+    "today_count": "",
+    "customer_action": "Googleの管理画面でアプリを作り、受信を読む許可を出す"
+   },
+   {
+    "name": "マネーフォワード クラウド会計",
+    "status": "pending_us",
+    "note": "つながっていません。当社で接続を検証中です。検証が終わるまで「対応済み」とは書きません。つなぐときは、全権管理の権限をお持ちの方の操作が要ります。",
+    "today_count": "",
+    "customer_action": ""
+   },
+   {
+    "name": "電話で来る注文",
+    "status": "not_yet",
+    "note": "つながっていません。聞き取ったメモを人が打ち込んでいます。音声から注文を起こす受け口は作っていません。作るなら別の開発になります。",
+    "today_count": "",
+    "customer_action": ""
+   },
+   {
+    "name": "取引先が指定するWebの受発注画面",
+    "status": "not_yet",
+    "note": "つながっていません。相手先の会社の画面に当社から自動でログインすることはしません（規約に触れるおそれがあるため）。書き出したCSVがあれば取り込めます。",
+    "today_count": "",
+    "customer_action": "相手先の画面から注文一覧をCSVで書き出す"
+   }
+  ],
+  "monthly": {
+   "drafts_count": "276件",
+   "approved_count": "249件",
+   "fixed_count": "45件（単価の直し31件・宛先の直し8件・文面の直し6件）",
+   "remaining_manual": "取引先ごとの売単価の入れ替えが、毎月まるごと手作業で残っています。市場の相場が動くたびに、12社ぶんの単価表をExcelで人が直しています（7月は延べ6時間20分）。新しい単価をいくらにして、どの取引先にいつから当てるかは人が決めるところで、AIは新しい単価を作れません。",
+   "upsell_hint": "取引先ごとの単価マスタと発注ボードの本番化（バックエンド開発）。単価がデータとして置かれれば、直した単価がそのまま納品書と請求書の下書きに入り、この6時間20分と、請求書で飛ばした3枚が消えます。その次は、在庫と棚卸しのシステムです。"
+  },
+  "legal_notes": [
+   "仕訳は下書きまでです。確定と税務の判断は顧問税理士にお願いします。当社は税務代理・税務書類の作成・税務相談をしません（税理士法52条）。",
+   "「電子帳簿保存法に対応済み」とは書きません。スキャナ保存には、訂正削除の履歴に加えて、入力期間内に入力したことを確認できる仕組みが要ります。当社は、その要件を満たす保存先へ流す設計にするところまでです。",
+   "手書き・FAXの読み取りは、このパソコンの中だけで行います。文章を作る部分はクラウドを使うので、どこがパソコンの中でどこがクラウドかを、機能ごとの表でお見せします。",
+   "送信・投稿・振込・公開・削除はAIがしません。人が押すまで動きません。お金と社外に出るものは、押すまで動きません。社内のメモは押さなくても残ります。",
+   "導入実績は0社です。効果は保証しません。削減時間の数字は、当社が自社の青果卸業務で30日測って1号事例を出すまで営業資料に書きません。",
+   "freeeとの接続には、お客様ご本人の連携の許可が要ります。入金の消し込みは候補の提示までで、確定は人です。",
+   "読み取りの精度は、帳票の書式と筆跡で大きく変わります。契約前に、お客様の実物をその場で読ませて精度をお見せします。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "kensetsu",
+  "label": "建設・工務店・リフォーム",
+  "tagline": "現場が終わってから、事務がはじまる。夜9時の事務所で日報と請求を書いている人へ。",
+  "icon": "現場",
+  "words": {
+   "approval_box": "今日のハンコ箱",
+   "intake": "現場からの入り口",
+   "report": "月末の1枚",
+   "unit": "工事",
+   "partner": "元請・施主"
+  },
+  "hero": {
+   "name": "現場あがり係",
+   "one_line": "現場から届いた写真と一言を工事ごとに仕分けて、日報・工事台帳・出来高請求の下書きまで作ります。出すか出さないかは人が決めます。",
+   "how_it_works": [
+    "職人さんは、現場の写真と一言だけ送る。工事名を書いていなくてもかまいません。",
+    "どの工事の分かを仕分けて、日報・工事台帳・出来高請求の下書きを作ります。",
+    "保管する書類の足りない欄を赤で出します。人が押すまで、元請にも施主にも何も届きません。"
+   ],
+   "why_it_hurts_now": "建設で働く人の28.3%が、書類作成などの事務に1日3時間以上を使っています（アンドパッド社調べ・2023年10月・回答1,442人）。しかも建設業の81.2%は「SaaS」という言葉を聞いたことがありません（kubell調べ・2023年10月・回答2,125人）。新しい道具を覚え直す話ではなく、現場から送るものは今までどおりにして、事務のほうを引き取ります。"
+  },
+  "cards": [
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "ゆうべ現場から届いた写真と一言を、工事ごとに仕分けました",
+    "what": "写真38枚と短い報告12件を読み、工事名が分かる写真32枚と報告12件を3つの工事の箱に振り分け",
+    "who": "社内（工事ごとの箱に入れただけ・まだ誰にも届いていません）",
+    "when": "今日の朝礼まで",
+    "amount": "写真38枚・報告12件",
+    "before": "LINE WORKS 22:41「型枠バラし完了、明日から配筋」＋写真3枚（工事名の記載なし）／22:58「給湯器 搬入済み」＋写真5枚／23:14 写真6枚だけ（文章なし）",
+    "after": "さくら様邸 増築工事｜写真12枚・報告5件／みどり建設A棟 内装工事｜写真14枚・報告4件／あおぞら倉庫 改修工事｜写真6枚・報告3件",
+    "trace": [
+     "受け口3か所から、写真38枚と報告12件を読みました",
+     "工事名も撮影場所の手がかりも無い写真6枚は、どの工事か決められず「あとで」に置きました",
+     "3つの工事の箱に振り分けて、日報の材料にしました（残る1工事は、ゆうべの報告が届いていません）"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "日報",
+    "title": "3現場ぶんの日報の下書きができました",
+    "what": "7月29日ぶんの日報3枚（作業内容・人員・天候・写真の貼り付けまで）",
+    "who": "社内の工事記録（現場ごと）",
+    "when": "今日中（明日の朝礼まで）",
+    "amount": "日報3枚",
+    "before": "7/29 22:41 現場から「型枠バラし完了、明日から配筋」＋写真3枚／人員の記載なし／天候の記載なし",
+    "after": "【7/29 日報】さくら様邸 増築工事｜天候：（空欄）｜作業：型枠解体 完了、翌日より配筋｜人員：（空欄）｜写真3枚 添付",
+    "trace": [
+     "工事ごとに分けた報告12件と写真32枚を読みました",
+     "人の数と天候が書かれていない報告が2件あり、その欄は埋めずに空けたままにしました（天候は工期の根拠になるので、推測で入れません）",
+     "3現場ぶんの日報を作りました。残る1現場は報告が届いていないので作れていません"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月ぶんの出来高請求2件、元請へ出す書類ができました",
+    "what": "出来高請求書2通（みどり建設A棟 内装工事／あおぞら住宅 倉庫改修工事）",
+    "who": "みどり建設・あおぞら住宅（元請2社）",
+    "when": "7月31日の締切まで（今日を入れてあと3日）",
+    "amount": "合計 1,470,000円（A棟内装 出来高43%）＋3,320,000円（あおぞら倉庫改修 出来高28%）＝4,790,000円（税抜）",
+    "before": "工事台帳 A棟内装：契約 9,000,000円／7月末時点の出来高 43%（台帳の出来高欄は空欄・現場報告からの見立て）／既に請求ずみ 2,400,000円　｜　工事台帳 あおぞら倉庫改修：契約 15,000,000円／7月末時点の出来高 28%（台帳の出来高欄に記入あり）／既に請求ずみ 880,000円",
+    "after": "出来高請求書 No.2607-01｜みどり建設 御中｜A棟内装工事 出来高43% 3,870,000円 − 既請求 2,400,000円 ＝ 今回請求 1,470,000円（税抜）／出来高請求書 No.2607-02｜あおぞら住宅 御中｜倉庫改修工事 出来高28% 4,200,000円 − 既請求 880,000円 ＝ 今回請求 3,320,000円（税抜）",
+    "trace": [
+     "工事台帳4件と、現場からの報告12件を読みました",
+     "A棟内装の43%は、台帳の出来高欄が空欄のため現場の報告から見立てた数字です。現場での立会い確認はできていません",
+     "あおぞら倉庫改修の28%は、割合は台帳の出来高欄から引きました。当社が決めた割合ではありません（基礎の段階で、乾き具合の報告は届いていません）",
+     "2件ぶんの請求書を作りました。送信のボタンは押していません"
+    ],
+    "needs_human": "出来高の割合（43%と28%）が元請の見方と合っているか。ここがズレると請求のやり直しになり、入金が翌月にずれます。合計金額・消費税の端数・送り先の担当者名も見てください"
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "現場で決まった追加工事、見積の下書きができました（金額欄は空のままです）",
+    "what": "さくら様邸の追加工事の見積（玄関収納の造作／コンセント増設2か所）。金額は入れていません",
+    "who": "さくら様邸（施主）",
+    "when": "追加分の着工が8月5日なので、今日中に出したい",
+    "amount": "【　　円】（記録に無いので足していません。人が入れてください）",
+    "before": "打合せ記録 7/26「玄関に棚がほしいと施主様よりお話。コンセントも2か所追加。金額は後日」＋現場写真2枚",
+    "after": "御見積書 No.2607-M12｜さくら様邸 追加工事｜①玄関収納 造作 【　　円】 ②コンセント増設2か所 【　　円】｜合計 【　　円】（税抜）｜有効期限 8月5日",
+    "trace": [
+     "打合せ記録7件と現場写真38枚を読みました",
+     "打合せ記録には「金額は後日」とあるだけで、根拠にできる単価表も、同じような追加工事の過去の記録（金額・工数）も見つかりませんでした",
+     "棚の材質と扉の有無も記録に書かれていません。記録に無いので足していません。人が入れてください",
+     "見積書の枠と工事の中身だけ作りました。金額欄は空のままです。施主様には届いていません"
+    ],
+    "needs_human": "棚の材質と扉の有無を施主様に確かめてから金額を決めてください。ここを詰めずに出すと、あとで「言った・言わない」になります。工期が何日延びるかも1行そえてから渡してください"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "材料の納品伝票18枚を、工事ごとの原価に入れます",
+    "what": "7月分の納品伝票を工事台帳の材料費として計上",
+    "who": "社内の工事台帳（4工事）",
+    "when": "月末締めまで（7月31日）",
+    "amount": "742,000円／18枚",
+    "before": "納品書の写真 7/22 サンプル建材｜石膏ボード12.5mm 40枚 @1,210｜現場名の欄は手書きで「A棟」とだけ",
+    "after": "みどり建設A棟 内装工事｜材料費 48,400円（石膏ボード12.5mm 40枚）｜7月22日 計上",
+    "trace": [
+     "納品伝票の写真21枚を読みました。読み取りはパソコンの中だけで行い、外には出していません",
+     "現場名が読み取れない伝票3枚は、どの工事のものか決められないので入れていません",
+     "18枚ぶんを4つの工事台帳に振り分けました（合計 742,000円）"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "経費",
+    "title": "協力会社6社への注文書と、来月の支払予定をまとめました",
+    "what": "注文書6通（電気・水道・内装ほか）と、8月の支払予定表1枚",
+    "who": "サンプル電設・みどり水道・ひまわり内装ほか3社",
+    "when": "支払は8月10日。注文書は着工前の8月1日までに渡す",
+    "amount": "1,180,000円（6社ぶん・8月10日に払う分）",
+    "before": "FAX受信 7/24 サンプル電設｜さくら様邸 電気工事 一式 480,000円｜内訳の記載なし",
+    "after": "注文書 No.2607-K03｜サンプル電設 御中｜さくら様邸 電気工事 一式 480,000円（税抜）｜工期 8/5〜8/18｜支払 8月10日",
+    "trace": [
+     "見積書と請求書をあわせて9枚読みました",
+     "内訳が書かれていない2社ぶんは、金額をそのまま写しただけで、中身が妥当かは確かめられていません",
+     "1,180,000円は、8月10日に払う6社ぶんの合計です。工期が月をまたぐ工事は出来高に応じて分けて払うので、8月に払う分だけを入れています",
+     "6社ぶんの注文書と、支払予定表1枚を作りました"
+    ],
+    "needs_human": "金額が見積のとおりか、工期が工程表と合っているか。とくに内訳の無い2社（サンプル電設・ひまわり内装）は、何が入って何が入っていないかを口頭で確かめてから押してください"
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "先月ぶんの請求と、入ってきたお金を突き合わせました",
+    "what": "7月の入金6件と請求7件の照合。1件が入金なし、1件が金額違い",
+    "who": "社内の請求台帳",
+    "when": "今日中に確認",
+    "amount": "入金 4,980,000円／未入金 322,000円",
+    "before": "通帳の明細 7/25 振込 1,620,000 ミドリケンセツ(カ ／ 7/25 振込 858,000 アオゾラジユウタク(カ",
+    "after": "みどり建設 6月請求 1,620,000円 → 一致／あおぞら住宅 6月請求 880,000円 → 入金 858,000円（差額 22,000円）／ほかに一致した4件 2,502,000円／さくら様邸 追加分 322,000円 → 入金なし",
+    "trace": [
+     "通帳の明細38行と、請求7件を読みました",
+     "差額22,000円の理由は特定できませんでした。相殺（材料の建て替え・協力会費）か値引きの可能性がありますが、通知書が届いていません",
+     "一致した5件に印をつけ、合わない2件を残しました。消込のボタンは押していません"
+    ],
+    "needs_human": "あおぞら住宅の22,000円が、支給材の相殺か値引きかを担当者に確かめてください。相殺なら次回の請求で調整が要ります。"
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "引渡しが済んだ2現場、保管する書類の足りない欄を赤で出しました",
+    "what": "完成図・打合せ記録・施工体系図など、手元に残しておく書類の空欄チェック",
+    "who": "社内の書類箱（工事ごと）",
+    "when": "書類が散らばる前に、今週中",
+    "amount": "2現場・書類14点・空欄9か所",
+    "before": "打合せ記録（7/3）｜出席者：施主様、当社｜決定事項：キッチンの位置を変更｜承認欄：（空欄）",
+    "after": "さくら様邸｜打合せ記録7/3：承認欄が空です（赤）／完成図：最終版が入っていません（赤）／施工体系図：協力会社1社の記載がありません（赤）",
+    "trace": [
+     "2現場ぶんの書類14点を読みました",
+     "何年保管が要るかは画面に出していません。条文での確認が終わっていないためです",
+     "空欄と不足を9か所ならべて、赤で印をつけました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "シフト",
+    "title": "明日の人の手配メモを下書きしました",
+    "what": "7月30日の3現場ぶんの手配案（大工4名・設備2名の割り振り）",
+    "who": "社内の手配表（送り先はまだ設定していません）",
+    "when": "今日18時までに決める",
+    "amount": "3現場・6名",
+    "before": "工程表（Excel）7/30の行｜さくら様邸＝造作／A棟＝ボード貼り／あおぞら倉庫＝（空欄）",
+    "after": "7/30 さくら様邸：大工2名＋設備1名（造作つづき）／A棟：大工2名＋設備1名（ボード貼り）／あおぞら倉庫：未定",
+    "trace": [
+     "工程表と、ゆうべの報告12件を読みました",
+     "あおぞら倉庫は基礎の乾き具合が報告に無く、明日動かせるかどうか決められませんでした",
+     "3現場ぶんの手配メモを作り、決められない1件は空欄のまま残しました"
+    ],
+    "needs_human": ""
+   }
+  ],
+  "intakes": [
+   {
+    "name": "LINE WORKS（現場からの写真と一言）",
+    "status": "connected",
+    "today_count": "写真38枚・報告12件",
+    "note": "職人さんは撮って送るだけです。個人のLINEからは受け取れないので、LINE WORKS・LINE公式アカウント・自社の入力フォームのどれかに寄せていただきます。",
+    "customer_action": ""
+   },
+   {
+    "name": "紙・FAX・手書き（写真を撮って置く箱）",
+    "status": "connected",
+    "today_count": "納品伝票21枚・FAX見積9枚",
+    "note": "お客様のパソコンの中だけで文字にします。外には送りません。読み取りの正しさは帳票の書式と筆跡で変わるので、契約の前に実物をその場で読ませて見ていただきます。",
+    "customer_action": "伝票やFAXを、スマホで撮って置く"
+   },
+   {
+    "name": "Gmail（元請・施主・材料屋からのメール）",
+    "status": "connected",
+    "today_count": "24通",
+    "note": "読むだけで、当社から送ることはしません。返信の下書きは、いつものGmailの下書きに戻します。送信ボタンは今までどおり人が押します。",
+    "customer_action": "受信を読む許可のボタンを、社長ご本人に1回押していただきます"
+   },
+   {
+    "name": "工程表・工事台帳のExcel",
+    "status": "csv",
+    "today_count": "4ファイル",
+    "note": "書き出したファイルを置いていただければ読みます。元のExcelは今までどおり使えます。当社が勝手に書き換えることはしません。",
+    "customer_action": "月に1回、フォルダに置く"
+   },
+   {
+    "name": "ANDPAD",
+    "status": "csv",
+    "today_count": "今日の取り込みはありません",
+    "note": "今できるのは、お客様が書き出したファイルを取り込むところまでです。直接やり取りするには、お客様側で「ANDPAD API連携」の追加契約が必要で、その方式と費用は当社でまだ確かめていません。できるとは約束しません。",
+    "customer_action": "必要な期間ぶんを書き出して置く"
+   },
+   {
+    "name": "freee（会計）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "社長ご本人が許可のボタンを押すと、読み取りだけができるようになります。当社から書き込みはしません。仕訳は下書きまでで、確定と税務の判断は顧問税理士にお願いします。",
+    "customer_action": "freeeの画面で、当社からの読み取りを許可する"
+   },
+   {
+    "name": "kintone（工事管理アプリ）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "契約コースによって外からの読み書きが使えるかどうかが公式に名指しされていないため、サイボウズに確認中です。確認が取れるまで『つながります』とは言いません。アプリごとの鍵（APIトークン）を、お客様ご本人に発行していただきます。あわせて、契約のコースによっては外からの読み書きが使えないため、先にコースの確認が要ります。",
+    "customer_action": "kintoneの管理画面で鍵を発行し、当社の画面に貼る"
+   },
+   {
+    "name": "Chatwork",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "法人プランは、組織の管理者からの申し込みが済んでから使えるようになります。お客様側の手続きです。",
+    "customer_action": "管理者から利用の申し込みをする"
+   },
+   {
+    "name": "工事写真の台帳ソフト・現場の黒板アプリ",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "まだ作っていません。写真の台帳ソフトから中身を取り出せるかどうかを当社で試していないので、できるとは言いません。必要であれば、まず1社ぶんで試すところから相談させてください。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "189件",
+   "approved_count": "178件",
+   "fixed_count": "31件",
+   "remaining_manual": "協力会社からの請求が月末にまとめて届くため、外注費だけは月末まで確定しません。自社の人工（にんく）も、日報に人数が書かれていない日があり、月末に現場へ聞いて回っています（今月9時間10分）。材料費は日々積めますが、この2つが埋まらないと工事ごとの粗利が出ません。",
+   "upsell_hint": "材料・外注・人工を1本の台帳に入れて、契約金額と並べて毎日見られるようにする仕組みが要ります。ここまで作ると「赤字になりかけている工事」を月末より前に見つけられます。当社の受託開発の範囲で、費用は現場の数と今の帳票の形を見てからお見積りします。"
+  },
+  "legal_notes": [
+   "送信・振込・公開・削除はAIがしません。人が押します。効果は保証しません。導入実績は0社です。",
+   "保管が要る書類の「何年」は、まだ画面に出していません。条文での確認が終わっていないためです。終わるまで、指名停止や許可の取消といった話も当社からはしません。",
+   "現場からの報告は、個人のLINEでは受け取れません。LINE WORKS・LINE公式アカウント・自社の入力フォームのどれかに寄せていただきます。",
+   "ANDPADと直接やり取りするには、お客様側に追加の契約が要ります。方式も費用も当社で未確認のため、約束しません。今は書き出したファイルの取り込みだけです。",
+   "出来高の割合と請求の金額は、人が確かめてから出してください。当社は下書きの正しさを保証しません。",
+   "仕訳は下書きまでです。税務の判断・申告書の作成・税務の相談は行いません。顧問税理士との併用が前提です。",
+   "お客様のパスワードやAPIキーを、当社が代わりに入力することはしません。ご本人の画面でご本人が入力し、当社は値を見ません。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "seikotsu",
+  "label": "整骨院・接骨院",
+  "tagline": "返戻の1枚が、入金を翌月へずらす。書けているつもりの負傷原因を、出す前に見直せるようにします。",
+  "icon": "接骨",
+  "words": {
+   "approval_box": "今日のチェック台",
+   "intake": "受付の入口",
+   "report": "今月の院の1枚",
+   "unit": "施術",
+   "partner": "患者さん"
+  },
+  "hero": {
+   "name": "返戻みはり番",
+   "one_line": "施術者が入力した事実だけを文章にして、記載漏れ・近接部位など返戻になりやすい点を、出す前に赤で出します。",
+   "how_it_works": [
+    "先生か施術者が、いつ・どこで・何をして痛めたかを、思い出したまま短く入れます。きれいな文章にする必要はありません。",
+    "AIは入れた言葉を並べ替えて文章にするだけです。書いていないことは足しません。空欄は空欄のまま赤で残ります。",
+    "出す前に、近接部位・記載漏れ・負傷名と原因のずれを赤で出します。直すのも、提出のボタンを押すのも人です。"
+   ],
+   "why_it_hurts_now": "痛いのは請求書を作ることではなく、返戻で入金が翌月以降にずれることです。負傷原因と負傷名の整合性や近接部位などの記載不備が、保険者からの返戻につながります。所属団体の中には、申請書の内容を複数の工程で点検して返戻を減らそうとしているところもあります（どの団体がどこまで点検しているかの出所は当社で確認中です。確認が済むまで団体名は書きません）。それを院長先生が施術の合間に一人でやっています。"
+  },
+  "cards": [
+   {
+    "risk": "white",
+    "kind": "日報",
+    "title": "昨日の施術メモを、負傷原因の文章にしました（19件）",
+    "what": "7月28日の施術録20件のうち、原因のメモがある19件の負傷原因文の下書き",
+    "who": "院内（院長＋施術者1名＋受付1名）",
+    "when": "今日の午前の受付が始まるまで",
+    "amount": "19件",
+    "before": "7/28 ひまわり さん 左肩／荷物／昨日夕方／倉庫／上げたとき（施術者の手書きメモ）",
+    "after": "昨日の夕方、倉庫で荷物を持ち上げたときに左肩を痛めた。──メモにある言葉をそのまま並べました。メモの『昨日』が何月何日かは、AIでは決められません。日付の欄は空けてあります。先生が入れてください。荷物の重さ・どちらの手で持ったかも書かれていないので、足していません。",
+    "trace": [
+     "昨日の施術メモ20件を読みました",
+     "原因のメモが空欄の1件は下書きを作りませんでした（書いていないことをAIが足すと架空請求になるためです）",
+     "「昨日」「先週」のような書き方は、日付に置きかえていません。置きかえると負傷年月日をAIが決めることになるためです。",
+     "19件の負傷原因文の下書きを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月分の申請書を、出す前に点検しました（49枚のうち下書き43枚・赤17か所）",
+    "what": "7月の施術録440件を患者49名ぶん・49枚の療養費支給申請書にまとめた下書き（うち負傷原因の記載がない6名ぶんは作れず43枚）と、返戻になりやすい17か所の警告",
+    "who": "所属団体（サンプル柔整協会）を通じて各保険者へ",
+    "when": "8月10日の団体締切まで（締切日は設定で変えられます）",
+    "amount": "保険請求分 合計 639,100円（43枚ぶん・施術415件）",
+    "before": "申請書No.084／みどり さん（68）／負傷名：右膝関節捻挫・右足関節捻挫／初検 7月3日／施術 9回／負傷原因：7月2日 廊下でつまずいた（施術者入力）",
+    "after": "⚠ 右膝と右足首は近接部位です。1つの原因で2部位を書いています。どちらの部位がどう痛んだのかの記載がありません。──空欄はAIが埋めていません。カルテを見て、先生ご自身で入れてください。",
+    "trace": [
+     "7月分の施術録440件と、書き出したレセコンのファイル1本を読みました",
+     "療養費の支給申請書は患者1人・1か月で1枚なので、7月の施術録440件を、患者49名ぶん・49枚の申請書にまとめました（440件 ÷ 49名 ＝ 1人およそ9回）",
+     "うち負傷原因の記載がない6名ぶん（施術25件）は作れませんでした（43枚）。推測で埋めると架空請求になるため、システム側で止めています",
+     "43名ぶん・43枚の申請書の下書き（施術415件・639,100円）と、赤の警告17か所を出しました",
+     "作れなかった6名ぶん（施術25件・38,500円）は、原因の記載が入るまで今月の請求に載せられません"
+    ],
+    "needs_human": "赤で出た17か所が「本当の書き漏れ」なのか「先生が意図してそう書いた」のかを、カルテとご本人の記憶で確かめてください。AIは書いてある文字を並べ替えただけで、事実が正しいかどうかは判断できません。提出のボタンは先生が押します。"
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "6月分で返ってきた4件を、同じ便に間に合わせます",
+    "what": "6月分の返戻4件の再提出の下書き",
+    "who": "所属団体（サンプル柔整協会）を通じて各保険者へ",
+    "when": "8月10日の団体締切まで（次の便を逃すと入金がもう1か月ずれます）",
+    "amount": "19,700円（4件ぶん）",
+    "before": "返戻理由書（6月分）No.061／指摘：負傷年月日と初検年月日の間があいており、その間の経過の記載がありません",
+    "after": "指摘は「6月2日の負傷から6月11日の初検までの経過が書かれていない」の1点です。該当欄を空欄のまま開いてあります。──経過はAIには作れません。ご本人に確認して入れてください。",
+    "trace": [
+     "郵送で届いた返戻理由書4通を写真から読みました",
+     "指摘された中身をAIが直すことはしていません（該当の欄を空欄で開いただけです）",
+     "4件の再提出の下書きを作り、締切の便に並べました"
+    ],
+    "needs_human": "返戻理由書の指摘が、患者さんご本人に確認した事実と合っているかを見てください。思い出せない・確認が取れない場合は、その件を今回の便から外す判断も先生のものです。"
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "窓口で「次に払います」になった分が7件あります",
+    "what": "今月分の一部負担金の未収7件を、院内の未収台帳に確定",
+    "who": "院内（受付）",
+    "when": "今日中（月をまたぐと聞きにくくなります）",
+    "amount": "9,800円",
+    "before": "7/14 さくら さん 一部負担金 550円「財布を忘れた、次に払います」（受付メモ）ほか6件",
+    "after": "未収台帳へ：7名・合計9,800円。うち3名は次回の予約が入っているので、来院予定日を横に付けました。",
+    "trace": [
+     "今月の受付メモから「後日」「次回」の記載を探しました",
+     "口頭で言われただけで受付メモに残っていない分は見つけられません（メモに書かれたものしか拾えません）",
+     "7名・9,800円の未収一覧を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "昨日の保険と自費を分けて、院内メモにしました",
+    "what": "7月28日の売上を保険分・自費分に分けた日次メモ",
+    "who": "院内（先生と受付で共有）",
+    "when": "今朝（見るだけのメモです。取り消せます）",
+    "amount": "売上 44,600円（保険請求分 30,800円＋自費 13,800円）／窓口で受け取った分 24,800円／患者20名（新患3名）",
+    "before": "レジ日計：現金 15,800／カード 6,200／電子マネー 2,800（7月28日）＝24,800円",
+    "after": "7月28日\n①売上（その日に立った分）：保険請求分 30,800円 ＋ 自費 13,800円 ＝ 44,600円\n　※保険請求分は保険者へ請求して後日入ります。窓口では受け取っていません。\n②窓口で受け取った分（レジ）：一部負担金 11,000円（550円×20名）＋ 自費 13,800円 ＝ 24,800円\n患者20名（うち新患3名）。院内メモとして残します。",
+    "trace": [
+     "レジの日計とカルテ20件を突き合わせました",
+     "保険請求分30,800円は窓口で受け取っていないので、②の窓口入金には入れていません。入金は保険者から後日です。",
+     "電子マネーは売上に入れていますが、口座に入るのは翌営業日なので、入金の消し込みには使えません",
+     "売上と窓口入金を分けた日次メモを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "3週間あいた患者さん8名への案内文（LINE公式・下書き）",
+    "what": "前回来院から21日以上あいた患者さん8名への再来案内の文面",
+    "who": "患者さん8名（LINE公式アカウント）",
+    "when": "今日中に見ていただければ、明日の朝に先生が送れます",
+    "amount": "8通（無料の200通枠のうち8通を使います）",
+    "before": "前回来院日から21日以上あいている患者さん：43名（うち予約なし・受付メモに「治癒」「他院へ」の記載がない方 8名）",
+    "after": "〈下書き〉こんにちは。サンプル接骨院です。前回のご来院から3週間ほどたちました。ご都合のよい日がありましたら、この画面からお知らせください。──治療効果に触れる言葉は入れていません。送るのは先生です。",
+    "trace": [
+     "前回来院から21日以上あいた患者さん43名を数えました",
+     "受付メモに「治癒」「他院へ」と書かれている35名は外しました（メモが無い方は判断できないので残しています）",
+     "8名分の案内文の下書きを作りました"
+    ],
+    "needs_human": "「治りますよ」「よくなります」に読める言葉が入っていないかを見てください（柔道整復師法の広告制限と、医療広告等ガイドラインの考え方をもとに点検しています。どちらがどこまで当院に当てはまるかは当社で条文を確認中で、確認が済むまで「このガイドラインに沿っています」とは書きません。最終判断は先生です）。また、来なくなった理由を先生がご存じの方は、送る前に外してください。AIは受付メモに書かれたことしか知りません。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "7月の領収書から、仕訳の下書きを作りました（12件）",
+    "what": "テーピング・サポーター・電療機器リース・水道光熱の仕訳下書き",
+    "who": "院内（freeeへは先生が確定）",
+    "when": "8月5日まで（顧問税理士へ渡す前）",
+    "amount": "12件・179,500円",
+    "before": "領収書の写真14枚（テーピング／サポーター／電療機器リース／水道光熱／消耗品）",
+    "after": "仕訳の下書き12件・179,500円。freeeは読み取りだけでつないでいるので、AIからは書き込みません。確定は先生が押します。",
+    "trace": [
+     "領収書の写真14枚を院のパソコンの中で読み取りました",
+     "斜めに写っていて金額が読めなかった2枚は飛ばしました（撮り直してもう一度置いてください）",
+     "12件の仕訳の下書きを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "シフト",
+    "title": "8月1日の午後、予約が2時間に14件入っています",
+    "what": "来週の予約と施術者の配置の院内メモ",
+    "who": "院内（院長＋施術者1名＋受付1名）",
+    "when": "今日中に見ておくと、まだ動かせます",
+    "amount": "8月1日 予約26件／午後の施術者1名",
+    "before": "8/1（土）予約26件／院長 午後は学術研修で不在（院内カレンダー）",
+    "after": "8月1日の午後：予約18件に対して、院長が学術研修で不在のため施術者1名。14時〜16時に14件が重なっています。同時に何人みられるかは資料に書かれていないので、足していません。院内メモです。予約の変更はしていません。",
+    "trace": [
+     "来週1週間の予約と施術者の予定を読みました",
+     "有給・研修の申請が紙のままの2名分は入っていません（紙は写真で置いていただければ読めます）",
+     "8月1日の混み具合のメモを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "クチコミ3件のうち、2件だけ返信の下書きを作りました",
+    "what": "Googleのクチコミへの返信文（★5・★4の2件のみ）",
+    "who": "クチコミを書いた方2名（Googleビジネスプロフィール）",
+    "when": "今週中（★1の1件は先生に回してあります）",
+    "amount": "2件（★1の1件は下書きなし）",
+    "before": "Googleのクチコミ3件（★5 1件／★4 1件／★1 1件・7月26〜28日）",
+    "after": "★5・★4の2件だけ返信の下書きを作りました。★1の1件は下書きを作らず、先生に回しました。──Googleへ直接は届いていません。管理画面に手で貼っていただく形です。",
+    "trace": [
+     "7月26日から28日までのクチコミ3件を読みました",
+     "★1の1件は下書きを作りませんでした（人が読んで決めることなので飛ばしました）／Googleへ自動で載せることもできていません",
+     "★5・★4の2件の返信の下書きを作りました"
+    ],
+    "needs_human": "返信文に治療効果や症状の話が入っていないかを見てください（柔道整復師法の広告制限と、医療広告等ガイドラインの考え方をもとに点検しています。どちらがどこまで当院に当てはまるかは当社で条文を確認中で、確認が済むまで「このガイドラインに沿っています」とは書きません。最終判断は先生です）。★1のクチコミは、返すか返さないかを含めて先生が決めてください。★1・★2にはAIが返信案を作らない決まりにしています。"
+   }
+  ],
+  "intakes": [
+   {
+    "name": "紙のカルテ・施術録（写真で置くだけ）",
+    "status": "connected",
+    "today_count": "20枚",
+    "note": "院のパソコンの中だけで文字にします。外へは送りません。",
+    "customer_action": ""
+   },
+   {
+    "name": "手書きの問診票・施術同意書",
+    "status": "connected",
+    "today_count": "3枚",
+    "note": "同じくパソコンの中だけで読み取ります。筆跡と書式で読み取り具合が変わるので、契約前に院の実物を1枚その場で読ませてお見せします。",
+    "customer_action": ""
+   },
+   {
+    "name": "レセコン・電子カルテの書き出しファイル",
+    "status": "csv",
+    "today_count": "1本（440件）",
+    "note": "直接つなぐ口は当社で確認できていません。今日から使えるのは書き出したCSVです。機種によって書き出せる項目が違います。",
+    "customer_action": "レセコンの画面で月次の書き出しを1回押す"
+   },
+   {
+    "name": "所属団体からの返戻理由書（紙・郵送）",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "郵送で届くので、つなぐ口がそもそもありません。写真を撮って置いていただければ文字にはできますが、どの申請の話かを突き合わせるのは今も人がやっています。",
+    "customer_action": "届いた返戻理由書を写真に撮って置く"
+   },
+   {
+    "name": "LINE公式アカウント（予約確認・再来案内）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "院名義のアカウントとチャネルの作成、トークンの発行が要ります。当社は鍵やパスワードを代理入力しません。",
+    "customer_action": "LINE公式アカウントを作り、チャネルとトークンを発行する（手順書と画面共有でお手伝いします。押すのは先生です）"
+   },
+   {
+    "name": "Gmail（問い合わせの仕分けと返信下書き）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "受信を読む許可は先生ご本人が押す必要があります。下書きはGmailの下書きフォルダにも戻すので、いつもの画面で送れます。",
+    "customer_action": "Googleの画面で受信の読み取り許可を押す"
+   },
+   {
+    "name": "freee（会計）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "読み取りだけでつなぎます。AIから書き込みはしません。仕訳の確定は人が押します。",
+    "customer_action": "freeeの画面で連携を許可する"
+   },
+   {
+    "name": "Googleビジネスプロフィール（クチコミ返信）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "Googleの基本アクセスの審査に通るまで、1件も動きません（審査前は動く枠が0です）。当社が通すまでは、下書きを管理画面に手で貼っていただく形になります。審査に通ったあとの動きは次のとおりです。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。",
+    "customer_action": ""
+   },
+   {
+    "name": "予約システム",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "公開されたつなぎ口を確認できていません。IDとパスワードで自動ログインして取りに行くやり方は規約に触れるおそれがあるので、実装しません。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "491件",
+   "approved_count": "408件",
+   "fixed_count": "54件（直してから押した分）",
+   "remaining_manual": "負傷原因の聞き取りそのものが残ります。いつ・どこで・何をして痛めたかは、施術者が問診で聞き出さないと、AIが文章にする材料がそもそも存在しません。7月は原因のメモが空欄のまま残った件が25件あり（1日およそ1件）、翌日にカルテを見ながら思い出して埋めています（1件およそ2分・合わせて50分）。",
+   "upsell_hint": "レセコン・電子カルテから申請データを取り出して、返戻理由書と自動で突き合わせる仕組みが要ります。これは連携の開発になるので、月額のパックの中では作れません（別途お見積り）。その先に、複数院の経営ダッシュボード、LINE公式ベースの再来CRMがあります。"
+  },
+  "legal_notes": [
+   "AIは、施術者が入力した事実を文章にするだけです。書かれていないことを補ったり、推測したりしません（架空請求・付増請求は施術管理者の登録抹消につながるため、システム側で止めています）。",
+   "提出の締切日は、所属団体・保険者ごとに違います。日付は固定せず、設定で変えられるようにしています。",
+   "患者さんの情報は要配慮個人情報です。紙とカルテの読み取りは、院のパソコンの中だけで行う構成を標準にします。",
+   "広告文とクチコミ返信は、柔道整復師法の広告制限と、医療広告等ガイドラインの考え方をもとに点検します。どちらがどこまで当院に当てはまるかは当社で条文を確認中で、確認が済むまで「このガイドラインに沿っています」とは書きません。治療効果に触れる文は書きません。点検は「要チェックの候補を機械的に洗い出す補助」で、最終判断は先生です。",
+   "仕訳は下書きまでです。確定と税務の判断は顧問税理士にお願いします。当社は税務代理・税務書類の作成・税務相談をしません（税理士法52条）。",
+   "提出・送信・投稿・振込・公開・削除を、AIの判断では行いません。押すのは人です。予約投稿の扱いは次のとおりです。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。効果は保証しません。導入実績は0社です。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "kaigo",
+  "label": "介護事業所（訪問介護・通所・訪問看護）",
+  "tagline": "夜勤明けに記録を清書している。国は減らすと言ったのに、加算が増えるたび様式は増えていく。",
+  "icon": "介護",
+  "words": {
+   "approval_box": "今日の確認印",
+   "intake": "記録の入り口",
+   "report": "今月の事業所レポート",
+   "unit": "利用者さん",
+   "partner": "ご家族・ケアマネさん"
+  },
+  "hero": {
+   "name": "様式うめ番",
+   "one_line": "日々の介護記録から、計画書・モニタリング記録・加算様式のたたき台を作り、空欄と前後の食い違いだけを赤で出します（加算の要件判定はしません）。",
+   "how_it_works": [
+    "その日の記録と申し送りを読み込みます。記録ソフトから書き出したCSV、チャットの報告、紙は写真を置くだけです。",
+    "様式の決まった欄に、記録の中の言葉をそのまま入れて下書きを作ります。AIが事実を足したり、書かれていないことを推測したりはしません。",
+    "空いている欄と、前回と食い違っている書き方だけを赤で並べます。直すのも、出すのも人です。"
+   ],
+   "why_it_hurts_now": "国が介護の事務を減らす方向で見直しを進めていると聞いています（当社で原典を確認中です。確認が済むまで、時期や取りまとめた場の名前は書きません）。それでも現場には、加算項目が増えたぶん提出書類が増えたこと、ケアプランがアナログ対応のまま事務負担になっていることが課題として残っています。夜勤明けの職員が記録を清書している状態は変わっていません。"
+  },
+  "cards": [
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "昨夜の対応と早朝訪問を、朝いちの1枚にまとめました",
+    "what": "夜間対応3件と早朝訪問5件の記録を、申し送り用の1枚に要約",
+    "who": "事業所内（朝礼で全職員へ）",
+    "when": "今日8時30分の朝礼まで",
+    "amount": "記録8件／読み取り2分",
+    "before": "7/28 22:40 オンコール対応 Bサマ ハツネツ37.8 カゾクヘレンラクズミ →アサ サイホウノヨテイ（音声メモの文字起こし・改行なし）",
+    "after": "【夜間対応 3件】22:40 Bさん 発熱37.8℃。ご家族へ連絡済み。朝に再訪の予定。／【早朝訪問 5件】特記なし。※体調の評価にあたる書き方は入れていません。※夜間対応3件のうち1件は、音声が途中で切れていたため文字にできていません。元の音声のまま残しています。",
+    "trace": [
+     "昨夜22時からの記録8件（音声メモ3件・手入力5件）を読みました",
+     "音声が途中で切れていた1件は要約できず、元の音声のまま残しました",
+     "夜間3件・早朝5件に分けた申し送りメモを1枚作りました（文字にできなかった1件は、元の音声のまま残しています）"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月分の介護給付費請求、確認が要る記録が5名分あります",
+    "what": "7月サービス提供分の請求データの下書きと、実績欄の空欄・記録の重なりで確認が要る分の一覧",
+    "who": "国民健康保険団体連合会（伝送はお客様の伝送ソフトから人が行います）",
+    "when": "8月10日まで（残り12日）",
+    "amount": "下書き 44名分 3,760,400円／要確認 5名分（金額を出していません）",
+    "before": "7/14 生活援助60分 実績〇／7/21 身体介護30分 実績（空欄）／提供時間 記載なし",
+    "after": "7/21 身体介護30分：実績欄が空です。訪問記録には「7/21 9:05-9:38 入浴介助」があります。どちらが正しいか人が確認してください。（加算がつくかどうかの判断はしていません）",
+    "trace": [
+     "7月の訪問記録1,512件とサービス提供票49名分を突き合わせました",
+     "同じ日に2回訪問した記録がある3名分は、どちらが算定対象か判断できないので、要確認に入れました",
+     "49名のうち44名分の請求データの下書きを作り、5名分は要確認として残しました"
+    ],
+    "needs_human": "要確認5名分（同じ日に2回訪問した3名・実績欄が空の2名）を、訪問記録の原本と見比べてください。加算の要件を満たすかどうかはAIが判定していません。伝送は人が行います。"
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "訪問介護計画書の更新が今週の3名分、たたき台ができています",
+    "what": "訪問介護計画書3名分の更新用たたき台。前回の計画と直近3か月の記録から作成",
+    "who": "事業所内（サービス提供責任者が確認）",
+    "when": "8月2日（日）まで",
+    "amount": "3名分／前回からの変更点11か所",
+    "before": "前回計画（4月）：週3回 身体介護30分＋生活援助45分／目標「自分で洗濯物をたためるようになる」",
+    "after": "【変更案】週3回 身体介護30分＋生活援助45分（変更なし）／目標欄：記録に「6月から洗濯物をご自分でたたんでいる」とあります。目標の見直しが要るかもしれません（決めるのは人です）",
+    "trace": [
+     "3名分の前回計画書と、5〜7月の訪問記録288件を読みました",
+     "ご本人の希望が記録に書かれていない1名は、目標欄を空欄のまま残しました",
+     "3名分のたたき台と、変更点11か所の一覧を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "ご家族3世帯へのお手紙、下書きだけ作りました",
+    "what": "7月のご様子をお知らせするお手紙の下書き（郵送3通）",
+    "who": "ご家族3世帯（当事業所のご利用者ご家族）",
+    "when": "8月5日の発送分まで",
+    "amount": "3通",
+    "before": "訪問記録：7/9 歩行が不安定 ふらつき2回／7/18 入浴を断られる／7/25 ご本人より「息子に会いたい」",
+    "after": "7月のご様子をお知らせします。7/9の訪問で、歩くときに足元が不安定な様子が2回ありました。※健康状態の評価にあたる表現は入れていません。※手すりの設置など、この先のご相談の中身は記録に書かれていないので、足していません。人が入れてください。",
+    "trace": [
+     "3名分の7月の訪問記録93件と、前回のお手紙を読みました",
+     "入浴を断られた日の理由が記録になかったため、その件は文面に入れませんでした",
+     "3通の下書きを作りました。宛名と住所は台帳から引いています"
+    ],
+    "needs_human": "ご家族の外に出る文章です。体調の変化をどこまで書くか、誤解を生む書き方になっていないかを、管理者が読んでから決めてください。封入と投函は人が行います。"
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "通所5名分のモニタリング記録、空欄が7か所あります",
+    "what": "通所介護のモニタリング記録の下書き（5名のうち3名分）と、空欄・前回との食い違いの指摘",
+    "who": "事業所内（生活相談員が確認）",
+    "when": "8月8日の担当者会議まで",
+    "amount": "下書き3名分（残り2名は作れず）／空欄7か所・食い違い2か所",
+    "before": "前回（4月）「入浴は一部介助」／7月の記録「入浴 見守りのみで実施 3回」／モニタリング欄（空欄）",
+    "after": "前回（4月）は「一部介助」、7月の記録は「見守りのみ」と書かれています。どちらでモニタリング欄を書くかは、人が決めてください。（状態が変わったかどうかの判断はしていません）",
+    "trace": [
+     "5名分の前回モニタリングと、5〜7月の通所記録312件を読みました",
+     "送迎の記録しかない2名分は、様子の記述がないため下書きを作れませんでした",
+     "5名のうち3名分の下書きと、空欄7か所・食い違い2か所の一覧を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "昨日のヒヤリハット2件、様式に清書しました",
+    "what": "職員がチャットに書いた短い報告2件を、所定の様式に清書",
+    "who": "事業所内（全職員へ共有）",
+    "when": "今日中",
+    "amount": "2件",
+    "before": "チャット投稿：「玄関の段差でつまずきかけた。手はつないでた。ケガなし」（21:14 送信）",
+    "after": "発生日時：報告は7/28 21:14に届いています。発生した時刻は投稿に書かれていないので、足していません。人が入れてください。／場所：玄関（どちらの玄関かは投稿に書かれていないので、足していません）／内容：段差でつまずきかけた。手をつないでいた。ケガはなし／今後の対応：投稿に書かれていないので、足していません。人が入れてください。",
+    "trace": [
+     "報告用チャットから、昨日の投稿43件を読みました",
+     "そのうちヒヤリハットに当たる投稿は7件でした。「気をつけます」だけで何が起きたか分からない投稿5件は飛ばしました",
+     "残り2件を、ヒヤリハットの様式2枚に清書しました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "シフト",
+    "title": "8月の勤務表、人が足りない日が2日と休日の警告が1件",
+    "what": "8月の勤務表の下書き（職員18名）。人が足りない時間帯と、休憩・休日の警告つき",
+    "who": "事業所内（管理者が確定してから配布）",
+    "when": "7月31日まで",
+    "amount": "職員18名／延べ504コマ",
+    "before": "7月の勤務表＋8月の希望休（紙で提出8名・チャットで10名／様式はバラバラ）",
+    "after": "8/13（木）の朝と 8/17（月）の夕方が1名不足です。Cさんは8/10（月）〜8/16（日）の7日間すべて勤務で、この週に休みがありません。この3点だけ、人が決めてください。",
+    "trace": [
+     "職員18名の希望休（紙8枚・チャット10件）と、7月の実績を読みました",
+     "資格の有無が台帳に入っていない2名は、配置を動かす判断ができないので前月のまま置きました",
+     "8月の勤務表の下書きと、不足2件・休日の警告1件を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月分の利用者負担金、14世帯ぶんの請求書が出せます",
+    "what": "利用者負担金（1割・2割）の請求書14通と、口座振替データの下書き。口座振替でお預かりしている35名は請求書を出さないので、振替データだけ作っています（うち2名は負担割合証の期限切れのため今回は外し、33名分です）",
+    "who": "ご利用者・ご家族 14世帯（振替データの持ち込みは人）",
+    "when": "8月5日の発送まで",
+    "amount": "請求書14通 合計 138,400円（1通 6,200円〜20,900円）／口座振替データ 33世帯分",
+    "before": "7月のサービス提供実績＋負担割合証（1割12名・2割2名）＋前月の請求控",
+    "after": "Dさん：7月 身体介護12回・生活援助8回／利用者負担 11,800円／実費（おむつ代 2,600円）／合計 14,400円",
+    "trace": [
+     "49世帯分の7月実績と負担割合証を読み、請求書が要る14世帯と、口座振替の35世帯に分けました",
+     "口座振替の35世帯のうち、負担割合証の有効期限が7月末で切れる2世帯は、判断できないので今回は外しました",
+     "請求書14通の下書きと、口座振替33世帯分のデータの下書きを作りました"
+    ],
+    "needs_human": "金額が入り、ご家族の手に渡る書類です。負担割合（1割・2割）が最新の証と合っているか、実費の項目に漏れがないかを見てください。金融機関への振替データの持ち込みは人が行います。"
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "提出予定の様式、書き足りない欄が4か所あります",
+    "what": "提出予定の加算関係の様式について、空欄と前回提出分との食い違いを一覧化（要件を満たすかの判定はしません）",
+    "who": "事業所内（管理者が確認。提出は人）",
+    "when": "8月15日の提出まで",
+    "amount": "様式3枚／指摘4か所",
+    "before": "体制等状況一覧表：常勤換算（空欄）／前回提出（4月）：常勤換算 8.2",
+    "after": "常勤換算の欄が空です。前回提出（4月）は8.2でした。4月以降に職員が増えたか減ったかは、読んだ書類に書かれていないので、足していません。人が入れてください。（この加算がつくかどうかの判定はしていません）",
+    "trace": [
+     "提出予定の様式3枚と、前回4月の提出控えを読み比べました",
+     "研修の受講記録が電子で残っていない項目は、確認できないので指摘に入れませんでした",
+     "空欄3か所・前回と食い違う欄1か所を一覧にしました"
+    ],
+    "needs_human": ""
+   }
+  ],
+  "intakes": [
+   {
+    "name": "紙・手書きの記録／FAX（写真を置くだけ）",
+    "status": "connected",
+    "today_count": "写真14枚",
+    "note": "写真を置くだけで文字にします。読み取りはお客様のパソコンの中だけで終わり、外に送りません。読み取りの精度は筆跡と書式で変わるため、契約前に実物をその場で読ませて精度をお見せします。",
+    "customer_action": "スマホで撮って、共有フォルダに置く"
+   },
+   {
+    "name": "介護記録ソフトの書き出しファイル（CSV）",
+    "status": "csv",
+    "today_count": "3ファイル（記録・実績・利用者台帳）",
+    "note": "記録ソフトから書き出したファイルを置いていただく形です。ソフト本体への直接の接続はしていません。",
+    "customer_action": "記録ソフトの画面から、当日分を書き出して置く"
+   },
+   {
+    "name": "職員からの報告チャット（LINE WORKS）",
+    "status": "connected",
+    "today_count": "報告43件",
+    "note": "現場からの報告の受け取りと、承認待ちのお知らせに使います。1分あたりの送信数に上限があるため、通知は順番に送ります。個人のLINEからは受け取れません。",
+    "customer_action": "LINE WORKSの管理者の方に、当社アプリの利用を許可していただきます"
+   },
+   {
+    "name": "タイムカード・勤怠の打刻データ",
+    "status": "csv",
+    "today_count": "1ファイル",
+    "note": "打刻データをCSVでいただき、勤務表の実績と突き合わせます。勤怠ソフトのAPI公開条件は当社未確認です。",
+    "customer_action": "月末に打刻データを書き出して置く"
+   },
+   {
+    "name": "Gmail（問い合わせ・ご家族との連絡）",
+    "status": "pending_customer",
+    "note": "受信メールを読むには、お客様のGoogleの管理者の方の許可が要ります。当社はパスワードやAPIキーを代理入力しません。お客様のGoogle Cloudに内部アプリとして置く方式にします。",
+    "customer_action": "管理者の方が、当社の導入手順書に沿ってアプリを登録し、許可を押していただきます",
+    "today_count": ""
+   },
+   {
+    "name": "freee（会計）",
+    "status": "pending_customer",
+    "note": "お客様のfreee契約と、ご本人による連携の許可が要ります。読み取りだけで、AIからの書き込みはしません。仕訳は下書きまでで、確定と税務判断は顧問税理士です。",
+    "customer_action": "freeeの画面で連携を許可する（押すのはお客様ご本人です）",
+    "today_count": ""
+   },
+   {
+    "name": "ケアプランデータ連携システム",
+    "status": "pending_us",
+    "note": "国民健康保険中央会が運営している仕組みです。利用料とデータの形（CSV標準仕様）が当社未確認のため、実機で確認してから可否をお答えします。今は「つなげます」と言えません。",
+    "today_count": ""
+   },
+   {
+    "name": "介護記録ソフトへの書き戻し",
+    "status": "not_yet",
+    "note": "下書きを記録ソフトの画面へ戻す口は作っていません。今は人が打ち直しています。つなぐには、ソフトの提供元に外部からの書き込み口があるかを確認したうえで、個別の開発が要ります。",
+    "today_count": ""
+   },
+   {
+    "name": "国保連への伝送",
+    "status": "not_yet",
+    "note": "伝送は今までどおり、お客様の伝送ソフトから人が行います。お金が動くため、自動で送る仕組みは作りません。",
+    "today_count": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "268件",
+   "approved_count": "241件",
+   "fixed_count": "36件",
+   "remaining_manual": "AIが作った様式の下書きを、結局は介護記録ソフトの画面へ人が打ち直しています（7月は延べ11時間20分）。書き出したCSVは読めますが、ソフトへ書き戻す口がないためです。",
+   "upsell_hint": "お使いの記録ソフトへ書き戻す連携をつくる必要があります（記録ソフトとの連携開発）。まず提供元に外部からの書き込み口があるかを確認するところから始まります。そのあとは、施設内の申し送り・ヒヤリハット共有システム、勤務表の最適化と続きます。"
+  },
+  "legal_notes": [
+   "加算の要件を満たすかどうかの判定はしません。様式の下書きと、空欄・前後の食い違いの指摘までです。",
+   "利用者さんの情報は要配慮個人情報です。紙・手書きの読み取りはお客様のパソコンの中だけで行い、外に送りません。",
+   "文章を作る部分はクラウドのAIを使います。どの処理がパソコンの中で、どれがクラウドかを、機能ごとの表でお見せします。",
+   "送信・提出・振込・公開・削除はAIが行いません。人が押します。お金と社外に出るものは、押すまで動きません。社内のメモは押さなくても残ります。",
+   "AIは記録に書かれた事実を文章にするだけです。書かれていないことを補ったり、推測したりはしません。",
+   "日本の個人情報保護法と3省2ガイドラインに沿った構成を、当社の法務担当が一次情報で確認中です。米国のHIPAAは日本の根拠にならないため訴求には使いません。",
+   "勤務表の休憩・休日の警告は、当社が設定した条件での警告です（休日は週1日または4週4日が法の定めです）。労務の最終判断は社会保険労務士にご相談ください。",
+   "料金は、職員数・利用者数による追加のない形でご提案する予定です。金額はこの画面には出していません。お見積書でお示しします。",
+   "導入実績は0社です。効果は保証しません。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "clinic",
+  "label": "歯科医院",
+  "tagline": "当日キャンセルで空いた枠が、そのまま空いたまま終わる。声をかける順番と文面を、院長の代わりに用意します。",
+  "icon": "歯科",
+  "words": {
+   "approval_box": "院長の確認トレー",
+   "intake": "情報の入口ボード",
+   "report": "今月の医院1枚",
+   "unit": "来院",
+   "partner": "患者さん"
+  },
+  "hero": {
+   "name": "あいた枠うめ番",
+   "one_line": "当日キャンセルで空いた枠を、来院間隔があいている患者さんの中から声をかける順番つきで出します。連絡するかどうかは院長が決め、送るのも人です。",
+   "how_it_works": [
+    "当日キャンセルが出たら、あいた枠の日時を1行入れます。",
+    "予約台帳の書き出し（過去の来院ぶんを含むもの）から、前回の来院が古い順に候補を並べ、声をかける順番の案を出します。",
+    "候補の一覧と連絡文の下書きが確認トレーに並びます。連絡するかどうかは院長が決め、送るのも人です。"
+   ],
+   "why_it_hurts_now": "当日キャンセルが1件出ても、その枠を埋め直す相手を探す時間は診療の合間にありません。前回いつ来たかを1件ずつめくって探すことになるからです。いっぽうホームページやSNSのほうも、患者さんの体験談や術前後の写真をどこまで載せてよいのか、自由診療のページに何を書き足せばよいのかが、院内では判断しきれません。広告文とクチコミ返信は、医療広告等ガイドラインの考え方をもとに点検します。どの決まりがどこまで当院に当てはまるかは当社で原典を確認中で、確認が済むまで改定の日付や改正の中身は書きません。そのため、空いた枠を埋める手も打てず、何を書いてよいかも分からず、業者さんに丸投げするか、何も出さないかの二択になっている歯科医院が多いのが今の状態です。"
+  },
+  "cards": [
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "今日15:30があきました。声をかける候補5名の下書き",
+    "what": "当日キャンセルで空いた今日15:30の枠に、声をかける候補5名の順番と、連絡文の下書き5通",
+    "who": "候補の患者さん5名（連絡するかどうかは院長が決めます）",
+    "when": "今日 9:20（キャンセルのお電話から5分後）／連絡するなら12時までが目安です",
+    "amount": "候補5名（LINEの友だち登録あり3名・メールのみ2名）／連絡文の下書き 5通",
+    "before": "受付のメモ「9:15 つばきさまより、今日15:30のご予約をキャンセルとお電話。」\n予約台帳の書き出し（過去の来院ぶんを含む）に、前回の来院から5か月以上たっている方が並んでいる状態（順番も、連絡先の有無も、まだ分かれていません）",
+    "after": "声をかける候補（前回の来院が古い順）\n1 こだまさま（前回の来院から7か月・LINE）\n2 なぎさま（7か月・LINE）\n3 ほのかさま（6か月・LINE）\n4 あおぞらさま（6か月・メール）\n5 こもれびさま（5か月・メール）\n\n連絡文の下書き（5通）「本日15:30に空きが出ました。ご都合がよろしければ、ご返信かお電話でお知らせください。」\n※治療を勧める言い方は入れていません。",
+    "trace": [
+     "受付から入れてもらった「今日15:30がキャンセル」のメモを受けて、予約台帳の書き出しにある来院の記録から、前回の来院が古い順に5名を並べました。",
+     "前回どこまで治療したか、担当の衛生士は誰かは見ていません。予約システムの画面にしかなく、書き出したCSVに出てこないためです。順番は前回の来院からの間隔だけで付けています。",
+     "連絡文には治療を勧める言い方を入れていません。来院が止まっている理由は、いただいた資料に書かれていないためです。この15:30は、受付のメモに書かれていたキャンセルの枠です。ほかの空き時間は資料に入っていないので、初診の問い合わせへの返信にも時刻は入れていません。"
+    ],
+    "needs_human": "治療を勧める書き方になっていないか、来なくなった理由をご存じの方が混ざっていないかを見てください。送信は院長が押します。"
+   },
+   {
+    "risk": "gray",
+    "kind": "メール",
+    "title": "夜のうちに届いた問い合わせ6件を、急ぎ／今日中／後でいいに分けました",
+    "what": "昨日18時から今朝7時までに届いた問い合わせメール・LINEトーク6件の仕分け",
+    "who": "院内（受付担当）",
+    "when": "今日 7:35（朝礼の前）",
+    "amount": "6件／仕分けにかかった時間 2分",
+    "before": "受信トレイ 未読6件（件名だけ）「前歯が欠けました」「親知らずが腫れて痛みます」「矯正の相談です」「土曜の予約を変えたい」／差出人が非通知の1通／添付ファイルだけで本文が無い1通",
+    "after": "【急ぎ 2】前歯が欠けた（今日みてほしい）／親知らずが腫れて痛む\n【今日中 2】矯正の初回相談と費用／土曜の予約変更\n【後でいい 2】差出人が非通知の1通／添付ファイルだけで本文が無い1通",
+    "trace": [
+     "受信した6通を読み、件名と本文から急ぎ度を3段階に分けました。",
+     "差出人が非通知の1通と、添付ファイルだけで本文が無い1通は分けられず、「後でいい」に置きました。",
+     "急ぎ2件は返信の下書きも作り、下の赤いカードに並べました。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "初診の問い合わせ2件に、返信の下書きを作りました（費用を聞かれています）",
+    "what": "初診の問い合わせ2件への返信メール下書き（前歯の破折／大人の矯正の費用と期間）",
+    "who": "サンプル花子さま・みどり太郎さま（患者さんご本人）",
+    "when": "今日 12:00までに返信（急ぎ扱い）",
+    "amount": "2件（うち1件は自由診療の費用にふれます）",
+    "before": "受信メール（抜粋）\n①「昨夜、前歯が欠けてしまいました。今日みていただけますか。だいたいいくらぐらいかかりますか。」\n②「大人の矯正を考えています。費用と期間、痛みが心配です。」",
+    "after": "返信の下書き（抜粋）\n①「本日◯時◯分に空きがあります。（← 今日の空いている時間は受付が入れてください）欠けた部分の状態を拝見してからのご案内になります。保険が使えるかどうかと費用は、診察のうえでご説明します。」\n②「大人の矯正のご相談は、初回30分◯◯円です。費用の総額・治療期間・想定されるリスクと副作用は、当院の『矯正治療のご案内』に記載しています。あわせてご確認ください。」\n※AIが外した表現：「きれいに治ります」「痛みはありません」",
+    "trace": [
+     "急ぎ2件の本文と、ホームページの料金ページの記載を読んで下書きを作りました。予約システムの画面はAIが見ていません。",
+     "今日の空き枠は資料に入っていないので、時刻は入れていません。人が入れてください。（毎朝いただくCSVは明日ぶんの予約だけで、今日の空き枠は入っていません。）",
+     "「だいたいいくらぐらい」への具体的な金額は書けませんでした。保険が使えるかどうかを診察の前に決められないためです。空欄のまま残しています。",
+     "「きれいに治ります」「痛みはありません」にあたる表現は、書かずに外しました。"
+    ],
+    "needs_human": "本日の空き時間は空欄にしてあります。受付が入れてください。金額の空欄を埋めるか、「診察のうえでご説明します」のままにするかを院長が決めてください。矯正のご案内ページのリンク先が今の内容と合っているかも見てください。押すまでメールは送られません。"
+   },
+   {
+    "risk": "red",
+    "kind": "SNS・HP",
+    "title": "インプラント料金ページの改訂案を、出す前に止めました（4つの記載が足りません）",
+    "what": "ホームページ「インプラント治療 料金・費用」ページの改訂案（1,240文字）の事前チェック",
+    "who": "ホームページの制作をお願いしている業者さん（差し戻し先）",
+    "when": "今日中（業者さんの入稿締切が明日10時）",
+    "amount": "1ページ 1,240文字／要修正 7か所（体験談1・効果の言い切り2・記載が足りない項目4）",
+    "before": "業者さんから届いた改訂案（抜粋）\n「当院のインプラントは、噛む力が元通りによみがえります。多くの患者様から『もっと早くやればよかった』とお喜びの声をいただいております。1本 ◯◯円〜。」",
+    "after": "書き直し案（抜粋）\n「当院のインプラント治療は、失った歯の機能を補う自由診療です。1本 ◯◯円（税込）。\n・治療内容：（記載してください）\n・主なリスク：（記載してください）\n・副作用：（記載してください）\n・標準的な治療期間と回数：（記載してください）」\n\n赤で止めた点（合計7か所）\n① 患者さんの「お喜びの声」＝体験談にあたります（1か所）\n②「元通りによみがえります」など効果の言い切り（2か所）\n③ 自由診療なのに、治療内容・主なリスク・副作用・標準的な治療期間と回数の記載がありません（4か所）",
+    "trace": [
+     "改訂案1,240文字と、いま公開されている同じページを読み比べ、直したほうがよい場所を7か所見つけました。",
+     "「主なリスク」「副作用」の中身は書けませんでした。当院がどこまで説明するかを決めるのは院長で、AIが埋めると事実でない説明になるためです。1本あたりの金額も、改訂案に「◯◯円〜」としか書かれていないので、足していません。どちらも空欄のまま残しました。",
+     "体験談1か所と効果の言い切り2か所を消し、足りない4項目の見出しだけを差し込んだ書き直し案を作りました。"
+    ],
+    "needs_human": "「主なリスク」「副作用」「標準的な治療期間と回数」に何を書くかは、院長が決めてください。ここは当院の説明にあたるところで、AIには決められません。またこの点検は、要チェックの候補を機械で洗い出す補助です。法令に合っているかの最終判断は医院（必要に応じて専門家）が行います。"
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "今日届いたクチコミ3件を振り分けました（★2の1件は院長へ回します）",
+    "what": "Googleのクチコミ3件（★5が2件・★2が1件）の振り分けと、★5への返信下書き",
+    "who": "院内（★2の担当は院長・期限は明日）",
+    "when": "今日中に振り分けを確定（返信は3日以内が目安）",
+    "amount": "3件（★5：2件／★2：1件）",
+    "before": "★5「先生もスタッフさんも説明が丁寧でした。」\n★5「急な痛みで駆け込んだら、その日にみてもらえました。」\n★2「予約したのに30分待たされた。説明も早口でよく分からなかった。」",
+    "after": "★5の2件 → 返信の下書きを作成\n「お忙しいなかご来院いただき、ありがとうございます。説明の分かりやすさは当院が大事にしているところです。またお困りのときはご相談ください。」\n\n★2の1件 → 院長へ（AIは返信文を作っていません）",
+    "trace": [
+     "このクチコミ3件は、院内で画面から書き写して置いていただいたものです。Googleとはまだつながっていない（基本アクセスの審査中）ため、AIが取りに行ってはいません。",
+     "★2の1件は返信文を作りませんでした。待ち時間の理由と、説明が伝わらなかった事情は、その日の様子を知っている人にしか書けないためです。",
+     "★5の2件は、治療の効果にふれない言い方で返信の下書きを作りました。"
+    ],
+    "needs_human": "★5の返信文も、貼り付ける前に院長が目を通してください。医院の名前で、外から読める場所に出ます。治療の効果に読める言い方が入っていないかを見てください。Googleへの返信は当社から自動で投稿していません（基本アクセスの審査が済むまで、貼り付けは人の手になります）。"
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "今日18時のInstagram投稿を止めました（術前後の写真が入っています）",
+    "what": "ホワイトニングの症例を紹介するInstagram投稿1本（画像2枚と本文）",
+    "who": "医院のInstagram（フォロワーへ公開されます）",
+    "when": "今日18:00の投稿予定（いま止めています）",
+    "amount": "1本（画像2枚）／赤で止めた点 4か所（術前後の写真・期間を限る言い方・効果の言い切り・自由診療の記載漏れ）",
+    "before": "本文「ホワイトニング1回でこの白さ！ビフォーアフターをご覧ください✨ 今なら…」\n画像1＝施術前の口元／画像2＝施術後の口元",
+    "after": "差し替え案\n本文「当院のホワイトニングは自由診療です。1回 ◯◯円（税込）。（治療内容／主なリスク／副作用／回数の目安を記載してください）」\n画像＝診療室と使用している機器の写真に差し替え\n\n赤で止めた点（合計4か所）\n① 術前後の写真です（「前だけ」「後だけ」にしても広告できません）\n②「今なら」という期間を限る言い方です\n③「1回でこの白さ！」という効果の言い切りです\n④ 自由診療なのに、治療内容・主なリスク・副作用・回数の目安の記載がありません",
+    "trace": [
+     "投稿の本文と画像2枚を、体験談・術前後の写真・言い切り・自由診療の記載漏れの4つの見方で読み、4か所を赤で止めました。",
+     "差し替える写真は選べませんでした。院内で撮ってある写真のうち、患者さんが写り込んでいないものを人が選ぶ必要があるためです。",
+     "本文を書き直し、写真には「院内で選び直してください」という指示だけを付けました。金額と回数の目安は、いただいた下書きに書かれていないので足していません。人が入れてください。"
+    ],
+    "needs_human": "差し替える写真を選んでください（患者さんが写っていないもの）。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。この点検は候補を洗い出す補助で、最終判断は医院が行います。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "残りが少ない消耗品の発注メモを作りました（4品目・34,200円）",
+    "what": "グローブM／グローブL／麻酔カートリッジ／紙コップ の4品目の発注メモ",
+    "who": "院内（業者さんへの発注は担当者が行います）",
+    "when": "今日中に確定（グローブLは在庫が0箱です）",
+    "amount": "4品目 合計 34,200円（税込・前回の単価で計算）",
+    "before": "在庫チェック表（今朝の記入）\nグローブM 残1箱／グローブL 残0箱／麻酔カートリッジ 残1箱／紙コップ 残2袋／ミラー 残 十分／エプロン 残 十分",
+    "after": "発注メモ\nグローブM 5箱／グローブL 5箱／麻酔カートリッジ 3箱／紙コップ 6袋\n合計 34,200円（税込・前回の単価）",
+    "trace": [
+     "在庫チェック表（今朝の記入）を読み、残りが少ない4品目（グローブM 残1箱／グローブL 残0箱／麻酔カートリッジ 残1箱／紙コップ 残2袋）を選びました。「残 十分」と書かれたミラーとエプロンは外しました。",
+     "いつ切れるか、1日に何箱使うかは、いただいた資料に書かれていないので、足していません。発注の数量は前回と同じ数を置いてあるだけです。人が入れてください。",
+     "今日の単価も確認できませんでした。前回の単価のまま計算しているので、値上がりしていれば金額が変わります。業者さんへの発注は人が行います。"
+    ],
+    "needs_human": "金額は前回の単価のままなので目安です。発注の前に、いまの単価を業者さんに確認してください。数量も前回と同じ数を置いてあるだけなので、必要な数に直してください。"
+   },
+   {
+    "risk": "red",
+    "kind": "その他（予約）",
+    "title": "明日の予約34件のうち21人へリマインドを送る下書きです（LINEの配信料がかかります）",
+    "what": "明日（7月30日）の予約患者さんへのリマインド文と、LINE公式アカウントからの配信",
+    "who": "患者さん21人（LINEの友だち登録がある方のみ）",
+    "when": "今日19:00までに押すと、20:00に配信されます",
+    "amount": "21通（ライトプラン 月5,000円・5,000通の枠内／超えた分は1通あたり最大3円）",
+    "before": "予約台帳（明日ぶん・書き出したCSV）\n7/30(木) 9:00 サンプルさま 定期検診／9:30 みどりさま 詰め物／10:00 ひまわりさま 矯正調整 …（34件）\nうちLINEの友だち登録あり 21人",
+    "after": "配信文「明日 7月30日（木）◯時◯分にご予約をいただいています。ご都合が悪い場合は、このトークにご返信ください。」\n宛先 21人\n※LINEの友だち登録が無い13人は、電話で確認するリストとして別に出しました。",
+    "trace": [
+     "明日の予約34件を読み、LINEの友だち登録がある21人ぶんの配信文を作りました。",
+     "13人には送れませんでした。LINEの友だち登録が無いためです。電話で確認するリストとして分けています（21人＋13人＝34件）。",
+     "文面には治療の内容を書いていません。ほかの人に画面を見られたときに、通院の中身が分からないようにするためです。"
+    ],
+    "needs_human": "押すと患者さんに届きます。宛先21人と配信の時刻（20:00）でよいかを見てください。電話で確認する13人を誰が担当するかも決めてください。"
+   },
+   {
+    "risk": "gray",
+    "kind": "メール",
+    "title": "今週、同じ質問が9件きています（HPに載せる候補のメモ）",
+    "what": "今週届いた問い合わせ35件から、繰り返し聞かれている質問3つを抜き出した院内メモ",
+    "who": "院内（ホームページの担当）",
+    "when": "期限なし（来週のミーティングまで）",
+    "amount": "35件から3つ（駐車場4件・小児の付き添い3件・保険証の切替2件）",
+    "before": "今週の問い合わせ（抜粋）\n「駐車場はどこですか」「駐車場は何台停められますか」「子どもだけで行かせても大丈夫ですか」「保険証が新しくなりました」…（35件）",
+    "after": "よくある質問に足す候補\n① 駐車場は◯台（場所を記載してください）\n② 小児の受診に保護者の同伴が要るかどうか（方針を記載してください）\n③ 保険証が変わったときの受付での手続き（記載してください）",
+    "trace": [
+     "今週の問い合わせ35件（メール4件＋LINE3件＝1日7件×今週の営業日5日）を読み、同じ内容の質問をまとめました。",
+     "答えは書けませんでした。駐車場の台数も、小児の同伴の方針も、当院が決めることでAIには分からないためです。見出しだけ作りました。",
+     "ホームページのよくある質問に足す候補として、3つの見出し（駐車場4件・小児の付き添い3件・保険証の切替2件＝合わせて9件ぶん）を院内メモに残しました。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "SNS",
+    "title": "来月の投稿カレンダー12本の骨子を、院内で確定します（出すのは1本ずつ）",
+    "what": "8月のInstagramとホームページのお知らせ 12本のネタと投稿時刻の案",
+    "who": "院内（SNS担当）",
+    "when": "今日中に確定すると、来月1日から1本ずつ承認できます",
+    "amount": "12本（うち自由診療にふれるもの3本＝出す前の点検つき）",
+    "before": "去年8月の投稿記録 7本（お盆休みのお知らせ／こどもの歯科検診／熱中症と口の乾き ほか）\n今年のネタ帳は空",
+    "after": "8月の骨子 12本（例）\n8/1 お盆休みの診療時間／8/5 こどもの仕上げみがき／8/8 ホワイトニングのご案内（自由診療・点検つき）／8/13 休診のお知らせ …\n投稿時刻の案：平日 12:15 と 19:30",
+    "trace": [
+     "院内からいただいた去年8月の投稿7本のメモを読み、8月のネタ12本を並べました。",
+     "写真は用意できませんでした。院内で撮るか、患者さんが写っていない素材を選ぶ必要があるためです。12本すべて文章だけの状態です。",
+     "投稿時刻の案（平日12:15と19:30）は、反応が良い時間を当社が測ったものではありません。決めるのは院内です。自由診療にふれる3本には、公開の前に自由診療4項目（治療内容・費用等・主なリスク・副作用）の記載を点検する印を付けました。"
+    ],
+    "needs_human": ""
+   }
+  ],
+  "intakes": [
+   {
+    "name": "Gmail（問い合わせメール）",
+    "status": "connected",
+    "today_count": "4件",
+    "note": "受信を読む許可をいただいて接続しています。返信の下書きは、いつものGmailの下書きフォルダにも書き戻します。送信のボタンは人が押します。",
+    "customer_action": "医院のGoogle Cloudに内部アプリとして置く設定と、読み取り許可の付与（ご本人の操作）"
+   },
+   {
+    "name": "LINE公式アカウント",
+    "status": "connected",
+    "today_count": "3件",
+    "note": "届いたトークへの一次返信は配信料がかかりません。こちらから送るリマインドは通数の課金です（無料200通／ライト5,000円で5,000通）。",
+    "customer_action": "医院名義のLINE公式アカウントとチャネルの作成、トークンの発行（ご本人の操作）"
+   },
+   {
+    "name": "予約台帳（書き出したCSV）",
+    "status": "csv",
+    "today_count": "34件（明日ぶん）",
+    "note": "予約システムとは直接つながっていません。毎朝、書き出したCSVを1回置いていただく形です。自動で取りに行く口は、お使いの予約システムごとに作り込みが要ります。あいた枠うめ番で使う「前回いつ来たか」は、同じ書き出しに過去の来院ぶんを含めていただく必要があります。",
+    "customer_action": "毎朝1回、予約台帳のCSVを書き出して置く（あいた枠うめ番を使う場合は、過去の来院ぶんも含めて書き出す）"
+   },
+   {
+    "name": "Googleビジネスプロフィール（クチコミ・投稿）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "当社が基本アクセスの審査に出しています。通るまでクォータが0で1件も動きません。それまで返信は下書きまでで、貼り付けは人の手になります。医院向けは医療広告等ガイドラインの制限モードを既定でONにします。",
+    "customer_action": ""
+   },
+   {
+    "name": "Microsoft 365（Outlook）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "管理者だけが押せる同意のボタンがあります。誰が押せる方なのか（院長ご本人か、外部の担当者か）を先に確かめる必要があります。ライセンスの条件は当社で未確認です。",
+    "customer_action": "管理者の方によるアプリへの同意"
+   },
+   {
+    "name": "Instagram（投稿の公開）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。",
+    "customer_action": "プロフェッショナルアカウントへの切り替えと、権限の付与"
+   },
+   {
+    "name": "紙・FAX・手書き（写真を置く投入口）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "パソコンの中だけで文字にする仕組み（外に送りません）は当社にありますが、医院の帳票では試していません。実物を1枚その場で読ませて、精度をお見せしてから可否をお答えします。",
+    "customer_action": ""
+   },
+   {
+    "name": "Web予約・問診票",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "つながっていません。予約の内容は、いまも受付が画面を見て手で写しています。ここをオンラインでつなぐのは、別の作り込みになります。",
+    "customer_action": ""
+   },
+   {
+    "name": "レセコン・電子カルテ",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "つないでいません。患者さんの情報が乗るため、外に出さない構成にできるかを先に確かめる必要があります。電子カルテのまわりは受託開発の範囲です。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "198件",
+   "approved_count": "158件",
+   "fixed_count": "39件",
+   "remaining_manual": "CSVに出てこない項目が毎朝残ります。前回どこまで治療したか、担当の衛生士は誰か、自由診療かどうかは予約システムの画面にしかなく、リマインドの文面を決めるためだけに毎朝34件ぶんを目で確認しています（1件45秒で1日25分30秒・今月22日ぶんでのべ9時間21分）。ユニット4台・1日の患者34名・月22日の医院を想定した数字です。",
+   "upsell_hint": "予約と問診をオンラインでつなぐ仕組みが要ります（予約システムの中身までまるごと取り込むつなぎ込みと、Web問診票の作成）。ここは受託開発の案件になります。その先は症例入力ボード・当直表ボード、さらに電子カルテまわりの開発へ続きます。"
+  },
+  "legal_notes": [
+   "出す前の点検（歯科では、自由診療の4項目＝治療内容・費用等・主なリスク・副作用の記載漏れを中心に見ます）は、要チェックの候補を機械で洗い出す補助です。法令に合っているかの最終判断は医院（必要に応じて専門家）が行います。法令に合うことを保証するものではありません。",
+   "広告文とクチコミ返信は、医療広告等ガイドラインの考え方をもとに点検します。どの決まりがどこまで当院に当てはまるかは当社で原典を確認中で、確認が済むまで「このガイドラインに沿っています」とは書きません。ガイドラインは改定されるため、チェック項目を誰がいつ見直すかも契約に書きます。",
+   "患者さんの情報が乗る処理は、保存が残らない経路だけで組みます。保存の対象になる機能は医療モードでは使いません。",
+   "送信・投稿・振込・公開・削除はAIがやりません。人が押すまで動きません。SNSの予約投稿については、人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。",
+   "Googleビジネスプロフィールへの投稿とクチコミ返信は、基本アクセスの審査に通るまで1件も動きません。それまで貼り付けは人の手になります。",
+   "効果は保証しません。導入実績は0社です。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "inshoku",
+  "label": "飲食店",
+  "tagline": "事務ができるのは営業中の合間と、店を閉めた深夜だけ。その深夜をAIに渡して、朝は3件押すだけにします。",
+  "icon": "厨房",
+  "words": {
+   "approval_box": "仕込み前の決めごと",
+   "intake": "お店の勝手口",
+   "report": "今月の帳面",
+   "unit": "営業日",
+   "partner": "仕入先"
+  },
+  "hero": {
+   "name": "夜勤事務（あさ3件）",
+   "one_line": "店を閉めたあとにAIが売上と仕入を集計して、翌朝スマホに「今日決めること3つ」が1枚で届きます。",
+   "how_it_works": [
+    "閉店後、レジから書き出したCSVと、仕入伝票の写真を投入口に置きます（置くだけです）。",
+    "AIが夜のうちに売上・原価・ロスを足し算して、翌日の発注案・シフトの穴・昨日の粗利を下書きにします。",
+    "翌朝スマホを開くと3件だけ並んでいます。［これでOK］を押した分だけ確定します。お金と社外に出るものは、押すまで動きません。社内のメモは押さなくても残ります。"
+   ],
+   "why_it_hurts_now": "飲食店の経営者・店長の60.8%が月200時間以上働き、事務は営業中のアイドルタイム69.9%、帰宅後や休日47.6%、営業終了後の深夜43.4%に行われています。休日・深夜の従業員からの連絡対応も、約35%の店で毎日〜週数回起きています（シンクロ・フード調べ・2026年1月・n=286）。日中に事務をやる時間が物理的にありません。"
+  },
+  "cards": [
+   {
+    "risk": "red",
+    "kind": "その他",
+    "title": "今日の仕入れ、3社ぶんの発注（受付は9:30まで）",
+    "what": "青果・鮮魚・乾物の3社への発注書。昨日の出数と在庫メモから、今日仕込む分だけを数量に入れた下書き",
+    "amount": "39,300円（3社合計・税込）",
+    "who": "みどり青果／ひまわり鮮魚／サンプル商店",
+    "when": "今日9:30（各社の受付締切）まで",
+    "before": "【昨日の出数】唐揚げ32／刺身盛り18／日替わり27\n【在庫メモ（手書き・写真1枚）】鶏もも 残2kg・ぶり 残1本・玉ねぎ 残1袋",
+    "after": "みどり青果：玉ねぎ5kg／キャベツ4玉／大葉2束＝7,200円\nひまわり鮮魚：ぶり1本 15,000円／あじ12尾 4,100円＝19,100円\nサンプル商店：鶏もも8kg／米20kg＝13,000円\n合計39,300円（送信ボタンは押されていません）",
+    "trace": [
+     "昨日のレジCSV（会計64件）と、在庫メモの写真1枚を読みました",
+     "サンプル商店の鶏ももは先月から単価が変わっている可能性があり、確認が取れないので前回単価のまま置きました",
+     "3社ぶんの発注書を作って、ここに置きました"
+    ],
+    "needs_human": "お金が動いて、外の仕入先に届く発注です。①サンプル商店の鶏もも単価が前回のままでよいか ②ぶり1本（15,000円）の数量が今日の仕込みに合っているか。この2つを見てから押してください。予約の人数は資料に入っていないので、何食ぶんになるかは出していません。人が見て決めてください。"
+   },
+   {
+    "risk": "white",
+    "kind": "シフト",
+    "title": "金曜の夜、ホールが1人足りません",
+    "what": "今週金曜18〜22時のホール担当が1名不足。空いている2名への打診文を、送る順番つきで下書き",
+    "amount": "不足4時間ぶん（1名）",
+    "who": "アルバイト2名（店内）",
+    "when": "今日中に打診（金曜まで残り2日）",
+    "before": "金 18:00-22:00 ホール\n　さくら（〇）／たける（×希望休）／みなみ（未回答）／ひかる（未回答）",
+    "after": "みなみさんへ：金曜18〜22時、ホールに入れますか。難しければ別の日でも大丈夫です。\nひかるさんへ：（同じ文）\n※2名に同時に出すと重なるので、まずみなみさん→返事がなければひかるさん、の順にしています",
+    "trace": [
+     "今月のシフト表と、先月の同じ曜日の来客数（金曜は平均118名）を読みました",
+     "みなみさんとひかるさんの希望休がまだ出ていないため、休み希望と重なるかどうかは判定できていません",
+     "打診文を2通、送る順番つきで下書きしました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "昨日の売上・原価・ロスを1枚にまとめました（店内メモ）",
+    "what": "7月28日の売上・仕入・廃棄をまとめた日次メモ。店の中だけの記録で、外には出ません",
+    "amount": "売上 198,400円／原価 66,900円（33.7%・読めなかった1行を除く）／ロス 2,300円",
+    "who": "店内（社長・店長）",
+    "when": "今日の仕込みを始めるまで（取り消せる記録なので、そのまま通ります）",
+    "before": "Airレジから書き出したCSV：会計64件／売上 198,400円\n仕入伝票の写真3枚（青果・鮮魚・酒）",
+    "after": "7/28 売上198,400円・会計64組・客数98名\n1組あたり3,100円（198,400円÷64組・割り切れます）／客単価2,024円（198,400円÷98名＝2,024.4…円、1円未満は切り捨て）\n原価66,900円（33.7%）※読めなかった焼酎1行は入っていません\nロス：刺身盛り2食・日替わり1食＝2,300円\n前の週の同じ曜日との比較は、前の週のCSVが置かれていないので出していません。人が入れてください。",
+    "trace": [
+     "レジのCSV1本と、仕入伝票の写真3枚を読みました",
+     "酒屋の伝票は手書きが薄く、3行のうち1行（焼酎の本数）が読めませんでした。その1行は原価に入れていません",
+     "日次メモを作って、店内の記録に置きました（あとで取り消せます）"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "昨日ついたクチコミ★3への返信文",
+    "what": "クチコミ（★3・待ち時間について）への返信の下書き。お店の名前で外に出ます",
+    "amount": "1件（★1〜2の2件は人へ回しました）",
+    "who": "クチコミを書いた方（地図アプリ上で公開され、外の方にも読まれます）",
+    "when": "今日中（届いてから24時間以内の返信を目安にしています）",
+    "before": "★3「料理は美味しかったです。ただ金曜の夜で、注文してから出てくるまで30分ほど待ちました。」",
+    "after": "ご来店ありがとうございます。金曜の夜はお席が埋まりやすく、お待たせしてしまいました。厨房の出し順を見直しています。またお越しいただけたらうれしいです。",
+    "trace": [
+     "昨日届いたクチコミ3件を読みました",
+     "★1と★2の2件は返信文を作らず、社長へ回しました（内容が重いので、機械が返す文ではありません）",
+     "★3の1件だけ、返信文を作りました"
+    ],
+    "needs_human": "お店の名前で公開される文です。「出し順を見直しています」が本当かどうかを確かめてから押してください。書いたことは約束になります。返信をどう書くかの最後の判断は、お店側にあります。"
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "昨日のレジ現金が820円合いません",
+    "what": "レジの現金在高と売上記録の差額820円。考えられる原因を2つ並べたので、どれかを選んで店内で確定する",
+    "amount": "差額 -820円",
+    "who": "店内（レジ担当・店長）",
+    "when": "今日の開店前まで",
+    "before": "レジ記録：現金売上 68,400円\n実際の在高：67,580円\n差額 -820円",
+    "after": "候補①18:42の会計でおつりの渡し間違い（同じ額の会計があります）\n候補②引き出しに820円のレシート（タバコの立替）が入っています（写真あり）\nどちらでもない場合は「原因不明の差額」として記録します",
+    "trace": [
+     "レジCSVの会計64件と、引き出しの中の写真1枚を読みました",
+     "防犯カメラの映像は当社では見られないので、時刻の特定まではできていません",
+     "差額の原因の候補を2つ出しました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "みどり青果の7月請求書と、納品書26枚を突き合わせました",
+    "what": "月末に届いた請求書の金額と、店に残っている納品書の合計の照合。合っていれば経費として店内で確定する",
+    "amount": "請求 189,700円／納品書の合計 188,300円（差 1,400円）",
+    "who": "みどり青果（仕入先）※支払いは別で人が行います",
+    "when": "7月31日の支払い前まで",
+    "before": "請求書（FAX 1枚）：7月分 189,700円\n納品書：26枚（うち手書き19枚）",
+    "after": "納品書26枚は、すべて請求書の行と一致しました。\n請求書にある7/14ぶんの1行（1,400円・キャベツ4玉）に、手元の納品書が見つかりません。\nこの1件を先方に聞くまで、経費の確定を保留にしています。",
+    "trace": [
+     "FAXの請求書1枚と、納品書26枚の写真を読みました（読み取りはこのパソコンの中だけで行い、外に送っていません）",
+     "手書きの納品書2枚は日付がかすれて読めず、金額だけ拾って日付は空欄にしました",
+     "26枚ぶんを一致として記録し、納品書が見つからない1,400円の1件を保留にしました。"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "スタッフの連絡8件を、仕込み前に見る3行にまとめました（店内メモ）",
+    "what": "昨日スタッフから届いた連絡8件を、今日の仕込み前に見る3行に要約したもの。店の中だけの記録です",
+    "amount": "8件 → 3行（2件は入れていないので、6件ぶんです）",
+    "who": "ホール・厨房のスタッフ（店内）",
+    "when": "今日の仕込みを始めるまで（取り消せる記録なので、そのまま通ります）",
+    "before": "（届いた8件の一部）「冷蔵庫の2番、温度高い気がします」「おしぼり残り1箱」「金曜の予約12名、アレルギー確認まだ」「レジのロール紙あと1本」…",
+    "after": "①冷蔵庫2番の温度を今日中に確認して、点検表に記録する\n②おしぼり・レジのロール紙を発注リストに足す\n③金曜12名の予約、アレルギーの確認電話がまだ",
+    "trace": [
+     "昨日スタッフから届いた連絡8件を読みました",
+     "「たぶん」「あとで言います」で終わっている2件は、何をすればいいか分からないので入れていません（元の文はそのまま残しています）",
+     "今日やることを3行にまとめました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "先週の宴会（12名）の請求書を、ひまわり工務店さんへ",
+    "what": "7月24日の宴会12名ぶんの請求書。適格請求書の項目を埋めた下書き（追加人数の欄は空けています）と、送付メールの文面",
+    "amount": "54,000円＋飲み放題の追加分（未確定）",
+    "who": "ひまわり工務店 総務ご担当",
+    "when": "7月31日までに送る（先方のお支払いは8月末）",
+    "before": "7/24 宴会伝票：12名／コース4,500円×12＝54,000円／飲み放題の追加 3名ぶん\n手書きメモ「幹事さん、会社宛て・請求書は月末でいいとのこと」",
+    "after": "請求書（下書き）\n　宴会コース 4,500円×12名＝54,000円\n　飲み放題の追加 1,000円×（3名か6名か決まっていません）＝―円\n　小計 54,000円＋飲み放題の追加分\n　合計は追加人数が決まってから出します\n※メールの送信ボタンは押されていません",
+    "trace": [
+     "7/24の宴会伝票1枚と、幹事さんとのメール3通を読みました",
+     "飲み放題の追加が伝票では『3名』、メールでは『6名』で食い違っています。どちらか決められないので、金額を入れずに空欄で残しました。金額を多い方に寄せると、取引先に多く請求してしまうためです",
+     "請求書の下書きと、送付メールの文面を作りました"
+    ],
+    "needs_human": "飲み放題の追加が3名か6名かで、金額が3,000円変わります。伝票とメールのどちらが正しいかを確かめて、人数を入れてください。あわせて、宛名（会社名・部署）と振込先が合っているかも押す前に見てください。お金と社外に出る書類なので、押すまで何も送られません。"
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "今週の投稿3本の下書きと、出す時刻の案",
+    "what": "今週分の投稿文3本、写真の候補、出す時刻の案。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。",
+    "amount": "3本（写真は今週撮ったものから選びました）",
+    "who": "お店のフォロワー（公開され、外の方にも読まれます）",
+    "when": "木曜17:00／金曜11:30／土曜11:00の案",
+    "before": "今週の仕入れメモ：新もののすだち入荷／日替わりランチ3種／土曜はランチも営業",
+    "after": "①（木17:00）すだちが入りました。今週は焼き魚に添えています。\n②（金11:30）今週の日替わりランチは3種類です。写真は鶏の南蛮…\n③（土11:00）土曜もランチを開けています。日替わりは3種類から選べます。\n※投稿ボタンは押されていません",
+    "trace": [
+     "今週の仕入れメモと、お店のスマホの写真フォルダ（今週分42点）を読みました",
+     "写真はJPEGしか使えないため、動画11本とスクリーンショット4枚は候補から外しました（残りの写真27枚から選んでいます）",
+     "今日は7月29日（水）なので、出す時刻の案は木・金・土の3つにしました（過ぎた曜日には出せません）",
+     "投稿文3本と、出す時刻の案を作りました"
+    ],
+    "needs_human": "お店の名前で外に出ます。①写真にお客様の顔が写っていないか ②値段の書き方が今のメニューと合っているか、を見てください。体に効くといった表現や言い切りは入れていませんが、書き足すときは気をつけてください。"
+   }
+  ],
+  "intakes": [
+   {
+    "name": "レジのCSV（Airレジ）",
+    "status": "csv",
+    "today_count": "1本（会計64件）",
+    "note": "レジから書き出したCSVを置くだけで読みます。このお店のレジはこの1台だけで、ほかのレジは受け口に置いていません。自作システムをつないでよいかが公式に示されていないため、自動でのつなぎ込みは約束していません。",
+    "customer_action": "閉店後、レジのバックオフィス画面から日次売上のCSVを書き出して置く"
+   },
+   {
+    "name": "紙・FAX・手書きの投入口",
+    "status": "connected",
+    "today_count": "7枚（納品書5・請求書1・在庫メモ1）",
+    "note": "写真を撮って置くだけです。文字にする処理はこのパソコンの中だけで行い、外に送りません。読み取りの精度は帳票の書式と筆跡で変わるので、契約前に実物をその場で読ませて見ていただきます。",
+    "customer_action": "レジ横で伝票を1枚ずつ撮る（まとめて置いてもかまいません）"
+   },
+   {
+    "name": "Airペイ（カード・電子マネー決済）",
+    "status": "csv",
+    "today_count": "38件（カード・電子マネー／会計64件のうち。残り26件は現金）",
+    "note": "レジ（Airレジ）と対になっている決済端末で、2台目のレジではありません。Airレジと同じ画面から決済の明細を書き出せます。手数料はお店側の負担です。当社が自動で取りに行く口は作っていません。",
+    "customer_action": "閉店後、決済明細のCSVを書き出して置く"
+   },
+   {
+    "name": "シフト表（Excel）",
+    "status": "csv",
+    "today_count": "1本（7月分）",
+    "note": "今お使いのExcelをそのまま置いてください。作り直していただく必要はありません。最初の1回だけ、どの列が何かを教えていただきます。",
+    "customer_action": "月初にシフト表のファイルを置く"
+   },
+   {
+    "name": "LINE公式アカウント",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "お店の名義でアカウントとチャネルを作り、トークンを発行していただく必要があります。キーは当社が代理入力しません。届いた問い合わせへの返信は通数を消費しませんが、こちらから送るお知らせは通数課金です（無料枠は月200通）。",
+    "customer_action": "管理画面でチャネルを作り、トークンを発行する（社長ご本人の操作）"
+   },
+   {
+    "name": "会計（freee）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "お客様のfreee契約と、ご本人による連携の許可が要ります。まずは読み取りだけの接続から始め、こちらから書き込みはしません。入金の消込は仕組み上できないため、候補を出すところまでです。仕訳・経費は下書きまでで、確定と税務の判断は顧問税理士にお願いします。",
+    "customer_action": "freeeの画面で連携を許可する"
+   },
+   {
+    "name": "クチコミ（地図アプリのお店ページ）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "当社が基本アクセスの審査に通るまで、1件も動きません（通るまで割り当てが0のためです）。今はクチコミを手でコピーして貼っています。審査の日数は公式に示されていないため、約束できません。",
+    "customer_action": ""
+   },
+   {
+    "name": "写真SNS・ページSNSへの投稿",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "プロフェッショナルアカウントへの切り替えと、運営会社側の権限の付与が要ります。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。写真SNSには予約投稿の機能が無いため当社の仕組みが時刻に公開し、ページSNSは公式の予約（10分後〜75日後）を使います。",
+    "customer_action": "アカウントの種類を切り替え、権限の付与を確認する（社長ご本人の操作）"
+   },
+   {
+    "name": "スタッフからの連絡（個人のメッセージアプリ）",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "個人のアカウントからは受け取れません（規約上できません）。仕事用のグループウェアか自社フォームに寄せていただく必要があります。今は写真やメモを手で貼っています。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "156件（営業日26日×1日6件）",
+   "approved_count": "137件",
+   "fixed_count": "19件（下書き156件−そのまま承認137件＝19件）",
+   "remaining_manual": "メニュー1品ごとの原価（この1皿がいくらか）の計算は、今も手作業のまま残っています。仕入単価が週ごとに変わり、レシピの分量がお店の頭の中にしかないため、今のパックでは1日ぶんの合計原価までしか出せません。今月はこの計算に、社長が延べ3時間30分ほど使っています。",
+   "upsell_hint": "レシピ（材料と分量）を1品ずつ登録して、仕入単価と結ぶ仕組みを作る必要があります＝原価・レシピ管理の受託開発。ここができると「どの品が儲かっているか」が毎日出ます。その次は、複数店舗の日次管理システムです。"
+  },
+  "legal_notes": [
+   "レジのデータは、書き出したCSVを読む形で使います。自作システムをつないでよいかが公式に示されていないため、自動連携は約束しません。",
+   "クチコミそのものや、クチコミを書いてもらうための依頼文は作りません（ステマ規制・令和5年10月1日施行。処分の対象は事業者ご本人です）。作るのは、届いた声への返信だけです。",
+   "クチコミの★1〜2は自動で返しません。人へ回します。",
+   "送信・投稿・振込・公開・削除はAIがやりません。人が押すまで動きません。SNSの予約投稿については、人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。",
+   "仕訳・経費は下書きまでです。確定と税務の判断は顧問税理士にお願いします。当社は税務代理・税務書類の作成・税務相談をしません（税理士法52条）。",
+   "導入実績は0社です。効果は保証しません。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "biyo",
+  "label": "美容室・サロン",
+  "tagline": "「前回どうしたっけ」を紙で探すのが、今月94回。施術の前に1枚で出します。",
+  "icon": "サロン",
+  "words": {
+   "approval_box": "今日のバックヤード",
+   "intake": "入り口ボード",
+   "report": "今月の締め1枚",
+   "unit": "施術",
+   "partner": "お客様"
+  },
+  "hero": {
+   "name": "前回どうしたっけ帳",
+   "one_line": "予約帳の写真とレジの記録から、その日来るお客様の『前回いつ・何をしたか』を朝いちで1枚にします。月末には売上の締め・申告用の集計・来月の投稿カレンダーも下書きで出ます。",
+   "how_it_works": [
+    "朝、手書きの予約帳をスマホで撮って置きます。それだけです。",
+    "開店前に、その日来るお客様の『前回いつ・何のメニューだったか』をレジの記録から引いて1枚にします。読めなかった枠と、記録に無い方は空欄のまま出します。",
+    "月末の夜にAIが3枚の下書きを作ります。①7月の売上の締め ②申告の科目に並べた集計 ③来月の投稿カレンダー。効き目を言い切った文は、この時点で言い方を直します。",
+    "朝、3枚を上から見て押します。投稿カレンダーは日付ごとに直せます。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。メールとLINEの送信ボタンはご自身が押してください。"
+   ],
+   "why_it_hurts_now": "予約と施術で一日が終わり、施術の前に『前回どうしたっけ』を紙のカルテで探す時間と、締めや集客の投稿が後回しになるためです。美容業は個人経営が88.7%、1施設あたりの平均従業者数は2.6人（厚生労働省・平成27年度・n=284。古い調査なので割合は目安として扱っています）。事務を代わる人がいない規模の店に、探す時間と月末の仕事が重なります。"
+  },
+  "cards": [
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "きのうの売上を締めました（店内メモ）",
+    "what": "7月28日の売上を、レジのデータと現金の手書きメモから1枚にまとめた社内メモ",
+    "who": "自分（店の外には出ません）",
+    "when": "今日中（押さなくても明日の集計に入ります）",
+    "amount": "93,940円／来店12名",
+    "before": "Squareの売上明細（7/28）: カット 4,620×5／カット＋カラー 9,900×2／縮毛矯正 13,200×1／前髪カット 1,760×1／カラー＋トリートメント 12,650×2／店販 シャンプー 3,080×2。別に手書きの現金メモ1枚『げんきん 4,620 1めい』",
+    "after": "7月28日 売上93,940円（技術87,780円／店販6,160円）・来店12名・客単価7,828円。内訳は現金4,620円／カード89,320円。レジの現金残と合っています。",
+    "trace": [
+     "Squareの明細13件（技術11件・店販2件）と、手書きの現金メモ1枚を読みました",
+     "店販の2件は『シャンプー』としか書かれておらず、商品名を空欄のままにしました",
+     "きのうの売上メモを1枚作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "日報",
+    "title": "手書きの予約帳を、今日の来店メモに起こしました",
+    "what": "予約帳のページを撮った写真1枚を、今日の来店予定メモに起こしたもの",
+    "who": "自分（店の外には出ません）",
+    "when": "今日の開店前まで",
+    "amount": "12枠（メニューが読めたのは11枠）",
+    "before": "予約帳の写真（7/29）: 10:00 みどり様 カット／10:00 ひなた様 カラー＋トリ／11:30 ひまわり様 カラー＋トリ／11:30 こはる様 カット／13:00 （かすれて判読できず）／13:00 なぎさ様 カット／14:30 すみれ様 前髪カット／15:00 さくら様 縮毛／15:00 ゆず様 カット／17:00 あおい様 カット／17:00 りん様 カット＋カラー／18:30 かえで様 カラー",
+    "after": "7月29日 来店予定12名。カット5・カラー＋トリートメント2・カット＋カラー1・カラー1・縮毛矯正1・前髪カット1と、メニューの読めない枠が1つです。13:00の1枠はお名前もメニューも読めなかったので空欄にしてあります。想定売上は出していません。書かれていないので、足していません。人が入れてください。",
+    "trace": [
+     "予約帳の写真1枚から12枠を読みました。写真の文字起こしはお店のパソコンの中だけで終わり、外に送っていません",
+     "13:00の1枠は筆跡がかすれて読めず、お名前もメニューも空欄のまま残しました。想定売上も、カラー単体の単価がレジの記録に無いため出していません。書かれていないので、足していません。人が入れてください",
+     "今日の来店予定メモを1枚作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "その他",
+    "title": "材料屋さんへの発注メール（下書き・今日17時が締切）",
+    "what": "在庫メモで残りが少なくなっていたカラー剤・薬剤・店販商品の、補充発注メールの下書き（毎月の定期発注とは別便です）",
+    "who": "サンプル美材（材料屋さん）ご担当の方",
+    "when": "今日17時まで（明日の納品に間に合う締切）",
+    "amount": "39,860円（税込）／11品目",
+    "before": "手書きの在庫メモ（7/28）『6トーン のこり1／8トーン 0／オキシ6% のこり2／トリートメント のこり1／シャンプー(店販) のこり3』＋7月に使った分の記録",
+    "after": "発注の下書き: 6トーンカラー剤 6本／8トーンカラー剤 6本／オキシ6% 4本／システムトリートメント 2箱／店販シャンプー 6本 ほか計11品目 合計39,860円（税込）。本文は前回の発注メールと同じ書き方にそろえてあります。",
+    "trace": [
+     "手書きの在庫メモ1枚と、7月の施術300件分の使用量を読みました",
+     "単価は、6月に同じ材料屋さんへ出した前回の発注メールに書かれていた金額を、そのまま引いて使いました。値上がりしていると合計が変わるので、単価はご確認ください",
+     "内訳は、6トーンカラー剤6本 8,580円（@1,430）／8トーンカラー剤6本 8,580円（@1,430）／オキシ6% 4本 2,640円（@660）／システムトリートメント2箱 5,940円（@2,970）／店販シャンプー6本 9,240円（@1,540）で小計34,980円。ほかカラーカップ・手袋などの細かい6品目が4,880円で、合計39,860円です",
+     "パーマ液は7月に一度も使っておらず、要るかどうか判断できなかったので発注に入れませんでした。必要なら足してください",
+     "これは在庫が減った分の補充です。毎月の定期発注は別便のため、この11品目には入っていません",
+     "11品目の発注メールの下書きを1通つくりました"
+    ],
+    "needs_human": "①本数が多すぎ・少なすぎでないか（8月はお盆で来店が偏ります）。②単価が前回と変わっていないか。③送信ボタンはご自身が押してください。押すまで注文は出ません。"
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "クチコミ返信の下書き 3件（星2の1件は人へ回しました）",
+    "what": "今月届いたクチコミ4件のうち、星4〜5の3件への返信文の下書き",
+    "who": "クチコミを書いた方（お店の名前で公開されます）",
+    "when": "今日中（3日以内の返信を目安にしています）",
+    "amount": "4件（星5が2件／星4が1件／星2が1件）",
+    "before": "星5のクチコミ（7/27）:『はじめて伺いました。カウンセリングが丁寧で、髪の悩みをしっかり聞いてくれました。カラーの色味も理想どおりです。』",
+    "after": "返信の下書き:『このたびはご来店ありがとうございます。お時間を長めにいただいた分、色味のご希望をゆっくり伺えてよかったです。またお待ちしています。』（効き目に触れる言葉や、言い切りの表現は入れていません）",
+    "trace": [
+     "今月届いたクチコミ4件を読みました",
+     "星2の1件は下書きを作りませんでした。低い評価への返信は自動で出さず、人に回す決まりにしています",
+     "星4〜5の3件の返信の下書きを作りました"
+    ],
+    "needs_human": "①星2の1件は、待たせてしまった事実をご自身で確かめてから、ご自身の言葉で返信してください。②返信はお店の名前で公開されます。押すまで公開されません。③クチコミそのものを当社が作ることはしません。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "レシート23枚を経費に仕分けました（20枚は仕分け済み・3枚は未分類）",
+    "what": "7月に置き場へ入れたレシート23枚を、勘定科目ごとに仕分けた下書き",
+    "who": "自分（会計ソフトへ渡す前に、店の中で確定します）",
+    "when": "7月31日まで",
+    "amount": "仕分けできた20枚で51,320円／全23枚",
+    "before": "レシートの写真23枚（材料屋 3枚／ドラッグストア 5枚／ガソリン 2枚／コンビニ 8枚／その他 5枚）。金額も日付もばらばらのまま",
+    "after": "消耗品費 19,860円（8枚）／材料仕入 23,470円（3枚）／旅費交通費 4,630円（2枚）／雑費 3,360円（7枚）／未分類 3枚。仕分けできた20枚の合計は51,320円です。未分類3枚は金額が読めないので、合計に入れていません。",
+    "trace": [
+     "レシートの写真23枚を、お店のパソコンの中だけで文字にしました（外に送っていません）",
+     "感熱紙が消えかけた3枚は金額が読めず、未分類のまま残しました。金額は書かれていないので、足していません。原本を見て人が入れてください",
+     "20枚を科目ごとに仕分けた下書きを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "【月末3点セット①】7月の売上を締めました",
+    "what": "7月1日〜31日の売上・来店数・客単価を締めた集計の下書き",
+    "who": "自分（店の中で確定します）",
+    "when": "7月31日まで",
+    "amount": "2,348,500円／来店300名",
+    "before": "Squareの月次明細325件（技術275件・店販50件）＋現金メモ25枚。それぞれ別の場所にあり、足し合わせは手作業",
+    "after": "7月 売上2,348,500円（技術2,194,500円／店販154,000円）・来店300名・客単価7,828円・新規29名・再来271名。6月比 +112,400円。",
+    "trace": [
+     "Squareの明細325件（技術275件・店販50件）と、現金メモ25枚を読みました",
+     "予約・顧客管理システムの中にある指名や再来の記録は読めていません（つないでいないため、再来の数はレジに残ったお名前だけで数えました）",
+     "7月の売上の締め1枚を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "【月末3点セット②】確定申告用の集計（1〜7月）",
+    "what": "1月〜7月の売上と経費を、確定申告の科目の形に並べた集計の下書き",
+    "who": "自分／顧問の税理士さんへ渡す前の社内確定",
+    "when": "8月5日まで（税理士さんへ渡す日）",
+    "amount": "売上 15,738,600円／経費 11,857,000円",
+    "before": "月ごとの締めデータ7か月分＋経費の仕分け151枚＋給与明細7か月分（スタイリスト2名・専従者1名）。科目の書き方がばらばら（『材料』『材料費』『仕入』が混ざっている）",
+    "after": "売上 15,738,600円／材料仕入 1,416,500円／消耗品費 638,400円／地代家賃 1,050,000円／水道光熱費 394,800円／広告宣伝費 105,700円／給与賃金 5,880,000円／専従者給与 2,100,000円／その他 271,600円。経費の合計は11,857,000円、差引は3,881,600円（7か月分）です。書き方の違い3種類を『材料仕入』にそろえました。按分と所得控除はまだ入れていません。",
+    "trace": [
+     "7か月分の締めデータと、経費の仕分け151枚、給与明細7か月分を読みました",
+     "給与明細から、スタイリスト2名分の給与5,880,000円（1人あたり月420,000円×2名×7か月）と、専従者給与2,100,000円（月300,000円×7か月）を科目に分けて入れました。源泉税や社会保険を差し引く前の支給総額です",
+     "専従者給与を経費に入れられるかどうかと、金額が働きに見合っているかは、届出の内容で変わります。ここは税理士さんが決める欄です",
+     "自宅と兼用の水道光熱費や車の費用をいくら按分するかは決めていません。按分する前の金額のまま置いてあります。ここは税理士さんが決める欄です",
+     "申告の科目の形に並べた集計を1枚作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "【月末3点セット③】来月のInstagram投稿カレンダー（下書き11本）",
+    "what": "8月のInstagram投稿11本の文章と、投稿する日時の案",
+    "who": "お客様・これから来るお客様（お店のInstagram）",
+    "when": "最初の投稿は8月1日10時の案",
+    "amount": "12本の案のうち11本を下書きにしました／うち3本は言い方を直しました",
+    "before": "AIが最初に書いた下書き（8/12分）:『縮毛矯正で髪質が根本から改善します。傷んだ髪も再生してツヤが戻ります。』",
+    "after": "直したあと:『縮毛矯正は、髪のくせをまっすぐに整える施術です。仕上がりの持ちや感じ方には個人差があります。ご都合のよい日をお知らせください。』／お店のアカウントからの投稿なので、広告であることは見た人に分かります。#PRは付けていません（付けるのは、他の人に頼んで投稿してもらうときです）。",
+    "trace": [
+     "7月の投稿22本の反応と、8月の来店予定・行事から12本のネタを作りました",
+     "『根本から改善』『再生』のように髪や体への効き目を言い切った3本は、そのままでは出せないので言い方を直しました。1本（8/20の店販キャンペーン）は割引前の通常価格が分からず、下書きを作れませんでした。お客様の声・体験談にあたる書き方も使っていません（当社は口コミ風の文章を作らない決まりです）。",
+     "8月の空き時間（何時が空いているか）は、当社が読んでいるレジの顧客データにも、当日ぶんの予約帳にも書かれていません。予約帳に書かれていないので、足していません。日時を入れる場合は人が入れてください",
+     "12本の案のうち11本の文章と投稿時刻の案を並べたカレンダーを作りました。8/20の1本は空欄のままです"
+    ],
+    "needs_human": "①直した3本が、ご自身の言いたいことと合っているか。②写真に他のお客様が写り込んでいないか。③人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。表現の点検は要チェック候補を洗い出す補助で、最後の判断はご自身です。"
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "3か月来ていない38名へ、再来のごあんない（下書き）",
+    "what": "最後の来店から90日を超えた方へ、LINEで送るメッセージの下書き",
+    "who": "あかね様・つばき様ほか36名（お店のLINE公式アカウント）",
+    "when": "8月2日の配信案（お盆前の枠が埋まる前）",
+    "amount": "38通／LINEの配信料 0円（無料枠の月200通の内。枠を超えると1通あたり最大3円かかります）",
+    "before": "レジの顧客データ: 最終来店 2026-04-20 あかね様（カラー）／2026-04-14 つばき様（縮毛矯正）／2026-04-11 くるみ様（カット）…90日超 43名",
+    "after": "38名分のメッセージ下書き。例（あかね様）:『前回のカラーから3か月が経ちました。そろそろ根元が気になる頃かと思います。ご都合のよい日をお知らせください。』文面は前回のメニュー別に3種類に分けています。",
+    "trace": [
+     "レジの顧客データから、最後の来店が90日を超えた43名を見つけました",
+     "5名は下書きを作りませんでした。1名はブロックされていて届かず、4名は前回のメニューが記録に無く、何を書けばよいか決められませんでした",
+     "8月の空き枠（【　　時】にあたる部分）は、レジの顧客データにも当日ぶんの予約帳にも書かれていません。予約帳に書かれていないので、足していません。日時を入れる場合は人が入れてください",
+     "38名分のメッセージ下書きを、前回メニュー別に3種類つくりました"
+    ],
+    "needs_human": "①お名前と前回メニューが合っているか（間違えると失礼になります）。②送りたくない相手が混ざっていないか。③送信はご自身が押してください。当社は送りません。通数が無料枠を超えるとLINE側の費用がかかります。"
+   }
+  ],
+  "intakes": [
+   {
+    "name": "レジ・決済（Square）",
+    "status": "connected",
+    "today_count": "13件",
+    "note": "売上・商品・顧客のデータを受け取っています。決済手数料はお客様と決済会社の間の費用で、当社の料金とは別です。",
+    "customer_action": ""
+   },
+   {
+    "name": "紙・手書き（予約帳・レシートの写真）",
+    "status": "connected",
+    "today_count": "24枚",
+    "note": "写真を置くだけです。文字にする処理はお店のパソコンの中で終わり、外へ送りません。読み取りの精度は書式と筆跡で大きく変わるので、契約の前に実物をその場で読ませて見ていただきます。",
+    "customer_action": "スマホで撮って、置き場のフォルダに入れる"
+   },
+   {
+    "name": "CSV置き場（会計ソフト・他のレジの書き出しファイル）",
+    "status": "csv",
+    "today_count": "2ファイル",
+    "note": "つなぎ口が無い相手でも、書き出したCSVを置けば下書きを作れます。API接続の申請を待つあいだは、この口で先に価値を出します。",
+    "customer_action": "月に1回、書き出したCSVを置き場に入れる"
+   },
+   {
+    "name": "freee（会計）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "お客様のfreee契約と、ご本人による連携の許可が要ります。当社はIDやパスワードを代理入力しません。当面は読み取りだけで、AIから書き込みはしません。入金の消込はAPIの仕様上できないため、候補を出すところまでです。",
+    "customer_action": "freeeにログインして、連携を許可するボタンを押す"
+   },
+   {
+    "name": "マネーフォワード クラウド会計",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "管理コンソールの『全権管理』の権限を持つ方（多くは社長ご本人）の操作で、API連携を利用開始していただく必要があります。APIキーでは接続できず、OAuthのみです。リモートMCPは一次情報を確認できていないため接続検証中としています。",
+    "customer_action": "全権管理の権限で、API連携を利用開始する"
+   },
+   {
+    "name": "LINE公式アカウント",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "お客様名義のLINE公式アカウントと、チャネル作成・トークン発行（ご本人の操作）が要ります。届いた問い合わせへの返信は通数の費用がかかりませんが、こちらから送る再来のごあんないは通数の費用がかかります（無料200通／ライト5,000円で5,000通など）。",
+    "customer_action": "LINE公式アカウントを作り、チャネルとトークンを発行する"
+   },
+   {
+    "name": "Instagram／Facebookページ",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。",
+    "customer_action": "プロフェッショナルアカウントに切り替え、Facebookページと連携する"
+   },
+   {
+    "name": "Googleビジネスプロフィール（マップの投稿・クチコミ返信）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "当社側の基本アクセスの審査に通るまで、枠が0で1件も動きません。いま申請中です。通ったあとも編集は1プロフィールあたり毎分10回までなので、順番待ちの列にして送ります。",
+    "customer_action": ""
+   },
+   {
+    "name": "紙のカルテ（施術履歴・カラー剤の配合）",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "まだ受け口を作っていません。いまは施術のたびに手書きで書き足し、探すときは紙をめくっています。AIはここを読めていません。写真から名前とメニューで引ける台帳にするには、別に作る必要があります。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "97件",
+   "approved_count": "88件",
+   "fixed_count": "21件",
+   "remaining_manual": "紙のカルテの手書きが残っています。カラー剤の配合・前回の長さ・お客様の好みは、いまも施術のたびに紙へ書き足し、探すときは紙をめくっています。AIはここを読めていないので、7月は『前回どうしたっけ』を紙で探す作業が94回、のべ6時間16分ありました。",
+   "upsell_hint": "紙のカルテを、写真から名前とメニューで引ける台帳にする仕組み（予約・カルテのデジタル化）。月額には入らず、別のお見積りになります。まずは過去1年分の紙を読み取って、探せる状態にするところからです。"
+  },
+  "legal_notes": [
+   "予約・顧客管理のシステムには接続しません。公開されたつなぎ口が確認できておらず、自動ログインや画面の読み取りは規約違反のおそれがあるためです。読めるのはレジの顧客データと、当日ぶんの予約帳の写真だけです。先の日付の空き枠は、どちらにも書かれていないので出せません。",
+   "投稿文・クチコミ返信・再来のごあんないは下書きまでです。メールとLINEの送信ボタンはお客様ご自身が押してください。Instagramの予約投稿は次の決まりです。人が承認して予約した投稿だけを、指定の時刻に代わりに公開します。承認がなければ動きません。承認より後に中身は変えません。公開をやめるときは、時刻より前に取り消せます。",
+   "薬機法とPR表記の点検は、要チェックの候補を機械的に洗い出す補助です。最終の判断はお客様（必要に応じて専門家）です。法令に触れないことを保証はしません。",
+   "集計に税務の判断は含みません。確定申告はご本人または税理士が行います。当社は税務代理・税務書類の作成・税務相談を行いません。",
+   "クチコミそのものの作成と、投稿を依頼する文の作成はしません（ステマ規制の対象は事業者ご本人のためです）。",
+   "LINEでこちらから送るメッセージには、LINE側の通数の費用がかかります。当社の月額とは別です。",
+   "導入実績は0社です。効果は保証しません。",
+   "お客様のお名前・連絡先・来店履歴・LINEの配信先は個人情報です。写真とメモを文字にする処理はお店のパソコンの中で終わります。文章を作るときは、必要な項目だけが外の生成AIに送られます。配信の宛先は人が確かめてから送ってください。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "shigyo",
+  "label": "士業（税理士・社労士）",
+  "tagline": "資料が来ない、税区分で手が止まる、催促文は毎月書き直し。その待ち時間を朝いちの確認5分にまとめます",
+  "icon": "士業",
+  "words": {
+   "approval_box": "今日の確認箱",
+   "intake": "資料の入り口",
+   "report": "今月の事務所の1枚",
+   "unit": "月次（顧問先1社の1か月）",
+   "partner": "顧問先"
+  },
+  "hero": {
+   "name": "資料回収係",
+   "one_line": "顧問先ごとに「今月まだ来ていない資料」を見つけて、催促の下書きまで作ります。送るのは人です。",
+   "how_it_works": [
+    "メール・チャット・共有フォルダ・紙の写真から、どの顧問先の何が届いたかを毎晩数えます。",
+    "顧問先ごとの「いつも要る資料の一覧」と突き合わせて、足りないものだけを並べます。",
+    "不足している資料名を差し込んだ催促文を、相手ごとに1通ずつ下書きします。送信ボタンは人が押します。"
+   ],
+   "why_it_hurts_now": "インボイスと電子帳簿保存法で、税理士・公認会計士の業務負担は平均で約1.4倍になりました。いちばん大変になった業務は「仕訳・記帳での適切な税区分の選択」35.8%、次が「受領請求書がインボイスかどうかの確認」33.8%です（LayerX社調べ・2024年2月・n=151）。そのうえ、顧問先から資料が来ないことに毎月時間を取られています。"
+  },
+  "cards": [
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "顧問先80社の「今月まだ来ていない資料」を並べました",
+    "what": "7月分の資料到着チェック表（到着75社・未着5社）",
+    "who": "事務所内（担当3名）",
+    "when": "今日 9時の朝礼まで",
+    "amount": "80社・未着5社",
+    "before": "メール添付・Chatwork・共有フォルダに届いた分を、担当が一覧表に手で○を付けて管理（前回の記入は7月28日で止まっています）",
+    "after": "到着75社／未着5社。未着＝みどり運送（通帳コピー）／ひまわり商店（領収書）／サンプル建設（売上帳）／あおぞら工房（給与資料）／なのはな企画（受領請求書）",
+    "trace": [
+     "7月1日から今朝までにメール・Chatwork・共有フォルダへ届いた794件を読みました",
+     "郵送で届いた紙は受領の記録がないので数えられませんでした（未着とした5社のうち3社は、郵送で届いていないかを手で確認してください）",
+     "顧問先80社の到着・未着の一覧を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "資料が届いていない5社への催促の下書き",
+    "what": "7月分の不足資料の催促メール4通と、郵送用の送付状1通",
+    "who": "みどり運送ほか4社の経理ご担当",
+    "when": "今日 17時まで（月次の締めが8月5日のため）",
+    "amount": "5通（送信は人が押します）",
+    "before": "宛先リストと、前回使った催促文（文面は毎回、担当が書き直しています）",
+    "after": "「みどり運送 御中　いつもお世話になっております。7月分の通帳コピー（7/1〜7/31）がまだ届いておりません。【いつまでに送っていただきたいか】までにお送りいただけますでしょうか。」ほか、各社の不足資料名を差し込んだ4通。期日は資料に書かれていないので、足していません。人が入れてください",
+    "trace": [
+     "未着5社の直近3か月の受け取り方（メール／Chatwork／郵送）を読みました",
+     "郵送しか使っていない1社は宛名しか作れませんでした（文面は手で足してください）",
+     "相手ごとに不足資料名を入れた催促文4通と、郵送用の送付状1通を作りました"
+    ],
+    "needs_human": "宛先5社が正しいか、催促の言い方が顧問先との関係を悪くしないか。誰にいつ出すかは事務所が決めてください（顧問先との関係を壊さないためです）。文面の期日は資料に書かれていないので、足していません。人が入れてください。送信ボタンは人が押します"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "受け取った請求書146枚の登録番号を照合しました",
+    "what": "ひまわり商店 7月分の受領請求書のインボイス登録番号チェック",
+    "who": "事務所内（記帳担当）",
+    "when": "今日中",
+    "amount": "146枚（うち番号なし6枚・読み取れず5枚）",
+    "before": "受領請求書のPDF98枚と紙のスキャン48枚。登録番号の記載位置が書式ごとにバラバラで、1枚ずつ目で追っています",
+    "after": "登録番号あり135枚（うち桁数が合わない2枚は要確認）／番号なし6枚／読み取れなかった5枚 を、それぞれ別の一覧に分けました",
+    "trace": [
+     "請求書146枚（PDF98枚・紙スキャン48枚）を読みました",
+     "手書きの薄い複写5枚は番号が読み取れず飛ばしました",
+     "番号あり・番号なし・読み取れなかった分・要確認の4つに分けた一覧を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "領収書235枚の税区分の候補を、理由つきで出しました",
+    "what": "サンプル建設 7月分の領収書の税区分候補（判定は税理士が行います）",
+    "who": "事務所内（担当税理士の確認へ）",
+    "when": "今日中",
+    "amount": "235枚・うち候補を絞れないもの19枚",
+    "before": "領収書のスキャン235枚。日付・店名・金額は読めますが、税区分の欄は空のままです",
+    "after": "課税10%…193枚／軽減8%…23枚／候補を1つに絞れないもの19枚（理由：品目が「お品代」だけ・宛名なし・非課税の可能性がある商品券）",
+    "trace": [
+     "領収書235枚と、過去6か月の同じ店の仕訳を読みました",
+     "品目が「お品代」だけの19枚は候補を1つに絞れませんでした",
+     "区分の候補と、そう考えた理由を1枚ずつ付けました"
+    ],
+    "needs_human": "税区分の判定と申告書の作成は税理士が行います。この画面は候補と理由の提示までです（税理士法52条）"
+   },
+   {
+    "risk": "white",
+    "kind": "給与",
+    "title": "あおぞら工房の7月給与、前月と変わった6人分だけ並べました",
+    "what": "給与計算の前月差分チェック表（時間外・通勤手当・社会保険料の等級）",
+    "who": "事務所内（社労士担当）",
+    "when": "明日 12時まで（支給日は8月10日）",
+    "amount": "従業員23名・差分6名",
+    "before": "勤怠CSV（打刻データ23名分）と前月の給与データ。毎月2つを並べて目で突き合わせています",
+    "after": "差分6名：時間外が前月比＋20時間…1名／通勤手当の変更…2名／社会保険料の等級変更…3名（それぞれ根拠になった行へのリンクつき）",
+    "trace": [
+     "勤怠CSV 23名分と前月の給与データを読みました",
+     "紙で届いた休暇届2枚は反映できませんでした（手で入れてください）",
+     "前月と変わった6名だけを抜き出した確認表を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "その他",
+    "title": "ひまわり商店に渡す「今月の1枚」の下書き",
+    "what": "7月の試算表から作った顧問先向け1枚レポート（数字3つ＋気になる3点）",
+    "who": "ひまわり商店 社長",
+    "when": "8月8日の月次面談まで",
+    "amount": "1枚（PDF・お渡しは人が押します）",
+    "before": "7月の試算表（勘定科目ごとの数字が並んだ表。面談では毎回「で、うちはどうなの」と聞かれます）",
+    "after": "売上 8,240,000円（前年同月比＋6%）／粗利率 28.4%（前月比 −1.2pt）／現預金 4,180,000円。気になる3点＝仕入単価の上昇・売掛金の回収が2社遅れ・8月の納税予定",
+    "trace": [
+     "7月の試算表と、過去13か月の推移を読みました（前年同月と比べるために前年7月まで遡っています）",
+     "8月に入ってからの取引はまだ記帳前なので入れられませんでした",
+     "数字3つとコメント3点の1枚レポートを作りました"
+    ],
+    "needs_human": "数字が確定値か未記帳を含む仮の値か、コメントが税務の判断に踏み込んでいないか。顧問先へお渡しするのは人が確認してからです"
+   },
+   {
+    "risk": "gray",
+    "kind": "メール",
+    "title": "昨日18時以降に来た顧問先の質問を、急ぎ順に並べました",
+    "what": "問い合わせ34件の仕分けと、担当3名への割り振り案",
+    "who": "事務所内（所長・担当3名）",
+    "when": "今日 10時の割り振りまで",
+    "amount": "34件（急ぎ4件）",
+    "before": "Chatwork 21件・メール13件が、届いた順に並んでいるだけの状態",
+    "after": "急ぎ4件（納付期限が今週）／今日中12件／後でいい18件。件名の横に担当の割り振り案を付けました",
+    "trace": [
+     "Chatwork 21件とメール13件を読みました",
+     "電話でいただいたご質問はメモが残っていないので入っていません",
+     "急ぎ順に並べ替えて、担当の割り振り案を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "事務所の顧問料請求書 80枚の下書き（8月分）",
+    "what": "顧問料・記帳代行料・臨時作業分の請求書80枚",
+    "who": "顧問先80社",
+    "when": "8月5日の発送まで",
+    "amount": "合計 2,875,000円（1社あたり18,000〜55,000円）",
+    "before": "顧問契約の一覧（月額）と、7月の追加作業を書いた手書きのメモ帳",
+    "after": "請求書80枚のPDF。うち3社は追加作業を反映（決算の前倒し＋25,000円／給与計算の人数増＋5,000円×2社＝追加は合計35,000円）",
+    "trace": [
+     "顧問契約80件と、7月の作業記録を読みました",
+     "手書きメモにあった臨時相談2件は、かかった時間が書かれていないので金額を入れられませんでした",
+     "請求書80枚の下書きを作りました（発送はしていません）"
+    ],
+    "needs_human": "追加請求をする3社に事前の合意があるか、金額・振込期日・登録番号が契約どおりか。発送は人が押してからです"
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "7月の顧問料、消込の候補を出しました（未入金2件）",
+    "what": "ネットバンクの入金明細と請求80件の突き合わせ",
+    "who": "事務所内（所長の確認へ）",
+    "when": "今日中",
+    "amount": "入金 2,766,000円（78件）／未入金 74,000円（2件）",
+    "before": "ネットバンクの入金明細106行。振込名義が略称やカナで、請求先の名前と一致しない行が混ざっています",
+    "after": "一致72件を消込の候補に／名義が違う6件は候補を2つずつ提示／未入金2件（みどり運送 38,000円・なのはな企画 36,000円。なのはな企画は6月分から続いています）",
+    "trace": [
+     "入金明細106行のうち、顧問料の入金と読めた78行と、請求80件を照らしました（残り28行は経費の引き落としなど、顧問料以外です）",
+     "振込名義が請求先と一致しない6件は、どちらの請求か決められませんでした",
+     "一致72件・要確認6件・未入金2件に分けた候補表を作りました"
+    ],
+    "needs_human": "消込の確定は人が行います。会計ソフトへの書き込みはしません（読み取りだけつないでいます）"
+   }
+  ],
+  "intakes": [
+   {
+    "name": "freee（会計）",
+    "status": "connected",
+    "note": "公式APIで読み取りだけつないでいます。書き込みはしません。連携の許可はお客様ご本人の操作です。1つのアプリで扱える事業所数に上限があるため、顧問先の数によっては申請が要ります。",
+    "today_count": "読み取り 214件",
+    "customer_action": "freeeの画面で連携を許可する（社長またはご担当者ご本人）"
+   },
+   {
+    "name": "Gmail",
+    "status": "connected",
+    "note": "届いたメールを仕分けして、返信の下書きをGmailの下書きフォルダに書き戻します。送信は人が押します。受信を読む許可はお客様ご本人に押していただきます。",
+    "today_count": "新着 13件",
+    "customer_action": "Googleの画面で受信を読む許可（gmail.readonly か gmail.modify）を押す"
+   },
+   {
+    "name": "Chatwork",
+    "status": "connected",
+    "note": "顧問先からの連絡を受け取り、催促や日報の下書きを流します。法人プランではAPIの利用に組織管理者への申請が要ります。宛先が多いときは順番に送るキューにします。",
+    "today_count": "21件",
+    "customer_action": "組織管理者がAPI利用を申請する"
+   },
+   {
+    "name": "紙・郵送・FAX（写真を置くだけ）",
+    "status": "connected",
+    "note": "写真やPDFを置くだけで、パソコンの中だけで文字にします（外部に送りません）。手書きの薄い複写や、かすれた印字は読めないことがあります。読み取り精度は書式と筆跡で変わるので、契約前に実物をその場で読ませて見ていただきます。",
+    "today_count": "12枚",
+    "customer_action": ""
+   },
+   {
+    "name": "弥生（会計・給与）",
+    "status": "csv",
+    "note": "直接はつなぎません。書き出したCSVを受け取って下書きを作ります。お客様の認証キーを当社が預かって使い回す運用はしません（規約で禁じられているため）。",
+    "today_count": "CSV 3ファイル",
+    "customer_action": "弥生から月次のCSVを書き出して置く"
+   },
+   {
+    "name": "マネーフォワード クラウド会計",
+    "status": "pending_customer",
+    "note": "つなぐには、管理コンソールで「全権管理」の権限をお持ちの方（多くは所長ご本人）の操作が要ります。APIキーでは接続できずOAuthのみです。リモート接続の提供状況は一次情報が未確認のため、当社では「接続検証中」と説明しています。",
+    "today_count": "",
+    "customer_action": "「全権管理」の方が管理コンソールで利用開始と連携許可をする"
+   },
+   {
+    "name": "Microsoft 365（Outlook）",
+    "status": "pending_customer",
+    "note": "アプリの許可は管理者だけが同意できます。どなたが同意ボタンを押せるか（所長か、外部の情シスか）を先に決めていただく必要があります。ライセンス要件は当社で未検証です。",
+    "today_count": "",
+    "customer_action": "Microsoft Entra管理センターで管理者が同意する"
+   },
+   {
+    "name": "kintone",
+    "status": "pending_us",
+    "note": "アプリごとに発行したAPIトークンでつなげます。ただしライトコースで外部連携が使えるかが公式に名指しされていないため、サイボウズに確認中です。確認が取れるまで「つながります」とは言いません。",
+    "today_count": "",
+    "customer_action": "アプリごとのAPIトークンをご本人が発行して登録する"
+   },
+   {
+    "name": "Misoca（請求書）",
+    "status": "pending_us",
+    "note": "請求書の参照・作成が公式につながりますが、トークンの有効期間が1日なので更新の作り込みが要ります。提供元が「現状有姿・サポートなし」としているため、当社で検証してから提供します。",
+    "today_count": "",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "2,800件",
+   "approved_count": "2,590件",
+   "fixed_count": "409件",
+   "remaining_manual": "顧問先ごとの「いつも要る資料の一覧」が、担当者の頭の中と手書きメモにしかありません。決算月・年末調整・新しい顧問先が来るたびに、何が要るかを人が思い出して一覧に足しています（7月は延べ13時間50分）。この一覧に載っていないものを、AIは「足りない」と言えません。",
+   "upsell_hint": "顧問先ごとの必要資料マスタを事務所の中に作る受託開発。次に、顧問先ごとの「振込名義の辞書」と消込ルールを事務所の中に作る受託開発（顧問先マスタ＋突き合わせの実装）。そのうえで、事務所の名前で顧問先に配れるホワイトラベル版（1事務所の導入で顧問先へ広がる形）と、紹介パートナー契約につながります。"
+  },
+  "legal_notes": [
+   "税区分は候補の提示までです。判定と申告書の作成は税理士が行います（税理士法52条）。",
+   "当社は税務代理・税務書類の作成・税務相談を行いません。契約書と画面の両方に書きます。",
+   "催促は下書きまでです。誰にいつ出すかは事務所が決めてください（顧問先との関係を壊さないためです）。",
+   "広告や営業を含むメールの一斉自動送信は作りません。事前の同意の記録と、送信者名・受信拒否の通知先・住所・苦情受付先の表示が要るためです（特定電子メール法）。",
+   "「電帳法対応済み」とは書きません。保存日時が客観的に担保されていることなどの要件があるため、要件を満たす保存先に流す設計までです。",
+   "送信・投稿・振込・公開・削除はAIが行いません。人が押します。お金と社外に出るものは、押すまで動きません。社内のメモは押さなくても残ります。",
+   "導入実績は0社です。効果は保証しません。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "ec",
+  "label": "小売・EC",
+  "tagline": "店で売れた1点が、ネットショップでもう一度売れる。謝るのはいつも人で、気づくのは翌朝。",
+  "icon": "売場",
+  "words": {
+   "approval_box": "今日のさばき箱",
+   "intake": "売り場のつなぎ先",
+   "report": "今月の売り場1枚",
+   "unit": "注文",
+   "partner": "お客様"
+  },
+  "hero": {
+   "name": "二重売り番",
+   "one_line": "店とモールの注文と在庫を1つに集めて、在庫が無いのに売れた分を、謝る前に知らせます。",
+   "how_it_works": [
+    "夜のうちに、店のレジと各ネットショップの注文・在庫を1つの表に集めます。",
+    "同じ商品の残り数と、その日売れた数を突き合わせて、足りない注文に印をつけます。",
+    "朝、印がついた注文だけが承認箱の一番上に並びます。お詫びと入荷待ちの案内は下書きまで作り、送るのは人が押します。"
+   ],
+   "why_it_hurts_now": "売り場が実店舗と複数のネットショップに分かれると、注文と在庫が二重管理になります。在庫が無いのに売れる事故と、問い合わせ・レビュー返信の溜まりが同時に起きます。売り場とのつなぎ口（BASE・STORES・Shopify）はどれも申請や登録の待ち時間があるため、待っている間はCSVの取り込みで先に始めます。"
+  },
+  "cards": [
+   {
+    "risk": "red",
+    "kind": "その他",
+    "title": "在庫が足りないのに売れた注文 2件。お詫びと入荷案内の下書き",
+    "what": "在庫0の商品に入った注文2件（木製トレー小・かご用スツール）へのお詫びと、入荷予定・返金の選び方を書いたメール",
+    "amount": "2件（合計 9,130円）",
+    "who": "ご注文いただいたお客様2名（注文番号 A-20734／A-20741）",
+    "when": "今日の12時まで（売り場の返答めやす）",
+    "before": "【店のレジ 在庫】木製トレー小 残り0（7/28 18:42 店頭で最後の1点が売れました）\n【BASE 注文一覧】7/28 21:03 木製トレー小 ×1 受注 3,850円\n【STORES 注文一覧】7/28 22:15 かご用スツール ×1 受注 5,280円（社内在庫 0）",
+    "after": "件名：ご注文の商品の在庫についてのお詫び（注文番号 A-20734）\n本文：このたびはご注文ありがとうございます。申し訳ありませんが、ご注文の『木製トレー小』は店頭での販売と重なり、在庫がなくなりました。次の入荷日は仕入先に確認しています。①入荷を待つ ②キャンセルして全額返金する のどちらかをお選びください。入荷日が分かりしだい、あらためてご連絡します。ご迷惑をおかけします。\n（同じ形の下書きをもう1通。どちらも未送信です）",
+    "trace": [
+     "1本にまとめた受注台帳の48件と、在庫の残り数を突き合わせました",
+     "ShopifyはCSVが今日ぶん届いていないので、見ていません（この売り場は数に入っていません）",
+     "在庫が足りない2件を見つけて、お詫びメールの下書きを2通作りました",
+     "次の入荷日は書いていません。仕入先に確認できておらず、AIが前回の仕入間隔から日付を作るとお客様への約束になってしまうためです。"
+    ],
+    "needs_human": "①返金と入荷待ちのどちらを先に書くかは、お店の方針で入れ替えてください。②入荷日を書き足す場合は、仕入先に確認した日付だけを入れてください。送信ボタンは押されていません。"
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "昨日の注文48件を1本の受注台帳にまとめました",
+    "what": "実店舗・BASE・STORESの7月28日分の注文を1つの台帳に統合し、同じお届け先の重複2組をまとめ発送の候補として印をつけたもの",
+    "amount": "48件・214,200円",
+    "who": "社内（受注台帳）",
+    "when": "今日の出荷準備まで",
+    "before": "【Square 売上一覧】7/28 31件 118,600円\n【BASE 注文CSV】7/28 12件 66,700円\n【STORES 注文CSV】7/28 7件 28,900円\n（同じお届け先で、店とネットショップに1件ずつ注文が入っているものが2組あります）",
+    "after": "受注台帳 7/28分：48件 214,200円\n・出荷待ち 44件\n・取り置き 2件\n・在庫不足 2件（別のカードで扱います）\n・まとめ発送の候補 2組（お届け先が同じ）",
+    "trace": [
+     "3つの売り場の注文50件を読みました",
+     "ShopifyのCSVが届いていないため取り込めていません。お名前の書き方がゆれていた1件は同じ人とみなさず、別のまま残しました",
+     "重複2組をまとめて、48件の受注台帳にしました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "棚の数と画面の数が合わない商品 12点のメモ",
+    "what": "レジの在庫数と、各売り場に出している在庫数の差が1点以上ある商品の一覧（社内メモ）",
+    "amount": "12点（差の合計 27点）",
+    "who": "社内（店長・ネット担当）",
+    "when": "今日の閉店前まで",
+    "before": "【Square 在庫】麻のランチョンマット 6\n【BASE 在庫】麻のランチョンマット 13\n【STORES 在庫】麻のランチョンマット 5\n（ほか11商品で同じずれ）",
+    "after": "在庫ずれメモ 7/29（差の大きい順）\n1. 麻のランチョンマット 差7点（BASEに多く出しすぎ）\n2. 小皿 白 差4点\n3. ひのきのまな板 差3点 …ほか9点\nどれを直すかは人が決めます。",
+    "trace": [
+     "3つの売り場に出ている商品128点を、商品コードで突き合わせました",
+     "商品コードが登録されていない9商品は突き合わせできず、飛ばしました（128点−9点＝119点を照合しました。名前だけが同じでも同一商品とみなしません）",
+     "119点のうち、差が1点以上ある12商品を、差の大きい順に並べたメモを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "問い合わせ9件の返信下書き（英語3件・韓国語2件を含む）",
+    "what": "配送日・サイズ・返品の可否についての問い合わせ9件への返信文。届いた言葉と同じ言語で作ったもの",
+    "amount": "9件",
+    "who": "お問い合わせいただいたお客様9名",
+    "when": "今日の17時まで（お店の返信めやす24時間）",
+    "before": "【Gmail 未読】Subject: Shipping to Singapore? — Hello, do you ship the wooden tray to Singapore? How much is the shipping fee?\n【Gmail 未読】제목: 사이즈 문의 — 라탄 바구니 중간 사이즈의 실제 높이를 알려주실 수 있나요?\n【Gmail 未読】件名：返品について — 開封しましたが返品できますか。\n【Square 商品マスタ】ラタンかご 中：高さ18cm\n（ほか6件）",
+    "after": "下書き1（英語）：Thank you for your message. Yes, we ship to Singapore. The shipping fee for the wooden tray is ＿＿＿ yen, and delivery takes about ＿＿ days.（送料と納期は空欄のままです。運賃表が資料に無いので、AIでは入れていません。人が入れてください）\n下書き2（韓国語）：문의해 주셔서 감사합니다. 라탄 바구니(중)의 높이는 18cm입니다.（高さは商品マスタの値です）\n下書き3（日本語）：お問い合わせありがとうございます。未使用のものは商品到着から8日以内でしたら返品を受け付けます。\n（9通ともGmailの下書きに保存しました。未送信です）",
+    "trace": [
+     "未読の問い合わせ11件を読み、内容ごとに分けました",
+     "海外の関税について聞かれた2件は、当社に正しい答えがないため下書きを作っていません（人が答えてください）",
+     "11件から2件を除いた9件の返信下書きを、届いた言葉と同じ言語で作りました",
+     "下書き2の「高さ18cm」は、店のレジ（Square）の商品マスタから引きました",
+     "送料と納期は、運賃表を読み込んでいないため空欄にしました。資料に書かれていないので、足していません。人が入れてください"
+    ],
+    "needs_human": "送料の金額と納期は空欄です。今の運賃表を見て人が入れてください。下書き2の寸法（高さ18cm）が商品マスタと合っているかも確かめてください。返品の条件がお店のルールどおりか、英語と韓国語の文が日本語の意味とずれていないかも見てください。送信ボタンは押されていません。"
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月末払いの仕入代金3社ぶん。1社で13,600円の差があります",
+    "what": "7月31日に振り込む仕入代金の一覧と、届いた請求書と当社の仕入台帳の照合結果",
+    "amount": "3社・合計 1,840,100円",
+    "who": "みどり工房・ひまわり陶器・サンプル紙器の3社",
+    "when": "7月31日（金）の振込まで。銀行の締切は15時",
+    "before": "【みどり工房 請求書PDF】7月分 806,500円（税込）\n【ひまわり陶器 請求書PDF】7月分 645,600円\n【サンプル紙器 請求書PDF】7月分 388,000円\n【当社 仕入台帳】みどり工房 7月 792,900円",
+    "after": "支払い予定表 7/31\n・みどり工房 806,500円 ★台帳と13,600円ちがいます（差が出た理由は資料に書かれていないので、足していません。人が入れてください）\n・ひまわり陶器 645,600円（一致）\n・サンプル紙器 388,000円（一致）\n合計 1,840,100円\n振込データは作っていません。",
+    "trace": [
+     "仕入先3社の請求書PDF3枚と、当社の仕入台帳を突き合わせました",
+     "みどり工房の差が出た理由までは特定できませんでした（7/12の納品書の写真が1枚足りません）",
+     "支払い予定表を1枚と、差がある1件の確認メモを作りました"
+    ],
+    "needs_human": "みどり工房の13,600円の差が、実際に受け取った品かどうかを納品書で確かめてください。振込は人が銀行の画面で行います。この画面から振込はできません。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "7月のネットショップ手数料と送料の仕訳下書き（freeeへ）",
+    "what": "BASE・STORESの手数料明細と、運送会社の請求書から作った仕訳の下書き",
+    "amount": "39行・354,557円",
+    "who": "社内（freeeの下書き）",
+    "when": "7月31日の月次締めまで",
+    "before": "【BASE 手数料明細CSV】7月 サービス利用料 42,021円／決済手数料 60,505円／調整金 -2,850円\n【STORES 手数料明細CSV】7月 決済手数料 33,379円\n【運送会社 請求書PDF】7月 宅配便 399個 218,652円",
+    "after": "仕訳下書き 39行（合計 354,557円）\n・支払手数料 42,021円（BASE サービス利用料3%・課税仕入10%）\n・支払手数料 60,505円（BASE 決済手数料3.6%＋1件40円×252件）\n・支払手数料 33,379円（STORES 決済手数料5.5%）\n・荷造運賃 218,652円（宅配便 399個・1個あたり548円）\n上の4つは費目ごとの合計です。下書きは明細の39行ぶんに分けて作りました（4つを足すと 354,557円で、39行の合計と同じです）。\nfreeeへの登録は人が押します。AIから書き込みはしません。",
+    "trace": [
+     "手数料明細2本と運送会社の請求書1枚、あわせて42行を読みました",
+     "手数料は明細CSVに書かれた料率で計算し直しました。BASE＝7月売上1,400,700円（1日66,700円×21営業日）にサービス利用料3%と決済手数料3.6%、これに1件40円×252件（1日12件×21営業日）。STORES＝7月売上606,900円（1日28,900円×21営業日）に決済手数料5.5%。円未満は切り捨てです",
+     "宅配便の個数は、ネットショップの注文19件／日×21営業日＝399個としました。店頭でお渡しした注文の配送件数は資料に書かれていないので、足していません。人が入れてください",
+     "勘定科目を決められなかった3行（「調整金」とだけ書かれた行）は下書きに入れず、横に分けました",
+     "42行から3行を除いた39行ぶんの仕訳の下書きを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "新商品6点の説明文。うち2点は言い切りの表現を書き直しました",
+    "what": "8月に出す新商品6点の商品説明文の下書きと、関所に引っかかった表現の書き直し案",
+    "amount": "6点（要チェック2点）",
+    "who": "社内（売り場に載せる前の下書き）",
+    "when": "8月1日の出品まで",
+    "before": "【担当者のメモ】ひのきのまな板：抗菌効果でカビが生えません。使うだけで清潔が続きます。\n【担当者のメモ】麻のバスタオル：肌荒れが治ると評判です。",
+    "after": "書き直し案1 ひのきのまな板：ひのきは昔から水まわりで使われてきた木です。使ったあとは立てて乾かしてください。\n（「カビが生えません」「抗菌効果」は、根拠の資料がないと書けない表現のため外しました）\n書き直し案2 麻のバスタオル：麻の生地は乾きが早く、さらりとした肌ざわりです。\n（「肌荒れが治る」は体の変化をうたう表現のため外しました）",
+    "trace": [
+     "新商品6点の説明メモを読み、言い切りの表現と体の変化をうたう表現をさがしました",
+     "写真に写っている文字（パッケージの表示）は読み取っていません。パッケージの記載は人が見てください",
+     "2点の書き直し案と、外した理由を作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "今週中に欠品しそうな商品 7点の発注メモ",
+    "what": "直近14日の売れ行きと今の在庫から、今週中に0になりそうな商品を並べたメモ（社内メモ）",
+    "amount": "7点",
+    "who": "社内（仕入担当）",
+    "when": "今日の発注しめ 16時まで",
+    "before": "【売上データ 7/15〜7/28】麻のランチョンマット 34枚（1日平均2.4枚）\n【在庫】麻のランチョンマット 6枚\n【仕入台帳】みどり工房・前回の納品から9日",
+    "after": "欠品しそうな商品 7点\n1. 麻のランチョンマット 残り2.5日ぶん（みどり工房へ40枚？）\n2. 小皿 白 残り3日ぶん（ひまわり陶器へ24枚？）\n…ほか5点\n数量は前回と同じ数を仮に置いています。決めるのは人です。",
+    "trace": [
+     "直近14日の売上と、今の在庫数を商品ごとに並べました",
+     "お盆の贈答向け3点は去年のデータが手元に無いため、判断していません",
+     "今週中に0になりそうな7点のメモを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "SNS",
+    "title": "レビュー4件のうち3件の返信下書き。星1の1件は人へ回します",
+    "what": "売り場と地図サービスに届いたレビュー4件への返信文。星1の1件は下書きを作らず人へ回します",
+    "amount": "レビュー4件（星5×2・星4×1・星1×1）／下書き3件",
+    "who": "レビューを書いてくださったお客様4名",
+    "when": "今日中（返信のめやす3日以内）",
+    "before": "【BASE レビュー】★5「思ったより大きくて満足です。梱包も丁寧でした」\n【BASE レビュー】★4「色が写真より少し濃いですが気に入りました」\n【地図サービス クチコミ】★1「注文したのに在庫切れの連絡が1週間後。二度と買いません」",
+    "after": "下書き1（★5）：うれしいご感想をありがとうございます。梱包は割れないように一つずつ包んでいます。またお越しください。\n下書き2（★4）：ありがとうございます。色の見え方は画面によって変わるため、商品ページに実際の色に近い写真を追加します。\n下書き3（★5）：もう1件の★5にも、同じ形の下書きを作りました。\n★1の1件：下書きを作っていません。事実の確認が要るため、店長に回します。\n（3件とも未投稿です）",
+    "trace": [
+     "新しく届いたレビュー4件を読みました",
+     "地図サービスのクチコミは、公式のつなぎ口（基本アクセス）の審査が済んでいないため、管理画面から書き写して置いていただいたものを読んでいます（受け口一覧の「レビュー・クチコミ（ネットショップ・地図サービス）」です）",
+     "星1の1件は、こちらの落ち度があったかどうかを当社が判断できないため、下書きを作っていません",
+     "4件から1件を除いた3件（星4〜5）について、返信の下書きを作りました",
+     "できあがった返信文を各売り場・地図サービスの管理画面に貼るのは人です。当社は投稿しません"
+    ],
+    "needs_human": "星1のご指摘が事実かどうかを注文履歴で確かめてから、店長ご自身の言葉で返してください。返信文を各売り場・地図サービスの管理画面に貼るのは店長ご自身です。当社は投稿しません。返信は誰でも読める場所に出ます。投稿ボタンは押されていません。"
+   }
+  ],
+  "intakes": [
+   {
+    "name": "店のレジ（Square）",
+    "status": "connected",
+    "note": "実店舗の注文・在庫・商品マスタを読み取っています。",
+    "today_count": "注文 31件"
+   },
+   {
+    "name": "ネットショップの注文CSV（BASE・STORES）",
+    "status": "csv",
+    "note": "BASE・STORESの管理画面から書き出したCSVを置くだけで取り込みます。公式のつなぎ口がつながるまでは、この形で先に始めます。",
+    "today_count": "注文 19件"
+   },
+   {
+    "name": "Gmail（問い合わせ）",
+    "status": "connected",
+    "note": "問い合わせを読んで返信の下書きを作り、いつものGmailの下書きフォルダに戻します。送信は人が押します。",
+    "today_count": "未読 11件"
+   },
+   {
+    "name": "freee（会計・請求書）",
+    "status": "connected",
+    "note": "読み取りだけつないでいます。仕訳は下書きまでで、確定は人が押します。AIから書き込みはしません。",
+    "today_count": "取引 24件"
+   },
+   {
+    "name": "紙・FAX・手書き（写真を置くだけ）",
+    "status": "connected",
+    "note": "仕入伝票や手書きのメモは、写真を撮って置くだけです。文字にする処理はお客様のパソコンの中で終わり、外に出しません。",
+    "today_count": "4枚"
+   },
+   {
+    "name": "BASE（公式のつなぎ口）",
+    "status": "pending_customer",
+    "note": "つなぐには、お客様ご本人がBASE Developersに利用登録して利用許可の申請をする必要があります。申請にかかる日数は公式に書かれていないため、お約束できません。それまではCSVで取り込みます。",
+    "today_count": ""
+   },
+   {
+    "name": "STORES（ネットショップ・レジ）",
+    "status": "pending_us",
+    "note": "開発パートナー登録という関門があり、当社の登録がまだ済んでいません。当社が先に登録を済ませれば、お客様側の待ち時間はなくせます。",
+    "today_count": ""
+   },
+   {
+    "name": "Shopify（公式のつなぎ口）",
+    "status": "pending_us",
+    "note": "2026年1月1日以降、管理画面から新規のカスタムアプリを作れなくなりました。Dev Dashboard を通す手順に導入手順書を書き直している最中です。",
+    "today_count": ""
+   },
+   {
+    "name": "Shopify の注文CSV（つなぎ口が使えるまでの受け取り方）",
+    "status": "not_yet",
+    "note": "公式のつなぎ口が使えるようになるまでは、注文CSVの取り込みまでにします。管理画面から書き出したCSVを置いてください。自動ログインや画面の自動読み取りは、規約に触れるおそれがあるため実装しません。",
+    "customer_action": "Shopifyの管理画面から注文一覧をCSVで書き出して置く",
+    "today_count": "今日の取り込みはありません"
+   },
+   {
+    "name": "レビュー・クチコミ（ネットショップ・地図サービス）",
+    "status": "pending_us",
+    "note": "地図サービスのクチコミは、公式のつなぎ口（基本アクセス）の審査が要り、当社の申請がまだ済んでいません。審査にかかる日数は公式に示されていないため、お約束できません。それまでは、管理画面から書き写して置いていただいたものを受け取ります。返信は下書きまでで、最終的に管理画面へ貼るのは人です。当社は投稿しません。",
+    "customer_action": "各売り場と地図サービスの管理画面から、新しいレビュー・クチコミを書き写して置く",
+    "today_count": "クチコミ4件"
+   }
+  ],
+  "monthly": {
+   "drafts_count": "456件",
+   "approved_count": "419件",
+   "fixed_count": "53件",
+   "remaining_manual": "売り場ごとの在庫数の直し入れが、今も手作業のまま残っています。二重売りの検出はできますが、各売り場（BASE・STORES）の管理画面へ在庫を入れ直すのは人が1件ずつやっています（今月は延べ7時間40分）。",
+   "upsell_hint": "在庫を1か所で持って、各売り場へ数を配る仕組み（在庫・棚卸しシステム）を作る必要があります。ここは月額のパックには入らないので、受託開発として別にお見積りします。"
+  },
+  "legal_notes": [
+   "送信・投稿・振込・公開・削除はAIがやりません。人が押します。効果は保証しません。導入実績は0社です。",
+   "BASEはお客様ご本人の利用登録と利用許可の申請、STORESは当社の開発パートナー登録が要ります。審査や申請にかかる日数は公式に示されていないため、お約束できません。",
+   "Shopifyは2026年1月1日以降、管理画面から新規のカスタムアプリを作れません。Dev Dashboard を通す手順に書き直しています。",
+   "公式のつなぎ口がまだ使えない売り場（今はShopify）は、CSVの取り込みまでにします。自動ログイン・画面の自動読み取りは実装しません。",
+   "口コミの生成と、口コミの投稿をお願いする文の作成はしません。返信の下書きは、届いた声への返答だけです。",
+   "レビュー・クチコミへの返信は下書きまでです。各売り場・地図サービスの管理画面に貼るのは人が行います。当社は投稿しません。地図サービスのクチコミは、公式のつなぎ口（基本アクセス）の審査が済むまで、管理画面から書き写して置いていただいたものを受け取ります。",
+   "商品説明文の関所は、要チェックの候補を機械で洗い出す手助けです。最終判断はお客様（必要に応じて専門家）にお願いします。",
+   "仕訳は下書きまでで、確定と税務の判断は顧問税理士にお願いします。当社は税務代理・税務書類の作成・税務相談を行いません。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "seizo",
+  "label": "製造・町工場",
+  "tagline": "見積はベテランの頭の中、注文はFAX。あの人が休むと、工場の値段が決まらない。",
+  "icon": "町工場",
+  "words": {
+   "approval_box": "今日の判子待ち",
+   "intake": "注文の入り口",
+   "report": "今月の帳面",
+   "unit": "工番",
+   "partner": "得意先"
+  },
+  "hero": {
+   "name": "見積の記憶係",
+   "one_line": "出した見積と、その仕事に実際にかかった時間・材料費を貯めて、新しい引き合いに「前回の似た仕事はこの値段・この工数でした」と根拠つきの下書きを出します。",
+   "how_it_works": [
+    "①貯める。出した見積と、その仕事にかかった実際の時間・材料費・外注費を、工番ごとに1か所へ積んでいきます。作業日報の写真とFAXの注文書がそのまま材料になります。",
+    "②探す。新しい引き合いが来たら、材質・数量・工程が似ている過去の仕事を探して、そのときの金額と工数を並べます。",
+    "③出す。似た2件を根拠として添えた見積の下書きが、承認箱に並びます。金額を決めて送るのは人です。AIは押しません。"
+   ],
+   "why_it_hurts_now": "見積が社長か一人のベテランの頭の中にしかなく、その人が休むと止まります。中小製造業のSaaS導入率は38.2%で、およそ2人に1人が毎日FAXを使っています（kubell・2023年10月）。受発注は電話・FAXが24.6%（東京商工会議所・2024年11月）。値付けは粗利に直結するので、時間が短くなることより、取りこぼしの方が痛い仕事です。"
+  },
+  "cards": [
+   {
+    "risk": "white",
+    "kind": "その他",
+    "title": "夜のうちに届いたFAX注文書を、受注台帳に起こしました",
+    "what": "FAX注文書8枚を受注台帳に登録（品番・数量・希望納期・単価は前回実績から引用）",
+    "who": "社内（受注台帳）／注文元はみどり精機ほか3社",
+    "when": "今日の朝礼まで",
+    "amount": "8件・合計 355,000円分",
+    "before": "複合機のFAX受信PDF 10枚。手書きと社判が混在。「品番 SK-2140／数量30／希望納期 8/12」「品番 A-77／数量5／至急」",
+    "after": "受注台帳に8行を追加。品番・数量・納期・前回単価・工番（2607-121〜128）を埋めた下書き",
+    "trace": [
+     "夜間に届いたFAX 10枚をパソコンの中だけで読みました",
+     "手書きが薄くて品番が読めない2枚は飛ばしました。原本を見て入れてください",
+     "残る8件を受注台帳の下書きにしました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "その他",
+    "title": "引き合いへの見積の下書き（似た仕事2件を根拠に付けました）",
+    "what": "見積書の下書き1件（ステンレス架台20台／切断・曲げ・溶接・仕上げ）",
+    "who": "ひまわり工業 購買ご担当",
+    "when": "明日 7月30日 17時まで（先方の回答期限）",
+    "amount": "496,000円（1台 24,800円）",
+    "before": "引き合いメール本文（回答期限 7月30日17時と書かれています）＋図面PDF 3枚。材質SUS304／板厚3.0／数量20／希望納期 8月25日",
+    "after": "見積書の下書き1通。根拠として過去2件を添付（2025年11月・18台・1台23,800円・実績工数42.0時間／2025年6月・24台・1台22,900円・実績工数51.5時間）",
+    "trace": [
+     "過去の見積214件を見ました",
+     "実績原価が電子で残っていない118件（2023年より前の見積）は根拠に使えないので外しました",
+     "残る96件から、材質と工程が似ている2件を根拠に、単価案を1つ作りました"
+    ],
+    "needs_human": "材料の値上がり分（SUS304は8月納入分から改定の通知が来ています）と、8月の工場の空き具合。添えた過去実績は当時の金額で、今の材料費と手待ちは入っていません。金額を決めるのも、送るのも人が押してください。"
+   },
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "納期があぶない工番6件（社内メモ）",
+    "what": "進行中42件のうち、工程の進みが予定より遅れている6件を遅れ順に並べたメモ",
+    "who": "社内（社長・工場長・現場リーダー）",
+    "when": "今日の朝礼で共有",
+    "amount": "6件",
+    "before": "作業日報アプリの工程完了打刻CSV（42工番分）＋受注台帳の納期",
+    "after": "「工番2607-118／みどり精機／納期8月12日／残2工程／このままだと2日遅れ」など6行のメモ",
+    "trace": [
+     "進行中42件の工程打刻を見ました",
+     "打刻が入っていない9件は進み具合を判定できず、この一覧から外しました（現場の作業札が手書きのままです）",
+     "残る33件から、遅れそうな6件を並べました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "日報",
+    "title": "作業日報を工番ごとに集計し、実績原価を積みました",
+    "what": "昨日の作業日報を工番別に集計し、実績工数と実績原価を原価台帳に追加",
+    "who": "社内（原価台帳）",
+    "when": "今日中",
+    "amount": "日報14枚（うち11枚を反映）・延べ41.0時間",
+    "before": "手書きの作業日報を撮った写真14枚。「工番2607-118／段取1.5h／加工4.0h／検査0.5h」",
+    "after": "工番別の実績工数と実績原価（社内の時間あたり単価で換算）を原価台帳に11行追加",
+    "trace": [
+     "日報14枚を読みました",
+     "工番の記入がない3枚はどの仕事の分か割り振れず、保留の箱に入れました",
+     "残る11枚を工番別に積みました。これが次の見積の根拠になります"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月分の請求書の下書き23枚（送信ボタンは押していません）",
+    "what": "検収済みの納品書から、適格請求書の必須項目を埋めた請求書PDFの下書きを作成",
+    "who": "みどり精機ほか11社",
+    "when": "7月31日の締めまでに内容確認、送付は8月5日",
+    "amount": "合計 7,812,400円（税込）",
+    "before": "7月の納品書31枚（うち検収印が返ってきたもの23枚）＋受注台帳の単価",
+    "after": "請求書PDFの下書き23枚。宛名・登録番号・税率ごとの区分・支払期限まで記入済み",
+    "trace": [
+     "納品書31枚と受注台帳の単価を1枚ずつ照らしました",
+     "納品書は1枚に複数の受注をまとめた形です。7月の受注176件（1日8件×22日）を、納めた日ごとに31枚へまとめています",
+     "検収印がまだ返ってきていない8枚（合計1,204,000円）は請求に入れていません。31日までに戻れば今月分に入ります",
+     "残る23枚から請求書の下書きを作りました。送信はしていません"
+    ],
+    "needs_human": "受注時から単価が変わっている2件（材料値上げ分の上乗せ）を、先方と合意できているか。検収待ちの8枚を今月に入れるか来月に回すか。この2つを見てから押してください。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "工具・消耗品の領収書17枚を、仕訳の下書きにしました",
+    "what": "切削工具・切削油・運賃の領収書と請求書から、勘定科目の候補つき仕訳を作成（税区分の候補まで付いたのは14行）",
+    "who": "社内（会計ソフトへの確定は人）",
+    "when": "今週中",
+    "amount": "合計 213,860円",
+    "before": "領収書の写真17枚。うちインボイス登録番号の記載があるもの14枚",
+    "after": "仕訳の下書き17行。科目の候補とそう考えた理由は17行すべてに、税区分の候補は登録番号のあった14行に添えました",
+    "trace": [
+     "領収書と請求書17枚を読みました",
+     "登録番号の記載がない3枚は税区分の候補を出せませんでした。相手先に確認してください",
+     "科目の候補は17枚すべてに、税区分の候補は残る14枚につけました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "外注先へのメッキ加工の発注メールの下書き",
+    "what": "メッキ加工の発注メール1通（工番2607-118／30個／膜厚指定／支給材あり）",
+    "who": "さくら表面処理 ご担当",
+    "when": "今日中（工程表上の納期は8月12日）",
+    "amount": "82,500円（1個 2,750円・前回単価で計算）",
+    "before": "受注台帳の工程表（メッキ工程は外注）＋前回の発注メール（2025年3月・同じ品番・1個2,750円）",
+    "after": "発注メールの下書き1通。数量・膜厚・希望納期・支給品の有無を記載。Gmailの下書きフォルダにも入れます",
+    "trace": [
+     "工程表と、同じ品番の前回の発注メールを見ました",
+     "単価が前回から変わっているかは確かめられませんでした。外注単価表が紙のファイルのままで、読める形になっていません",
+     "前回単価のまま、下書きを1通作りました"
+    ],
+    "needs_human": "外注単価が前回のままでよいか（値上げの連絡が来ていないか）と、支給する材料の在庫があるか。外注先の当日受付の締切時刻は資料に書かれていないので、足していません。人が入れてください。この3つを見てから、送信は人が押してください。"
+   },
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "材料の値上がり通知2通。まだ出していない見積に効きます",
+    "what": "仕入先からの価格改定の通知を読んで、影響しそうな作成中の見積を並べた社内メモ",
+    "who": "社内（社長・工場長）",
+    "when": "今日中に目を通す",
+    "amount": "価格改定 2通／影響しそうな見積 3件",
+    "before": "受信メール38通。うち価格改定の通知2通（SUS304板材が8月納入分から3%改定／副資材が9月から改定）",
+    "after": "「まだ出していない見積5件のうち、SUS304を使うのは3件（合計 1,146,000円）」という社内メモ",
+    "trace": [
+     "昨日から今朝までの受信メール38通を読みました",
+     "PDFが画像のままの通知1通は、改定率の数字を拾えませんでした。添付を開いて確認してください",
+     "改定通知2通と、影響しそうな見積3件を並べました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "7月28日の入金18件に、請求書の組み合わせ候補をつけました",
+    "what": "銀行明細と未入金の請求書を突き合わせ、消込の候補を提示（確定は人）",
+    "who": "社内（経理）",
+    "when": "今日中",
+    "amount": "入金合計 5,873,500円／候補がついたもの15件",
+    "before": "銀行明細CSV 18行。「7/28 ﾋﾏﾜﾘｺｳｷﾞﾖｳ 372,900」「7/28 ﾐﾄﾞﾘｾｲｷ 1,127,500」",
+    "after": "請求書番号との組み合わせ候補15件。金額が一致した理由（1枚ぴったり／2枚まとめ／振込手数料引き）を添付",
+    "trace": [
+     "明細18件と、未入金の請求書41枚を照らしました",
+     "振込名義が略称で一致しなかった3件（合計 292,600円）は候補を出せませんでした",
+     "残る15件に候補をつけました。消込を確定するのは人です"
+    ],
+    "needs_human": ""
+   }
+  ],
+  "intakes": [
+   {
+    "name": "FAX注文書（複合機のPDF・紙の写真）",
+    "status": "connected",
+    "today_count": "10枚",
+    "note": "パソコンの中だけで文字にします。外には送りません。手書きが薄いものや、かすれた社判は読めないことがあります。",
+    "customer_action": "複合機の受信PDFを共有フォルダに保存する設定（最初の一度だけ）"
+   },
+   {
+    "name": "手書きの作業日報（写真）",
+    "status": "connected",
+    "today_count": "14枚",
+    "note": "現場で書いた日報をスマホで撮って置くだけです。工番の記入がないものは、どの仕事の分か割り振れません。",
+    "customer_action": "日報を撮って投入口に置く"
+   },
+   {
+    "name": "Gmail（引き合い・注文・仕入先からの通知）",
+    "status": "connected",
+    "today_count": "38通",
+    "note": "受信を読む許可と、Gmailの下書きフォルダへの書き戻しまでです。送信ボタンは人が押します。",
+    "customer_action": "Googleの連携許可を、お客様ご本人の画面で押していただきます"
+   },
+   {
+    "name": "Excel／CSV（受注表・単価表・銀行明細）",
+    "status": "csv",
+    "today_count": "3ファイル",
+    "note": "今お使いのExcelの形のまま置けます。当社から取りに行くことはせず、置かれたときだけ動きます。列の名前は最初に一度だけ合わせます。",
+    "customer_action": "書き出したファイルを投入口に置く"
+   },
+   {
+    "name": "freee（会計・請求書）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "お客様のfreee契約と、ご本人による連携の許可が要ります。当社がするのは読み取りと仕訳の下書きまでで、確定は人です。",
+    "customer_action": "freeeの画面で連携を許可する（社長ご本人の操作）"
+   },
+   {
+    "name": "kintone（受注・案件管理）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "契約コースによって外からの読み書きが使えるかどうかが公式に名指しされていないため、サイボウズに確認中です。確認が取れるまで『つながります』とは言いません。アプリごとのAPIトークンを、お客様ご本人が発行して登録します。契約コースによっては外部サービス連携が使えないため、先にコースの確認が要ります。",
+    "customer_action": "（サイボウズの確認が取れてから）kintoneの管理画面でAPIトークンを発行する"
+   },
+   {
+    "name": "図面（PDF・紙・CAD）",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "当社で検証中です。読み取りの精度は形式で大きく変わります。対応する形式を契約前に決め、御社の実物をその場で読ませて精度をお見せしてから可否を答えます。",
+    "customer_action": ""
+   },
+   {
+    "name": "外注単価表（紙のファイル）",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "まだ受け口がありません。今は紙をめくって人が確かめています。台帳にして工番とつなぐ仕組みは、別にお作りする範囲です。",
+    "customer_action": ""
+   },
+   {
+    "name": "生産管理ソフト・工作機械の稼働データ",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "つないでいません。機械や機種ごとにデータの出し方が違うため、御社の設備を見てから可否をお答えします。今は答えを持っていません。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "231件",
+   "approved_count": "208件",
+   "fixed_count": "39件",
+   "remaining_manual": "外注先ごとの単価が紙のファイルのままなので、外注への発注金額だけは毎回人が単価表をめくって確かめています（7月は38回、1回5分ほどで、のべ3時間10分）。",
+   "upsell_hint": "外注単価表を台帳にして、工番ごとの実績原価とつなぐ仕組みが要ります（原価計算システムの受託）。ここまで作ると、見積の下書きに外注費まで根拠つきで入ります。別の入口として、割付図・数量拾いの自動化（WARITSUKE）もお見せできます。"
+  },
+  "legal_notes": [
+   "最初の3〜6か月は「貯める期間」です。過去の見積と実績原価が電子で残っていない会社が多いため、初月から見積の精度が出るとは約束しません。",
+   "図面の読み取り精度は形式（PDF・紙・CAD）で大きく変わります。対応する形式は契約前に決め、御社の実物を実際に読ませて精度をお見せします。",
+   "送信・投稿・振込・公開・削除はAIがやりません。人が押します。お金と社外に出るものは、押すまで動きません。社内のメモは押さなくても残ります。",
+   "見積の金額を決めるのは人です。添えた過去実績は当時の金額で、今の材料費や工場の空き具合は入っていません。",
+   "仕訳は下書きまでです。確定と税務の判断は顧問税理士が行います（当社は税務代理・税務書類の作成・税務相談をしません）。",
+   "効果は保証しません。削減時間の数字は、当社が自社で30日実測して事例を出すまで書きません。導入実績は0社です。",
+   "AIが文章を作る部分は米国のAnthropic社に送信されます。手書き・FAXの読み取りだけは御社のパソコンの中で完結します。どの処理がどちらかは機能ごとの表でお見せします。",
+   "パスワードやAPIキーを当社が代理入力することはしません。お客様ご本人の画面で入力していただきます。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ },
+ {
+  "id": "unso",
+  "label": "運送・軽貨物",
+  "tagline": "走り終わってからが仕事だった。日報を手で書くだけで、夜の机がもう1時間増えた。",
+  "icon": "配送",
+  "words": {
+   "approval_box": "今日のしめ作業",
+   "intake": "データの荷受け口",
+   "report": "今月の運行まとめ",
+   "unit": "便",
+   "partner": "荷主さん"
+  },
+  "hero": {
+   "name": "日報しめ番",
+   "one_line": "走行記録から今日ぶんの運転日報の下書きを毎晩つくり、運転者ご本人が見て、直して、確定するだけにします。",
+   "how_it_works": [
+    "夜のうちに、その日の走行記録のCSVを読んで、便ごとに1枚ずつ日報の下書きをつくります。",
+    "氏名・車両番号・開始／終了・休憩・走行距離・主な経過地点の欄をうめます。うまらなかった欄は空けたまま、赤で出します。",
+    "朝、運転者ご本人が画面で中身を見て、違うところを直してから［これでOK］を押します。押すまで確定しません。確定した日報は、誰がいつ押したかの記録つきで残ります（何年ぶん残すかは、お客様のご指定に合わせて設定します）。"
+   ],
+   "why_it_hurts_now": "走った後に日報を書く手間が、毎日そのまま残っています。運転者は帰庫したあと、開始・終了・休憩・走行距離・立ち寄り先を思い出しながら手で書きます。事務の方は翌朝それを見て、請求と外注費の集計に写します。走行記録のCSVはもう機器の中にあるのに、同じ中身を人がもう一度書き写している状態です。"
+  },
+  "cards": [
+   {
+    "risk": "white",
+    "kind": "日報",
+    "title": "昨日の運転日報 12便ぶんの下書き（運転者ご本人の確定待ち）",
+    "what": "7月28日（火）の運行分、運転者3名・12便ぶんの運転日報の下書き",
+    "who": "運転者ご本人（さくら／あおば／かえで）",
+    "when": "今日じゅうに、ご本人が中身を見て確定",
+    "amount": "12件・走行合計 471km",
+    "before": "走行記録CSV（軽1号）\n07:12 出庫\n07:41 みどり青果センター 着\n09:20 ひまわり建材 着\n12:10 休憩打刻\n18:05 帰庫／当日走行 172km",
+    "after": "運転日報（下書き・未確定）※1便ぶんの見本です\n氏名：さくら／車両番号：軽1号\n開始 07:12 ・ 終了 09:50\n走行距離 34km\n主な経過地点：みどり青果センター\n※休憩は1日に1回の打刻なので、どの便に載せるかは確定のときにご本人が決めます。",
+    "trace": [
+     "走行記録CSVを3台ぶん、14便ぶん読みました",
+     "休憩の記録をどの便に載せるか決められない2便は、日報の下書きを作りませんでした。休憩は運行の記録として大事なところなので、ご本人が入れてから作り直します。",
+     "12便ぶんの日報の下書きを作りました"
+    ],
+    "needs_human": "日報の中身が実際の運行と違うと、あとで問題になります。運転者ご本人が、実際に走った時間・休憩・経過地点と見比べてから押してください。押すまで確定しません。"
+   },
+   {
+    "risk": "red",
+    "kind": "請求",
+    "title": "7月分の請求書 5社ぶんの下書き（送信ボタンは押されていません）",
+    "what": "7月分の運送料の請求書5通。確定した自社日報296便と、協力ドライバーの日報52便を荷主ごとに集計したもの",
+    "who": "荷主5社（みどり青果センター／ひまわり建材／サンプル物流／わかば商店／あおぞら住設）",
+    "when": "7月31日 締め ・ 8月5日までに送付",
+    "amount": "合計 3,883,000円（税込）",
+    "before": "自社の確定日報 296便\n協力ドライバーの日報 52便\n契約単価表：みどり青果センター 定期便 8,800円/便・待機料 1,750円/30分",
+    "after": "請求書（下書き・未送信）\nみどり青果センター 御中\n定期便 80便 704,000円\n待機料 4件 7,000円\n小計 711,000円 ／ 消費税 71,100円\n合計 782,100円",
+    "trace": [
+     "自社の確定日報296便と、協力ドライバーの日報52便を読みました",
+     "単価が登録されていないスポット便9便は、請求に入れていません。金額は資料に書かれていないので、こちらでは足していません。単価を入れてから作り直します",
+     "残る339便ぶんを、5社ぶんの請求書の下書きにしました（5社合計 税抜3,530,000円＋消費税353,000円＝税込3,883,000円）。7月29日から31日ぶんは、まだ日報がないので入っていません"
+    ],
+    "needs_human": "3つ見てください。①単価が入っていないスポット便9便を今月に入れるか、来月に回すか ②待機料4件を請求してよい相手か（その場で免除した分が混ざっていないか） ③振込先と締め日が前回と同じか。送信は人が押します。"
+   },
+   {
+    "risk": "red",
+    "kind": "経費",
+    "title": "協力ドライバー3名への7月分 外注費の支払い一覧（振込は人）",
+    "what": "傭車でお願いした協力ドライバー3名への外注費の内訳と、振込データの下書き",
+    "who": "さんぽ運送／ふたば急便／こもれび配送",
+    "when": "8月10日 支払い期日",
+    "amount": "合計 338,000円",
+    "before": "協力ドライバーの日報 52便\n届いた請求書PDF 2通（こもれび配送ぶんは未着）",
+    "after": "支払一覧（下書き・未実行）\nさんぽ運送 23便 149,500円（1便6,500円）\nふたば急便 17便 110,500円（1便6,500円）\nこもれび配送 12便 78,000円（当社の日報からの仮置き）",
+    "trace": [
+     "協力ドライバーの日報52便と、届いた請求書2通を読みました",
+     "こもれび配送の請求書がまだ届いていません。突き合わせができないので、当社の日報から金額を仮置きしました",
+     "3名ぶんの支払一覧の下書きを作りました"
+    ],
+    "needs_human": "3つ見てください。①こもれび配送の請求書が届いてから金額が合っているか ②インボイスの登録番号が3社ぶんそろっているか ③振込先の口座が前回と同じか。振込は人が銀行の画面で行ってください。"
+   },
+   {
+    "risk": "white",
+    "kind": "経費",
+    "title": "ETC・給油の明細 88件を、車両ごとの経費に振り分けました",
+    "what": "7月のETC利用明細と給油カードの明細を、車両と便に紐づけた経費の下書き",
+    "who": "社内（経理）",
+    "when": "8月の月次締めまで",
+    "amount": "88件・合計 177,540円（ETC 66件 44,550円＋給油 22件 132,990円）",
+    "before": "ETC明細CSV\n07/14 09:12 大分IC→別府IC 軽自動車 350円\n給油カード明細\n07/14 18:40 サンプル給油所 大分店 5,480円",
+    "after": "経費（下書き）\n7/14 高速代 350円 → 軽1号・みどり青果センター定期便\n7/14 燃料費 5,480円 → 軽1号",
+    "trace": [
+     "ETC明細66件と給油明細22件を読みました",
+     "日曜の高速代5件（合計1,800円）は、どの便のものか分からないので振り分けていません。未分類のまま置いています",
+     "83件を車両と便に紐づけて、経費の下書きを作りました"
+    ],
+    "needs_human": "未分類の5件が仕事のものか、私用かの判断は人がしてください。"
+   },
+   {
+    "risk": "white",
+    "kind": "入金",
+    "title": "入金6件と請求の突き合わせ候補（消し込みは人が確定）",
+    "what": "7月に入った入金6件を、6月分の請求と突き合わせた候補",
+    "who": "社内（経理）",
+    "when": "今日じゅう",
+    "amount": "入金6件 1,967,800円 ／ 未入金 2社 328,900円",
+    "before": "銀行明細\n07/25 振込 ミドリセイカセンター 596,200円\n請求台帳\n6月分 みどり青果センター 596,200円（期日 7/25）",
+    "after": "消込候補（未確定）\n6月分 みどり青果センター 596,200円 ← 07/25の入金と同額で一致",
+    "trace": [
+     "銀行明細6件と、6月分の請求7件を読みました",
+     "金額がどの請求とも合わない入金が1件（143,600円）ありました。振込名義も台帳にありません。候補を出せませんでした",
+     "5件ぶんの消込候補と、未入金2社の一覧を作りました"
+    ],
+    "needs_human": "合わない入金1件（143,600円）が、どの荷主さんの何のお金かを人が確かめてください。"
+   },
+   {
+    "risk": "white",
+    "kind": "シフト",
+    "title": "明日（7/30）の配車わりふりの下書き ― 1便あいています",
+    "what": "明日の便14件を運転者3名に割り振った案。ひまわり建材の追加1便がまだ決まっていない",
+    "who": "運転者3名（さくら／あおば／かえで）",
+    "when": "今日18時までに決めて共有",
+    "amount": "14便中13便を割当・1便が未割当",
+    "before": "LINE WORKSの連絡\n「ひまわり建材さんから、明日14時に追加1便お願いしたいと連絡あり」\nさくら「明日は15時上がり希望です」",
+    "after": "配車案（下書き）\nさくら 5便（15時上がり）\nあおば 5便＋追加1便の候補（14:00〜16:00があいています）\nかえで 3便（出勤できる時間は未記入）",
+    "trace": [
+     "明日の予定14便と、運転者3名から届いた希望を読みました",
+     "かえでさんの明日の出勤できる時間が届いていません。書かれていないので、こちらでは足していません。空けたままにしているので、人が入れてください",
+     "13便を割り振って、あき1便の入れ先の候補を出しました"
+    ],
+    "needs_human": "かえでさんの明日の予定を確かめてから確定してください。"
+   },
+   {
+    "risk": "gray",
+    "kind": "メール",
+    "title": "Gmail・LINE WORKSの連絡31件を、返事が要る4件にまとめました",
+    "what": "昨日の夕方から今朝までに届いた荷主さん・協力先からの連絡を、返事が要るものだけに絞った社内メモ",
+    "who": "社内（社長）",
+    "when": "朝いちで目を通す",
+    "amount": "31件 → 返事が要る4件",
+    "before": "Gmail 22通・LINE WORKS 9件\n「明日の到着、何時ごろになりますか」\n「31日の伝票、まとめて送ってください」ほか",
+    "after": "要約メモ（社内・あとで消せます）\n①ひまわり建材：明日の追加1便\n②みどり青果センター：31日の伝票の送り方\n③わかば商店：先月の待機料の問い合わせ\n④さんぽ運送：来月の稼働日",
+    "trace": [
+     "Gmail 22通とLINE WORKS 9件を読みました",
+     "個人のLINEに来た連絡は読めません。受け口がつながっていないためです",
+     "返事が要る4件だけの要約メモを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "gray",
+    "kind": "その他",
+    "title": "今月ここまでの稼働メモ（便数・走行距離・車両ごと）",
+    "what": "7月1日から28日までの便数・走行距離・稼働日数を車両ごとにまとめた社内メモ",
+    "who": "社内（社長）",
+    "when": "いつでも（あとで消せます）",
+    "amount": "308便・10,362km・稼働22日",
+    "before": "確定した日報 296件\nまだ確定していない日報 12件",
+    "after": "稼働メモ（社内・あとで消せます）\n軽1号 120便 4,120km\n軽2号 110便 3,825km\n軽3号 78便 2,417km",
+    "trace": [
+     "7月の日報308件（確定296件＋未確定12件）を読みました",
+     "まだ運転者が確定していない12件も、仮の数として足しています。確定すると数字がずれます",
+     "休憩の打刻がなくて日報の下書きを作らなかった2便は、日報がないのでこの数に入っていません",
+     "車両ごとの稼働メモを作りました"
+    ],
+    "needs_human": ""
+   },
+   {
+    "risk": "red",
+    "kind": "メール",
+    "title": "未入金2社への入金のお願いメールの下書き（送信は人）",
+    "what": "6月分の請求で入金が確認できていない2社への、確認のお願いメール",
+    "who": "わかば商店／あおぞら住設",
+    "when": "今日か明日に送ると、8月10日の支払いに間に合います",
+    "amount": "2社・合計 328,900円",
+    "before": "請求台帳\n6月分 わかば商店 187,000円（期日 7/25）\n6月分 あおぞら住設 141,900円（期日 7/25）\n銀行明細に該当なし",
+    "after": "メール（下書き・未送信）\n件名：6月分のご請求について\n「6月分のご請求について、7月28日の時点で入金の確認ができておりません。行き違いでしたら申し訳ありません。ご確認をお願いします。」",
+    "trace": [
+     "請求台帳7件と銀行明細6件を突き合わせました",
+     "あおぞら住設さんは今月から担当者が変わったと連絡がありましたが、新しい宛先が分かりません。宛先は前の担当者のままにしています",
+     "2社ぶんのお願いメールの下書きを作りました"
+    ],
+    "needs_human": "3つ見てください。①ほんとうに入金がないか（別の口座・現金でのお受け取りがないか） ②あおぞら住設さんの宛先を新しい担当者に変えるか ③この言い方が今のお付き合いに合っているか。送信ボタンは人が押します。"
+   }
+  ],
+  "intakes": [
+   {
+    "name": "走行記録・運行記録のCSV",
+    "status": "csv",
+    "today_count": "14便ぶん",
+    "note": "お手元の機器から書き出したCSVを置くだけです。書き出しの形は機種ごとに違うので、最初に実物を1度見せてください。",
+    "customer_action": "月に1回、または毎日、機器の画面からCSVを書き出して置いてください。"
+   },
+   {
+    "name": "紙・手書きの伝票／受領書（写真）",
+    "status": "connected",
+    "today_count": "8枚",
+    "note": "スマホで撮って置くだけです。読み取りはパソコンの中だけで行い、外に送りません。読み取りの精度は伝票の書式と筆跡で変わります。",
+    "customer_action": "帰庫したときに、受領書をまとめて撮って置いてください。"
+   },
+   {
+    "name": "Gmail",
+    "status": "connected",
+    "today_count": "22通",
+    "note": "返事の下書きは、この画面と、いつものGmailの下書きフォルダの両方に入ります。送信ボタンはいつものGmailで人が押します。",
+    "customer_action": "最初の1回だけ、受信メールを読む許可をご本人の画面で押していただきます。"
+   },
+   {
+    "name": "LINE WORKS",
+    "status": "connected",
+    "today_count": "9件",
+    "note": "現場からの報告の受け取りと、朝の「確認待ちがあります」のお知らせに使います。人数が多いときは順番に送るので、全員に届くまで少し時間がかかります。",
+    "customer_action": "LINE WORKSの管理者の方に、当社アプリの登録をしていただきます。"
+   },
+   {
+    "name": "ETC利用明細（CSV）",
+    "status": "csv",
+    "today_count": "66件",
+    "note": "カード会社のサイトから書き出したCSVを置きます。当社が自動で取りに行くことはしません。",
+    "customer_action": "月に1回、明細をダウンロードして置いてください。"
+   },
+   {
+    "name": "銀行の入出金明細（CSV）",
+    "status": "csv",
+    "today_count": "6件",
+    "note": "ネットバンキングから書き出したCSVを置きます。当社が銀行につなぐことはしません。",
+    "customer_action": "入金を確認したい日に、明細を書き出して置いてください。"
+   },
+   {
+    "name": "freee（会計）",
+    "status": "pending_customer",
+    "today_count": "",
+    "note": "読み取りだけつなぎます。書き込みはしません。連携の許可は、お客様ご本人の画面で押していただく必要があります。",
+    "customer_action": "freeeの画面で連携を許可する（当社は代わりに押せません）。"
+   },
+   {
+    "name": "デジタコ・ドラレコから直接",
+    "status": "pending_us",
+    "today_count": "",
+    "note": "機種ごとにデータの形が違い、当社でまだ実機を確認できていません。確認が済むまではCSVを置いていただく形です。",
+    "customer_action": ""
+   },
+   {
+    "name": "個人のLINE",
+    "status": "not_yet",
+    "today_count": "",
+    "note": "個人のLINEのやりとりを当社が自動で受け取ることはできません（規約上できません）。現場からの報告は、LINE WORKSか自社のフォームにまとめてください。",
+    "customer_action": ""
+   }
+  ],
+  "monthly": {
+   "drafts_count": "470件",
+   "approved_count": "444件",
+   "fixed_count": "34件",
+   "remaining_manual": "荷主さんの配車サイトを毎朝ひらいて、明日の便を手で書き写す作業が残っています（3社ぶん・1日およそ25分、平日20日で月およそ8時間20分）。荷主さんごとに画面も様式も違うので、この画面のAIでは片づきません。",
+   "upsell_hint": "荷主さんごとの配車の取り込みと、運転者への割り振りまでを作る受託開発が要ります。荷主さんごとに形が違うので、まず1社ぶんから作って、動いてから2社目に広げる進め方になります。同じデータがそろえば、荷主別の採算（どの仕事が儲かっているか）も後から出せます。"
+  },
+  "legal_notes": [
+   "2025年4月の制度改正で日報の保存が要るようになったと聞いています（詳しくは所轄の運輸支局でご確認ください）。制度の中身は国土交通省の原典で確認中のため、当社からは断定してご説明しません。",
+   "運転日報は運転者ご本人が確認して確定します。AIが代わりに確定することはしません。中身が実際の運行と違うと、あとで問題になるためです。",
+   "位置情報は個人情報です。何のために取るのかを運転者に伝え、ご本人の同意をいただいてからお使いください。",
+   "送信・投稿・振込・公開・削除はAIが行いません。人が押します。お金と社外に出るものは、押すまで動きません。社内のメモは押さなくても残ります。",
+   "請求・経費の数字は下書きまでです。税務の判断と申告は顧問税理士が行います。当社は税務の相談・代理・書類の作成を行いません。",
+   "効果は保証しません。導入実績は0社です。削減時間の数字は、当社が自社で実測して事例を出すまで出しません。",
+   "画面に出ている会社名・お名前・金額・件数・時間の数字は、すべて架空のサンプル値です。当社の実測値でも、どこかのお客様の実績でもありません。"
+  ]
+ }
+];
+
+</script>
+<script>
+/* ==========================================================================
+   帳場（ちょうば） — 番頭デモ 本体
+   画面は5枚だけ：承認箱／受け口／今月の1枚／設定／気持ち市場に聞く
+   データは GYOSHU（業種ごと）と META（商品名など）を外から差し込む
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  /* ---------- 小道具 ---------- */
+  function el(tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  }
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function kanjiNum(n) {
+    var k = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+    if (n <= 10) return k[n];
+    if (n < 20) return "十" + k[n - 10];
+    return String(n);
+  }
+
+  var NAV = [
+    { id: "box",    kanji: "承", label: "承認箱",   sub: "今日の決めごと" },
+    { id: "pipes",  kanji: "口", label: "受け口",   sub: "つながっている先" },
+    { id: "report", kanji: "月", label: "今月の1枚", sub: "件数と残り" },
+    { id: "setup",  kanji: "設", label: "設定",     sub: "業種・表示" },
+    { id: "ask",    kanji: "問", label: "聞く",     sub: "気持ち市場へ" }
+  ];
+
+  var STATE = {
+    view: "box",
+    gyoshu: 0,
+    done: {},      // cardKey -> true
+    filter: "",
+    drawer: false
+  };
+
+  function G() { return window.GYOSHU[STATE.gyoshu]; }
+  function cardKey(i) { return G().id + ":" + i; }
+
+  /* 灰＝取り消せる社内メモは最初から通っている扱い（承認疲れを避ける） */
+  function autoPass() {
+    G().cards.forEach(function (c, i) {
+      if (c.risk === "gray") STATE.done[cardKey(i)] = true;
+    });
+  }
+
+  function pending() {
+    return G().cards.filter(function (c, i) {
+      return c.risk !== "gray" && !STATE.done[cardKey(i)];
+    });
+  }
+
+  /* ---------- 左の縦メニュー ---------- */
+  function buildRail() {
+    var rail = el("nav", "rail");
+
+    var brand = el("div", "rail-brand");
+    brand.innerHTML =
+      '<div class="mark">' + esc(window.META.name) + "</div>" +
+      '<div class="sub">' + esc(window.META.tagline) + "</div>";
+    rail.appendChild(brand);
+
+    var nav = el("div", "rail-nav");
+    NAV.forEach(function (item) {
+      var b = el("button", "rail-item");
+      b.type = "button";
+      b.setAttribute("aria-current", STATE.view === item.id ? "true" : "false");
+      var count = item.id === "box" ? pending().length : 0;
+      b.innerHTML =
+        '<span class="kanji">' + item.kanji + "</span>" +
+        '<span class="label">' + esc(item.label) +
+        "<small>" + esc(item.sub) + "</small></span>" +
+        (count ? '<span class="rail-count num">' + count + "</span>" : "");
+      b.onclick = function () { go(item.id); };
+      nav.appendChild(b);
+    });
+    rail.appendChild(nav);
+
+    var foot = el("div", "rail-foot");
+    foot.innerHTML =
+      '<div class="role">' + esc(window.META.company) + "</div>" +
+      "<div>" + esc(window.META.footnote) + "</div>";
+    rail.appendChild(foot);
+    return rail;
+  }
+
+  /* ---------- 上の帯 ---------- */
+  function buildTop() {
+    var top = el("div", "top");
+    var who = el("div", "who");
+    who.innerHTML = "いまの表示：<em>" + esc(G().label) + "</em>";
+    top.appendChild(who);
+    top.appendChild(el("div", "spacer"));
+
+    var easy = el("button", "ghost");
+    easy.type = "button";
+    easy.textContent = "らくらく表示";
+    var on = document.documentElement.getAttribute("data-easy") === "on";
+    easy.setAttribute("aria-pressed", on ? "true" : "false");
+    easy.onclick = function () {
+      var now = document.documentElement.getAttribute("data-easy") === "on";
+      document.documentElement.setAttribute("data-easy", now ? "off" : "on");
+      render();
+    };
+    top.appendChild(easy);
+
+    var st = el("button", "ghost");
+    st.type = "button";
+    st.textContent = "業種をえらぶ";
+    st.onclick = function () { STATE.drawer = true; render(); };
+    top.appendChild(st);
+    return top;
+  }
+
+  /* ==========================================================================
+     ① 承認箱
+     ========================================================================== */
+  function viewBox() {
+    var g = G();
+    var v = el("div", "page");
+
+    v.appendChild(el("h1", "page-title",
+      '<span class="serial">壱</span>' + esc(g.words.approval_box)));
+    v.appendChild(el("p", "page-lead", esc(g.tagline)));
+
+    var rest = pending().length;
+    var today = el("div", "today");
+    today.innerHTML =
+      '<div class="kazu mincho">' + kanjiNum(rest) + "<small>件</small></div>" +
+      '<div class="say">' + (rest
+        ? "夜のうちに下書きを作っておきました。<b>あなたが押すまで、どこにも出ていません。</b><br>上から順に見て、よければ押してください。"
+        : "今日の決めごとは終わりました。<b>お疲れさまでした。</b><br>次の下書きは今夜また作っておきます。") +
+      "</div>";
+    v.appendChild(today);
+
+    var ask = el("div", "ask");
+    ask.innerHTML =
+      '<input type="text" placeholder="日本語で書いてください（例：' + esc(g.words.partner) + 'への請求）" aria-label="やりたいことを書く">' +
+      "<button type=\"button\">さがす</button>";
+    var input = ask.querySelector("input");
+    input.value = STATE.filter;
+    function doFilter() { STATE.filter = input.value.trim(); render(); }
+    ask.querySelector("button").onclick = doFilter;
+    input.onkeydown = function (e) { if (e.key === "Enter") doFilter(); };
+    v.appendChild(ask);
+
+    var kinds = [];
+    g.cards.forEach(function (c) { if (kinds.indexOf(c.kind) < 0) kinds.push(c.kind); });
+    var chips = el("div", "chips");
+    if (STATE.filter) {
+      var clr = el("button", "chip");
+      clr.type = "button";
+      clr.textContent = "しぼり込みをやめる（" + STATE.filter + "）";
+      clr.onclick = function () { STATE.filter = ""; render(); };
+      chips.appendChild(clr);
+    }
+    kinds.forEach(function (k) {
+      var c = el("button", "chip");
+      c.type = "button";
+      c.textContent = k;
+      c.onclick = function () { STATE.filter = k; render(); };
+      chips.appendChild(c);
+    });
+    v.appendChild(chips);
+
+    /* まだのものを上に、押したものを下に。上から順に片づく形にする */
+    var yet = [], sumi = [];
+    g.cards.forEach(function (c, i) {
+      if (STATE.filter) {
+        var hay = (c.kind + c.title + c.what + c.who).toLowerCase();
+        if (hay.indexOf(STATE.filter.toLowerCase()) < 0) return;
+      }
+      (STATE.done[cardKey(i)] ? sumi : yet).push([c, i]);
+    });
+
+    if (!yet.length && !sumi.length) {
+      v.appendChild(el("div", "empty",
+        '<span class="big">見つかりませんでした</span>' +
+        "書いた言葉に当てはまる下書きは、今日はありません。"));
+      return v;
+    }
+
+    if (yet.length) {
+      var s1 = el("div", "stack");
+      yet.forEach(function (p) { s1.appendChild(buildCard(p[0], p[1])); });
+      v.appendChild(s1);
+    } else {
+      v.appendChild(el("div", "empty",
+        '<span class="big">今日のぶんは終わりました</span>' +
+        "残っている決めごとはありません。"));
+    }
+
+    if (sumi.length) {
+      v.appendChild(el("div", "stack-head", "押した札　" + sumi.length + "件"));
+      var s2 = el("div", "stack");
+      s2.style.marginTop = "14px";
+      sumi.forEach(function (p) { s2.appendChild(buildCard(p[0], p[1])); });
+      v.appendChild(s2);
+    }
+    return v;
+  }
+
+  var RISK_LABEL = {
+    gray:  "社内メモ・取り消せます",
+    white: "社内で確定します",
+    red:   "お金・社外に出ます"
+  };
+
+  function buildCard(c, i) {
+    var key = cardKey(i);
+    var done = !!STATE.done[key];
+    var card = el("div", "card");
+    card.setAttribute("data-risk", c.risk);
+    card.setAttribute("data-done", done ? "1" : "0");
+
+    var stamp = el("div", "stamp mincho", done ? "済<br>" + (c.risk === "red" ? "承認" : "確認") : "");
+    card.appendChild(stamp);
+
+    var top = el("div", "card-top");
+    top.innerHTML =
+      '<span class="tag">' + esc(c.kind) + "</span>" +
+      '<span class="tag risk">' + esc(RISK_LABEL[c.risk] || "") + "</span>" +
+      "<h3>" + esc(c.title) + "</h3>";
+    card.appendChild(top);
+
+    var four = el("dl", "four");
+    /* 金額が入っていない業務（件数・時間・距離）に「いくら」と出ると読み手が止まるので、
+       円が入っているかどうかでラベルを変える */
+    var isMoney = /円|￥/.test(c.amount || "");
+    var rows = [
+      ["何を", c.what, ""],
+      [isMoney ? "いくら" : "どれだけ", c.amount, isMoney ? "money" : ""],
+      ["誰に", c.who, ""],
+      ["いつまでに", c.when, ""]
+    ];
+    rows.forEach(function (r) {
+      if (!r[1]) return;
+      four.appendChild(el("dt", null, r[0]));
+      four.appendChild(el("dd", r[2] || null, esc(r[1])));
+    });
+    card.appendChild(four);
+
+    var diff = el("div", "diff");
+    diff.innerHTML =
+      '<div class="from"><span class="cap">もとの書類</span>' + esc(c.before).replace(/\n/g, "<br>") + "</div>" +
+      '<div class="to"><span class="cap">番頭の下書き</span>' + esc(c.after).replace(/\n/g, "<br>") + "</div>";
+    card.appendChild(diff);
+
+    var tr = el("ul", "trace");
+    (c.trace || []).forEach(function (t, n) {
+      var li = el("li", null, esc(t));
+      li.setAttribute("data-n", ["①", "②", "③", "④"][n] || "・");
+      if (n === 1) li.setAttribute("data-skip", "1");
+      tr.appendChild(li);
+    });
+    card.appendChild(tr);
+
+    if (c.needs_human) {
+      card.appendChild(el("div", "need",
+        "<b>ここは人が見てください：</b>" + esc(c.needs_human)));
+    }
+
+    var acts = el("div", "acts");
+    if (done) {
+      var undo = el("button", "btn sub");
+      undo.type = "button";
+      undo.textContent = "やっぱり戻す";
+      undo.onclick = function () { delete STATE.done[key]; render(); };
+      acts.appendChild(undo);
+    } else {
+      var ok = el("button", "btn go");
+      ok.type = "button";
+      ok.textContent = c.risk === "red" ? "確認しました。これで出す" : "これでOK";
+      ok.onclick = function () { STATE.done[key] = true; render(); };
+      acts.appendChild(ok);
+
+      var fix = el("button", "btn sub");
+      fix.type = "button";
+      fix.textContent = "直す";
+      fix.onclick = function () { toast("直す画面をひらきます（このデモでは中身までは動きません）"); };
+      acts.appendChild(fix);
+
+      var to = el("button", "btn sub");
+      to.type = "button";
+      to.textContent = "人に回す";
+      to.onclick = function () { toast("担当の方へ回しました（このデモでは通知は飛びません）"); };
+      acts.appendChild(to);
+    }
+    card.appendChild(acts);
+    return card;
+  }
+
+  /* ==========================================================================
+     ③ 受け口ボード
+     ========================================================================== */
+  var ST_LABEL = {
+    connected:        "つながっています",
+    csv:              "書き出したファイルで受け取り",
+    pending_customer: "お客様側の手続き待ち",
+    pending_us:       "当社で検証中",
+    not_yet:          "まだつながっていません"
+  };
+
+  function viewPipes() {
+    var g = G();
+    var v = el("div", "page");
+    v.appendChild(el("h1", "page-title",
+      '<span class="serial">弐</span>' + esc(g.words.intake)));
+    v.appendChild(el("p", "page-lead",
+      "いま何がここへ入ってきているかの一覧です。つながっていない先も、そのまま出しています。"));
+
+    var board = el("div", "board");
+    g.intakes.forEach(function (p) {
+      var b = el("button", "pipe");
+      b.type = "button";
+      b.setAttribute("data-st", p.status);
+      b.innerHTML =
+        '<span class="nm">' + esc(p.name) + "</span>" +
+        '<span class="st">' + esc(ST_LABEL[p.status] || "") + "</span>" +
+        '<span class="ct">' + (p.today_count
+          ? "今日 <b class=\"num\">" + esc(p.today_count) + "</b>"
+          : esc(p.note)) + "</span>";
+      b.onclick = function () {
+        var msg = p.note || "";
+        if (p.customer_action) msg += "／お客様にお願いする操作：" + p.customer_action;
+        toast(p.name + "：" + msg);
+      };
+      board.appendChild(b);
+    });
+    v.appendChild(board);
+
+    var pend = g.intakes.filter(function (p) { return p.status !== "connected" && p.status !== "csv"; });
+    if (pend.length) {
+      var n = el("div", "note");
+      n.innerHTML = "<b>灰色の受け口について。</b>ここは、まだつながっていない所です。" +
+        "つなぐには " + pend.map(function (p) { return esc(p.name); }).join("・") +
+        " について、お客様ご本人の手続き（連携の許可・鍵の発行など）が要ります。" +
+        "当社がパスワードや鍵を代わりに入力することはしません。" +
+        "手続きが終わるまでは、書き出したファイルと紙の写真で先に動かします。";
+      v.appendChild(n);
+    }
+    return v;
+  }
+
+  /* ==========================================================================
+     ④ 今月の1枚
+     ========================================================================== */
+  function viewReport() {
+    var g = G();
+    var m = g.monthly;
+    var v = el("div", "page");
+    v.appendChild(el("h1", "page-title",
+      '<span class="serial">参</span>' + esc(g.words.report)));
+    v.appendChild(el("p", "page-lead",
+      "今月あなたが何件押したか、そして何が手作業で残ったか。数字はこのデモ用のサンプルです。"));
+
+    var figs = el("div", "figs");
+    [["番頭が作った下書き", m.drafts_count],
+     ["あなたが押した数", m.approved_count],
+     ["直しが入った数", m.fixed_count]].forEach(function (f) {
+      /* データ側に「件」が入っていることがあるので、数字と単位を分けてから組む */
+      var raw = String(f[1] == null ? "" : f[1]).trim();
+      var mm = raw.match(/^([0-9,.]+)\s*(.*)$/);
+      var val = mm ? mm[1] : raw;
+      var unit = mm && mm[2] ? mm[2] : "件";
+      var d = el("div", "fig");
+      d.innerHTML =
+        '<div class="k">' + esc(f[0]) + "</div>" +
+        '<div class="v num">' + esc(val) + "<small>" + esc(unit) + "</small></div>";
+      figs.appendChild(d);
+    });
+    v.appendChild(figs);
+
+    var bars = el("div", "bars");
+    var months = ["3月", "4月", "5月", "6月", "7月"];
+    var base = parseInt(String(m.drafts_count).replace(/[^0-9]/g, ""), 10) || 60;
+    months.forEach(function (mm, i) {
+      var val = Math.round(base * (0.42 + i * 0.16));
+      if (i === months.length - 1) val = base;
+      var b = el("div", "bar");
+      b.innerHTML =
+        '<span class="m">' + mm + "</span>" +
+        '<span class="t"><i style="width:' + Math.min(100, Math.round(val / base * 100)) + '%"></i></span>' +
+        '<span class="n num">' + String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 件</span>";
+      bars.appendChild(b);
+    });
+    v.appendChild(bars);
+
+    var t = el("table", "ledger");
+    t.innerHTML =
+      "<thead><tr><th>いつ</th><th>だれが</th><th>なにを</th><th>どうした</th></tr></thead><tbody></tbody>";
+    var tb = t.querySelector("tbody");
+    g.cards.slice(0, 5).forEach(function (c, i) {
+      var tr = el("tr");
+      tr.innerHTML =
+        "<td class=\"num\">7/" + (28 - i) + "</td><td>あなた</td><td>" + esc(c.title) + "</td><td>" +
+        (STATE.done[cardKey(i)] ? "押しました" : "まだ") + "</td>";
+      tb.appendChild(tr);
+    });
+    v.appendChild(t);
+
+    var r = el("div", "rest");
+    r.innerHTML =
+      '<div class="h">まだ手作業で残っていること</div>' +
+      '<div class="b">' + esc(m.remaining_manual) + "</div>" +
+      '<div class="s">' + esc(m.upsell_hint) + "</div>";
+    v.appendChild(r);
+
+    if (g.legal_notes && g.legal_notes.length) {
+      var n = el("div", "note");
+      n.innerHTML = "<b>正直に書いておきます。</b><br>" +
+        g.legal_notes.map(function (x) { return "・" + esc(x); }).join("<br>");
+      v.appendChild(n);
+    }
+    return v;
+  }
+
+  /* ==========================================================================
+     ⑤ 設定／聞く
+     ========================================================================== */
+  function viewSetup() {
+    var v = el("div", "page");
+    v.appendChild(el("h1", "page-title", '<span class="serial">肆</span>設定'));
+    v.appendChild(el("p", "page-lead", "画面をあなたの会社の言葉に合わせます。"));
+    v.appendChild(gyoshuPicker());
+
+    var n = el("div", "note");
+    n.innerHTML =
+      "<b>このデモについて。</b><br>" +
+      "・出てくる会社名・金額・件数は、すべて架空のサンプルです。<br>" +
+      "・押しても、実際にメールが飛んだり、お金が動いたりすることはありません。<br>" +
+      "・" + esc(window.META.company) + " の導入実績は現在0社です。効果を保証するものではありません。<br>" +
+      "・AIの処理は米国のAnthropic社に送信されます。手書き・FAXの読み取りだけは、お客様のパソコンの中だけで行います。";
+    v.appendChild(n);
+    return v;
+  }
+
+  function gyoshuPicker() {
+    var wrap = el("div");
+    wrap.appendChild(el("div", "lbl", "業種をえらぶと、画面の呼び名と中身が入れ替わります"));
+    var pick = el("div", "gyoshu-pick");
+    window.GYOSHU.forEach(function (g, i) {
+      var b = el("button");
+      b.type = "button";
+      b.setAttribute("aria-pressed", i === STATE.gyoshu ? "true" : "false");
+      b.innerHTML = '<span class="kanji">' + esc(g.icon || "業") + "</span><span>" + esc(g.label) + "</span>";
+      b.onclick = function () {
+        STATE.gyoshu = i;
+        STATE.done = {};
+        STATE.filter = "";
+        autoPass();
+        STATE.drawer = false;
+        STATE.view = "box";
+        render();
+      };
+      pick.appendChild(b);
+    });
+    wrap.appendChild(pick);
+    return wrap;
+  }
+
+  function viewAsk() {
+    var v = el("div", "page");
+    v.appendChild(el("h1", "page-title", '<span class="serial">伍</span>気持ち市場に聞く'));
+    v.appendChild(el("p", "page-lead",
+      "分からないところは、番頭に無理をさせず人に聞いてください。画面と下書きを添えて当社に届きます。"));
+
+    var n = el("div", "note");
+    n.innerHTML =
+      "<b>この商品の考え方。</b><br>" +
+      "自動化は「全部まかせる」ことではなく、<b>まかせる範囲を決める</b>ことだと考えています。<br>" +
+      "・いきなり全部はまかせません。まず1つの仕事から始めます。<br>" +
+      "・最初の3回は、必ず出てきたものを一緒に確認します。<br>" +
+      "・判断が要るものは、番頭が勝手に決めずに分けて出します。<br>" +
+      "・お金・社外に出るもの・消すものは、いつでも人が押します。";
+    v.appendChild(n);
+
+    var box = el("div", "ask");
+    box.style.marginTop = "22px";
+    box.innerHTML =
+      '<input type="text" placeholder="聞きたいことを書いてください" aria-label="質問">' +
+      '<button type="button">この画面を添えて送る</button>';
+    box.querySelector("button").onclick = function () {
+      toast("このデモでは送信しません。実際の運用では、いま見ている画面と下書きを添えて当社に届きます。");
+    };
+    v.appendChild(box);
+    return v;
+  }
+
+  /* ---------- ドロワー ---------- */
+  function buildDrawer() {
+    var veil = el("div", "veil");
+    veil.onclick = function () { STATE.drawer = false; render(); };
+    var d = el("aside", "drawer");
+    d.appendChild(el("h2", null, "業種をえらぶ"));
+    var s = el("section");
+    s.appendChild(gyoshuPicker());
+    d.appendChild(s);
+    var c = el("button", "ghost");
+    c.type = "button";
+    c.textContent = "とじる";
+    c.style.marginTop = "18px";
+    c.onclick = function () { STATE.drawer = false; render(); };
+    d.appendChild(c);
+    var frag = document.createDocumentFragment();
+    frag.appendChild(veil);
+    frag.appendChild(d);
+    return frag;
+  }
+
+  /* ---------- トースト ---------- */
+  var toastTimer = null;
+  function toast(msg) {
+    var old = document.getElementById("toast");
+    if (old) old.remove();
+    var t = el("div", null, esc(msg));
+    t.id = "toast";
+    t.style.cssText =
+      "position:fixed;left:50%;bottom:28px;transform:translateX(-50%);" +
+      "background:#0e1b2a;color:#f6f3ee;padding:14px 20px;max-width:min(560px,90vw);" +
+      "font-size:14px;line-height:1.7;z-index:60;border-left:3px solid #c8934a";
+    document.body.appendChild(t);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.remove(); }, 4200);
+  }
+
+  /* ---------- 描画 ---------- */
+  var VIEWS = { box: viewBox, pipes: viewPipes, report: viewReport, setup: viewSetup, ask: viewAsk };
+
+  function go(id) {
+    STATE.view = id;
+    STATE.filter = "";
+    if (id === "setup") STATE.drawer = false;
+    if (location.hash.slice(1) !== id) {
+      location.hash = id;   /* 商談でその画面を直接ひらけるように */
+      return;               /* hashchange 側で描き直す */
+    }
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  function readHash() {
+    var h = location.hash.slice(1).split("/");
+    if (h[0] && VIEWS[h[0]]) STATE.view = h[0];
+    if (h[1]) {
+      for (var i = 0; i < window.GYOSHU.length; i++) {
+        if (window.GYOSHU[i].id === h[1]) { STATE.gyoshu = i; break; }
+      }
+    }
+  }
+
+  function render() {
+    var root = document.getElementById("app");
+    root.innerHTML = "";
+    var shell = el("div", "shell");
+    shell.appendChild(buildRail());
+    var main = el("div", "main");
+    main.appendChild(buildTop());
+    main.appendChild((VIEWS[STATE.view] || viewBox)());
+    shell.appendChild(main);
+    root.appendChild(shell);
+    if (STATE.drawer) root.appendChild(buildDrawer());
+  }
+
+  window.addEventListener("DOMContentLoaded", function () {
+    if (!window.GYOSHU || !window.GYOSHU.length) {
+      document.getElementById("app").innerHTML =
+        '<div style="padding:40px">業種のデータが読み込めませんでした。</div>';
+      return;
+    }
+    readHash();
+    autoPass();
+    render();
+    window.addEventListener("hashchange", function () {
+      readHash();
+      render();
+      window.scrollTo(0, 0);
+    });
+  });
+
+  window.__banto = { STATE: STATE, render: render, go: go };
+})();
+
+</script>
+</body>
+</html>
