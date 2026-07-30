@@ -768,7 +768,226 @@ svg{display:block;}
 .os-done{background:#f0f8f3;border:2px solid var(--green);border-radius:14px;padding:20px;margin-bottom:18px}
 .os-done .bg{font-size:19px;font-weight:700;color:#12704a;margin-bottom:6px}
 .os-done .sm{font-size:14px;line-height:1.85;color:#43525f}
+
+/* ==== AI社員の6分野（2026-07-30 追加） ==== */
+.kb-sample{display:inline-block;vertical-align:middle;margin-left:8px;padding:2px 10px;border-radius:20px;
+  background:#eef1f4;border:1px solid #c3ced8;color:#5b6b78;font-size:12px;font-weight:700}
+.kb-note{margin:0 0 20px;padding:14px 18px;border-radius:10px;background:#fdf9f2;border:1px solid #e6d3b3;
+  font-size:13.5px;line-height:1.85;color:#6b5227}
+.kb-note b{color:#8a5a1a}
+.kb-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 22px}
+.kb-legend div{padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.7}
+.kb-legend .l1{background:#f0f8f3;border:1px solid #cbe5d8;color:#12704a}
+.kb-legend .l2{background:#fdf7ec;border:1px solid #e6d3b3;color:#8a5a1a}
+.kb-legend .l3{background:#fdf2f0;border:1px solid #f0c4bf;color:#8f2419}
+.kb-legend b{display:block;font-size:14.5px;margin-bottom:3px}
+.kb-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:26px}
+.kb-field{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.kb-field.kb-main{border-color:#9ec9b1;box-shadow:0 2px 10px rgba(20,90,50,.07)}
+.kb-fhead{padding:15px 18px;background:#f4f7f9;border-bottom:1px solid var(--line)}
+.kb-field.kb-main .kb-fhead{background:#f0f8f3;border-bottom-color:#cbe5d8}
+.kb-fhead .n{font-size:12.5px;font-weight:700;color:var(--muted)}
+.kb-fhead h3{margin:2px 0 0;font-size:17px;font-weight:800;line-height:1.4;color:#16202b}
+.kb-fhead .lead{margin-top:6px;font-size:12.8px;line-height:1.7;color:#43525f}
+.kb-fhead .kb-go{margin-top:11px;min-height:42px;padding:0 16px;border:2px solid var(--green);border-radius:9px;
+  background:var(--green);color:#fff;font-size:13.5px;font-weight:700;cursor:pointer}
+.kb-fhead .kb-go:hover{filter:brightness(.92)}
+.kb-fhead .kb-soon{margin-top:11px;display:inline-block;padding:8px 14px;border-radius:9px;background:#eef1f4;
+  border:1px dashed #b6c2cd;color:#5b6b78;font-size:12.5px;font-weight:700}
+.kb-cols{padding:4px 18px 16px;flex:1}
+.kb-col{padding:13px 0;border-bottom:1px solid var(--line)}
+.kb-col:last-child{border-bottom:0}
+.kb-col>b{display:block;font-size:13px;font-weight:800;margin-bottom:7px}
+.kb-col.c1>b{color:#12704a}
+.kb-col.c2>b{color:#8a5a1a}
+.kb-col.c3>b{color:#8f2419}
+.kb-col ul{margin:0;padding-left:17px}
+.kb-col li{margin:4px 0;font-size:12.8px;line-height:1.75;color:#43525f}
+.kb-col.c3 li{color:#7d3128}
+.kb-tag{display:inline-block;margin-left:5px;padding:1px 7px;border-radius:11px;font-size:11px;font-weight:700;
+  vertical-align:middle;white-space:nowrap}
+.kb-tag.t1{background:#e3f2e9;color:#12704a}
+.kb-tag.t2{background:#eef1f4;color:#5b6b78}
+.kb-tag.t3{background:#fdf2f0;color:#8f2419}
+.kb-why{margin:0;padding:0;list-style:none}
+.kb-why li{position:relative;padding:9px 0 9px 15px;border-bottom:1px solid var(--line);font-size:13px;line-height:1.8}
+.kb-why li:last-child{border-bottom:0}
+.kb-why li::before{content:"";position:absolute;left:0;top:16px;width:6px;height:6px;border-radius:3px;background:#c3ced8}
+/* できなかったこと（3行・2行目は必ず赤。画面を足す人が外せないよう色はCSSで固定する） */
+.kb-cant{margin:22px 0 0;padding:16px 18px;background:#f4f7f9;border:1px solid var(--line);border-radius:12px}
+.kb-cant>b{display:block;font-size:13.5px;font-weight:800;color:#43525f;margin-bottom:9px}
+.kb-cant ol{margin:0;padding-left:20px}
+.kb-cant li{margin:6px 0;font-size:13.5px;line-height:1.85;color:#43525f}
+.kb-cant li:nth-child(2){padding:9px 12px;margin-left:-8px;border-radius:8px;background:#fdf2f0;color:#8f2419;font-weight:700}
+.kb-src{margin-left:auto;padding:3px 10px;border-radius:12px;border:1px solid #c3ced8;background:#fff;
+  color:#5b6b78;font-size:11.5px;font-weight:700;cursor:default}
+@media (max-width:900px){
+  .kb-fields{grid-template-columns:minmax(0,1fr)}
+  .kb-legend{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ==== 6分野の画面（2026-07-30 追加） ==== */
+.kb-opt{display:inline-block;vertical-align:middle;margin-left:8px;padding:2px 11px;border-radius:20px;
+  background:#fdf7ec;border:1px solid #e6c68c;color:#8a5a1a;font-size:12px;font-weight:700}
+.kb-std{display:inline-block;vertical-align:middle;margin-left:8px;padding:2px 11px;border-radius:20px;
+  background:var(--green);color:#fff;font-size:12px;font-weight:700}
+.tbl tr.kb-no td{background:#fdf2f0;color:#8f2419}
+.tbl tr.kb-no td b{color:#8f2419}
+.kb-docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:6px}
+.kb-docs>div{padding:14px 16px;border-radius:10px}
+.kb-docs .in{background:#f0f8f3;border:1px solid #cbe5d8}
+.kb-docs .out{background:#fdf2f0;border:1px solid #f0c4bf}
+.kb-docs b{display:block;font-size:13.5px;margin-bottom:8px}
+.kb-docs .in b{color:#12704a}
+.kb-docs .out b{color:#8f2419}
+.kb-docs ul{margin:0;padding-left:18px}
+.kb-docs li{margin:4px 0;font-size:13px;line-height:1.75}
+.kb-docs .old{color:#8f2419;font-weight:700}
+.kb-auto{margin-top:6px}
+.kb-auto .row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.kb-auto .row:last-child{border-bottom:0}
+.kb-auto .q{flex:1;min-width:0;font-size:13.5px;line-height:1.75}
+.kb-auto .q span{display:block;margin-top:3px;font-size:12.5px;color:var(--muted)}
+.kb-rule{margin-top:14px;padding:13px 16px;border-radius:10px;background:#fdf2f0;border:1px solid #f0c4bf;
+  font-size:13.5px;line-height:1.85;color:#8f2419;font-weight:700}
+@media (max-width:900px){ .kb-docs{grid-template-columns:minmax(0,1fr)} }
+
+/* ==== 6分野の画面（後半・2026-07-30 追加） ==== */
+.kb-deal{padding:16px 18px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;background:#fff}
+.kb-deal:last-child{margin-bottom:0}
+.kb-deal>h3{margin:0 0 4px;font-size:16.5px;font-weight:800;color:#16202b}
+.kb-deal .sub{font-size:13px;color:var(--muted);margin-bottom:11px}
+.kb-deal .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.kb-deal .two>div{padding:12px 14px;border-radius:9px;font-size:13px;line-height:1.8}
+.kb-deal .got{background:#f0f8f3;border:1px solid #cbe5d8;color:#16202b}
+.kb-deal .not{background:#fdf2f0;border:1px solid #f0c4bf;color:#8f2419}
+.kb-deal .two b{display:block;margin-bottom:5px;font-size:12.5px}
+.kb-deal .got b{color:#12704a}
+.kb-deal .qs{margin:0;padding-left:18px}
+.kb-deal .qs li{margin:4px 0;font-size:13px;line-height:1.75;color:#43525f}
+.kb-blank{display:inline-block;min-width:74px;padding:1px 8px;border-radius:5px;background:#fdf2f0;
+  border:1px dashed #d98d80;color:#8f2419;font-weight:700;text-align:center}
+.tbl tr.kb-sum td{background:#f4f7f9;font-weight:800}
+.kb-lang{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px}
+.kb-lang>div{padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}
+.kb-lang b{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.kb-lang p{margin:0;font-size:13px;line-height:1.8;color:#16202b}
+.kb-warnrow{display:flex;align-items:center;gap:10px;padding:12px 15px;margin-top:12px;border-radius:9px;
+  background:#fdf7ec;border:1px solid #e6c68c;font-size:13.5px;line-height:1.75;color:#8a5a1a;font-weight:700}
+@media (max-width:900px){
+  .kb-deal .two{grid-template-columns:minmax(0,1fr)}
+  .kb-lang{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ==== まだ手作業で残っていること（2026-07-30 追加） ==== */
+.kb-nokori{margin-top:16px;border:2px solid #e6c68c;border-radius:14px;overflow:hidden;background:#fffdf8}
+.kb-nokori .hd{padding:14px 18px;background:#fdf7ec;border-bottom:1px solid #e6c68c}
+.kb-nokori .hd b{font-size:15.5px;color:#8a5a1a}
+.kb-nokori .hd span{display:block;margin-top:3px;font-size:12.5px;color:#9a7a4a}
+.kb-nokori .bd{padding:16px 18px}
+.kb-nokori .ttl{font-size:17px;font-weight:800;color:#16202b;margin-bottom:8px;line-height:1.5}
+.kb-nokori .ev{margin:10px 0 0;padding:12px 14px;background:#f4f7f9;border-radius:9px;font-size:13px;line-height:1.8;color:#43525f}
+.kb-nokori .ev b{color:#16202b}
+.kb-nokori .why{margin-top:12px;font-size:13px;line-height:1.85;color:#43525f}
+.kb-nokori .acts{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
+
+/* ==== 承認箱の札を強くする（2026-07-30 追加） ==== */
+.kb-conf{margin-left:auto;padding:3px 11px;border-radius:13px;font-size:12px;font-weight:700;white-space:nowrap}
+.kb-conf.c1{background:#e3f2e9;color:#12704a;border:1px solid #b3cdbe}
+.kb-conf.c2{background:#fdf7ec;color:#8a5a1a;border:1px solid #e6c68c}
+.kb-conf.c3{background:#fdf2f0;color:#8f2419;border:1px solid #f0c4bf}
+.kb-lim{display:flex;align-items:center;gap:9px;margin:12px 20px 0;padding:10px 14px;border-radius:9px;
+  background:#f4f7f9;border:1px solid var(--line);font-size:13.5px;line-height:1.7;color:#43525f}
+.kb-lim b{color:#16202b}
+.kb-lim.hot{background:#fdf7ec;border-color:#e6c68c;color:#8a5a1a}
+.kb-lim.hot b{color:#8a5a1a}
+.sh-tr li .kb-ct{display:inline-block;margin-right:7px;padding:1px 8px;border-radius:11px;
+  background:#b3271b;color:#fff;font-size:11.5px;font-weight:700;vertical-align:middle}
+.kb-srcbtn{margin-left:8px;padding:2px 10px;border-radius:12px;border:1px solid #c3ced8;background:#fff;
+  color:#43525f;font-size:11.5px;font-weight:700;cursor:pointer}
+.kb-srcbtn:hover{border-color:var(--green);color:var(--green)}
+.sh-acts .sh-btn.k4{min-height:50px;padding:0 18px;font-size:15px}
+.kb-undo{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:900;
+  display:flex;align-items:center;gap:14px;padding:13px 20px;border-radius:12px;
+  background:#16202b;color:#fff;box-shadow:0 6px 22px rgba(0,0,0,.28);font-size:14.5px;font-weight:700}
+.kb-undo button{min-height:40px;padding:0 16px;border-radius:9px;border:2px solid #fff;
+  background:transparent;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.kb-undo button:hover{background:rgba(255,255,255,.14)}
+.kb-undo .cd{font-variant-numeric:tabular-nums;opacity:.75;font-weight:400}
+@media (max-width:860px){
+  .kb-undo{left:12px;right:12px;transform:none;justify-content:space-between}
+  .sh-acts .sh-btn.k4{flex:1 1 46%}
+}
+
+/* ==== 番頭の任せ方（2026-07-30 追加） ==== */
+.kb-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.kb-steps>div{padding:14px 15px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.kb-steps .n{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.kb-steps b{display:block;font-size:14.5px;margin-bottom:6px;color:#16202b}
+.kb-steps p{margin:0;font-size:12.8px;line-height:1.75;color:#43525f}
+.kb-steps .cur{border-color:var(--green);background:#f0f8f3;box-shadow:0 2px 10px rgba(20,90,50,.08)}
+.kb-steps .cur b{color:#12704a}
+.kb-steps .ng{border-color:#f0c4bf;background:#fdf2f0}
+.kb-steps .ng b{color:#8f2419}
+.kb-mk td .sel{display:flex;gap:5px;flex-wrap:wrap}
+.kb-mk .sel button{min-height:36px;padding:0 11px;border:1px solid #c3ced8;border-radius:8px;background:#fff;
+  font-size:12.5px;font-weight:700;color:#5b6b78;cursor:pointer;white-space:nowrap}
+.kb-mk .sel button:hover{border-color:var(--green);color:var(--green)}
+.kb-mk .sel button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.kb-mk .sel button[aria-pressed="true"][data-lv="0"]{background:#8f2419;border-color:#8f2419}
+.kb-mk .sel button[aria-pressed="true"][data-lv="3"]{background:#8a5a1a;border-color:#8a5a1a}
+.kb-mk .lock{font-size:12px;color:#8f2419;font-weight:700}
+.kb-yt .row{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.kb-yt .row:last-child{border-bottom:0}
+.kb-yt .tm{flex:0 0 92px;font-size:12.5px;color:var(--muted);padding-top:2px}
+.kb-yt .bd{flex:1;min-width:0;font-size:13.5px;line-height:1.75}
+.kb-yt .bd span{display:block;margin-top:3px;font-size:12.5px;color:var(--muted)}
+.kb-yt .md{flex:0 0 auto;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.kb-yt .md.a{background:#eef1f4;color:#5b6b78}
+.kb-yt .md.b{background:#fdf7ec;color:#8a5a1a;border:1px solid #e6c68c}
+@media (max-width:900px){ .kb-steps{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* ==== 毎月の決まりごと／お金の見張り番（2026-07-30 追加） ==== */
+.kb-mon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:6px}
+.kb-mon>div{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.kb-mon .h{padding:12px 15px;background:#f4f7f9;border-bottom:1px solid var(--line);font-size:14px;font-weight:800;color:#16202b}
+.kb-mon .h span{float:right;font-size:12px;font-weight:700;color:var(--muted)}
+.kb-mon ul{margin:0;padding:8px 15px 14px;list-style:none}
+.kb-mon li{position:relative;padding:9px 0 9px 26px;font-size:13px;line-height:1.7;border-bottom:1px solid var(--line)}
+.kb-mon li:last-child{border-bottom:0}
+.kb-mon li::before{position:absolute;left:0;top:9px;font-size:13px;font-weight:700}
+.kb-mon li[data-s="done"]{color:var(--muted)}
+.kb-mon li[data-s="done"]::before{content:"済";color:#12704a}
+.kb-mon li[data-s="ai"]::before{content:"番";color:#8a5a1a}
+.kb-mon li[data-s="yet"]::before{content:"未";color:#8f2419}
+.kb-mon li[data-s="yet"]{font-weight:700}
+.kb-mon li small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
+.kb-al{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:6px}
+.kb-al .r{display:flex;align-items:flex-start;gap:13px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fff}
+.kb-al .r:last-child{border-bottom:0}
+.kb-al .r.hot{background:#fdf2f0}
+.kb-al .ic{flex:0 0 34px;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  background:#eef1f4;color:#5b6b78;font-size:15px;font-weight:800}
+.kb-al .r.hot .ic{background:#b3271b;color:#fff}
+.kb-al .bd{flex:1;min-width:0}
+.kb-al .bd b{display:block;font-size:14.5px;line-height:1.55;color:#16202b;margin-bottom:4px}
+.kb-al .r.hot .bd b{color:#8f2419}
+.kb-al .bd p{margin:0;font-size:13px;line-height:1.8;color:#43525f}
+.kb-al .bd .ev{margin-top:7px;padding:9px 12px;border-radius:8px;background:#f4f7f9;font-size:12.5px;line-height:1.75;color:#43525f}
+@media (max-width:900px){ .kb-mon{grid-template-columns:minmax(0,1fr)} }
+
+/* ==== メニューを畳む（2026-07-30 追加） ==== */
+.nav-sec.kb-fold{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+  padding-top:14px;padding-bottom:7px}
+.nav-sec.kb-fold:hover{color:#fff}
+.nav-sec.kb-fold .ar{display:inline-block;transition:transform .18s;font-size:10px;opacity:.75}
+.nav-sec.kb-fold[aria-expanded="true"] .ar{transform:rotate(90deg)}
+.nav-sec.kb-fold .cnt{margin-left:auto;font-size:11px;opacity:.6;font-weight:400}
+.kb-navhint{margin:6px 12px 10px;padding:9px 11px;border-radius:9px;background:rgba(255,255,255,.07);
+  font-size:11.5px;line-height:1.65;color:#cfe0d5}
+.kb-navhint b{color:#fff}
 </style>
+  <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
 
@@ -853,6 +1072,11 @@ const I = {
 /* sec: "main" = 標準パック / "opt" = 別オプション。サイドバーを2セクションに分ける */
 const NAV = [
   {id:"shonin",    ic:I.check, label:"今日の承認箱", sec:"main"},
+  {id:"dekirukoto",ic:I.star,  label:"番頭にできること", sec:"main"},
+  {id:"yatta",     ic:I.check, label:"昨日やったこと", sec:"main"},
+  {id:"makase",    ic:I.ai,    label:"番頭の任せ方", sec:"main"},
+  {id:"routine",   ic:I.task,  label:"毎月の決まりごと", sec:"main"},
+  {id:"mihari",    ic:I.money, label:"お金の見張り番", sec:"main"},
   {id:"oshieru",   ic:I.ai,    label:"番頭に教える", sec:"main"},
   {id:"banto",     ic:I.ai,   label:"番頭（経営参謀AI）", sec:"main"},
   {id:"dashboard", ic:I.home, label:"ダッシュボード", sec:"main"},
@@ -873,6 +1097,11 @@ const NAV = [
   {id:"hojokin",   ic:I.hojo, label:"補助金斡旋", badge:"2", sec:"main"},
   {id:"kioku",     ic:I.ai,   label:"専属AI記憶ノート", sec:"main"},
   {id:"tsuchi",    ic:I.bell, label:"通知連携", sec:"main"},
+  {id:"kimarigoto",ic:I.doc,  label:"社内の決まりごと係", sec:"six"},
+  {id:"denwaban",  ic:I.bell, label:"電話・問い合わせ番", sec:"six"},
+  {id:"uketsuke",   ic:I.home, label:"受付・ご案内", sec:"six"},
+  {id:"shitagoshirae",ic:I.deal,label:"商談の下ごしらえ", sec:"six"},
+  {id:"saiyo",      ic:I.share,label:"採用の受付係", sec:"six"},
   {id:"options",   ic:I.star, label:"オプション機能", sec:"opt", opt:true}
 ];
 
@@ -5776,6 +6005,11 @@ DEMO_BUILDERS.zaiko=function(body){
 const EMP_NAV=[
   {id:"emp-home", ic:I.home, label:"マイホーム", sec:"main"},
   {id:"emp-eigyo", ic:I.deal, label:"自分の案件", sec:"main"},
+  {id:"dekirukoto", ic:I.star, label:"番頭にできること", sec:"main"},
+  {id:"kimarigoto", ic:I.doc, label:"社内の決まりごと係", sec:"main"},
+  {id:"denwaban", ic:I.bell, label:"電話・問い合わせ番", sec:"main"},
+  {id:"uketsuke", ic:I.home, label:"受付・ご案内", sec:"main"},
+  {id:"routine", ic:I.task, label:"毎月の決まりごと", sec:"main"},
   {id:"weekly", ic:I.nippo, label:"週次レポート（全員）", sec:"main"}
 ];
 
@@ -6378,6 +6612,7 @@ function viewTeiki(){
   const pb=el("button","btn btn-green btn-sm mt16","📤 今すぐプレビュー配信（社内チャットへ）");
   pb.onclick=()=>toast("経営レポートを社内チャットに配信しました（デモ・送信は人）");
   cfg.append(pb);v.append(cfg);
+  v.append(nokoriBox());
   v.append(el("div","note box","数値・見通しはデモ用の試算で、売上・受注を保証するものではありません。配信は人が確認して行います。定期便は今後実装する新機能を含みます。"));
   v.append(footer());
   return v;
@@ -6548,6 +6783,10 @@ function shCard(c,i){
 
   var top=el("div","sh-top");
   top.innerHTML='<span class="sh-tag">'+shEsc(c.kind)+'</span><span class="sh-tag r">'+shEsc(SH_RISK[c.risk]||"")+'</span><h3>'+shEsc(c.title)+'</h3>';
+  if(c.from){var fs=el("span","kb-src",shEsc(c.from));top.insertBefore(fs,top.lastChild);}
+  var _cf=shConfidence(c);
+  var _cb=el("span","kb-conf "+_cf.k,shEsc(_cf.label));
+  _cb.title=_cf.why; top.insertBefore(_cb,top.lastChild);
   card.appendChild(top);
 
   var isMoney=/円|￥/.test(c.amount||""), isShort=String(c.amount||"").length<=22;
@@ -6558,6 +6797,11 @@ function shCard(c,i){
     four.appendChild(el("dd",r[2]||null,shEsc(r[1])));
   });
   card.appendChild(four);
+  var _lm=shLimit(c);
+  if(c.when){
+    card.appendChild(el("div","kb-lim"+(_lm.hot?" hot":""),
+      "<b>いつまでに押すか：</b>"+shEsc(_lm.text)+"　／　期限が過ぎても、番頭が勝手に実行することはありません"));
+  }
 
   var more=el("details","sh-more");
   if(STATE.mode2==="one")more.open=true;
@@ -6568,9 +6812,14 @@ function shCard(c,i){
   more.appendChild(diff);
   var tr=el("ul","sh-tr");
   (c.trace||[]).forEach(function(t,n){
-    var li=el("li",null,shEsc(t));
+    var li=el("li",null,(n===1?'<span class="kb-ct">'+shCantType(t)+"</span>":"")+shEsc(t));
     li.setAttribute("data-n",String(n+1));
     if(n===1)li.setAttribute("data-skip","1");
+    if(n===(c.trace.length-1)){
+      var sb=el("button","kb-srcbtn","元の書類を見る");sb.type="button";
+      sb.onclick=function(ev){ev.stopPropagation();shOpenSource(card);};
+      li.appendChild(sb);
+    }
     tr.appendChild(li);
   });
   more.appendChild(tr);
@@ -6584,15 +6833,20 @@ function shCard(c,i){
     u.onclick=function(){delete STATE.done2[key];render();};
     acts.appendChild(u);
   }else{
-    var ok=el("button","sh-btn g");ok.type="button";
-    ok.textContent=c.risk==="red"?"確認しました。これで出す":"これでOK";
-    ok.onclick=function(){STATE.done2[key]=true;render();};
+    /* 押す選択肢は4つ。「はい／いいえ」の2択にすると、
+       迷ったときに「とりあえず通す」しか道がなくなり、確認が形だけになる。 */
+    var ok=el("button","sh-btn g k4");ok.type="button";
+    ok.textContent=c.risk==="red"?"確認しました。これで出す":"そのまま通す";
+    ok.onclick=function(){STATE.done2[key]=true;shUndoBar(key,c.title);render();};
     acts.appendChild(ok);
-    var f=el("button","sh-btn s");f.type="button";f.textContent="直す";
+    var f=el("button","sh-btn s k4");f.type="button";f.textContent="直して通す";
     f.onclick=function(){toast("直す画面をひらきます（このデモでは中身までは動きません）");};
     acts.appendChild(f);
-    var h=el("button","sh-btn s");h.type="button";h.textContent="人に回す";
-    h.onclick=function(){toast("担当の方へ回しました（このデモでは通知は飛びません）");};
+    var q=el("button","sh-btn s k4");q.type="button";q.textContent="ひとこと返す";
+    q.onclick=function(){toast("番頭にひとこと伝えました。明日、直したものを出します（デモ）");};
+    acts.appendChild(q);
+    var h=el("button","sh-btn s k4");h.type="button";h.textContent="今日は見送る";
+    h.onclick=function(){toast("今日は見送りました。明日また出します（デモ・期限は過ぎても勝手に実行しません）");};
     acts.appendChild(h);
   }
   card.appendChild(acts);
@@ -6886,6 +7140,1055 @@ function osFooterNote(){
   return n;
 }
 
+
+/* ====================================================================
+   AI社員にできること（2026-07-30 追加）
+   よその資料は「できること」しか書かない。
+   うちは3つに分けて書く：今できること／人が押すところ／まだできないこと。
+   ★印の意味  動く=当社の環境で毎日動いている／画面だけ=さわれるが裏側はこれから／
+              これから=まだ作っていない
+==================================================================== */
+var KB_T={do:'<span class="kb-tag t1">動く</span>',dm:'<span class="kb-tag t2">画面だけ</span>',
+          to:'<span class="kb-tag t3">これから</span>'};
+
+var DEKIRU6=[
+{no:"⑥",id:"keiri",main:true,name:"経理・バックオフィス",
+ lead:"当社の主戦場です。ここから始めていただきます。",view:"seikyu",
+ now:["銀行の明細と請求の台帳をつき合わせて「入金された／されていない」を出す（振込名の書き方のゆれを吸収します）"+KB_T.do,
+      "カードの明細を科目ごとに仕分ける"+KB_T.do,
+      "適格請求書（インボイス）の形で請求書を作り、機械で検算してから出す"+KB_T.do,
+      "給与明細を作って検算する"+KB_T.do,
+      "手書きの仕入れ表・FAXの注文書を、写真から文字にする（お使いのパソコンの中だけで処理し、外に送りません）"+KB_T.do,
+      "下書きを作らなかったときは、その理由を文章で出す"+KB_T.do,
+      "今日の承認箱に1本の列で並べ、上から押すだけで今日の事務を終わらせる"+KB_T.dm],
+ human:["請求書をお客様へ出すとき（赤：お金・社外に出ます）",
+        "振込・支払をするとき（赤）",
+        "給与を確定するとき（赤）",
+        "台帳への記帳・経費の科目の確定（白：社内で確定します）"],
+ cant:["【やらないと決めました】番頭が自分で振込や送信をすること。押すのは人です",
+       "【まだ作っていません】会計ソフト・銀行への直接のつなぎこみ。今は書き出したファイルでやりとりします",
+       "【正直に申し上げます】お客様の会社に置いた実例が、まだありません（0社）"]},
+
+{no:"①",id:"toiawase",name:"お客様からの問い合わせ対応",
+ lead:"夜のあいだに来たものを、朝ひとまとめにしてお出しします。",view:"denwaban",
+ now:["届いた問い合わせ文の要約と、どこへ回すかの仕分け"+KB_T.dm,
+      "折り返しの文の下書き（送るのは人です）"+KB_T.dm,
+      "夜のあいだの着信・メール・LINEを、朝ひとまとめにして出す"+KB_T.dm],
+ human:["返事を送るとき（赤）",
+        "折り返しの予定を入れるとき（白）",
+        "着信の用件メモ・仕分けは、消しても損害が出ないので自動で通ります（灰）"],
+ cant:["【やらないと決めました】強い口調のお問い合わせに、番頭が文を作ること。先に人が聞いてください",
+       "【まだ作っていません】24時間の自動応答、電話に出て話すこと",
+       "夜中でもお客様に即答してほしい、というご要望であれば、当社の商品は合いません"]},
+
+{no:"③",id:"shanai",name:"社内の決まりごと・質問対応",
+ lead:"「有給は何日前まで？」に、どの文書の何番かを付けて答えます。",view:"kimarigoto",
+ now:["録画（と声）から作業手順の下書きを作る。声を文字にする処理も、お使いのパソコンの中で終わります"+KB_T.do,
+      "手順書に【ここは教えてください】の空欄を残す（AIが埋めません）"+KB_T.do,
+      "規程への質問に、どの文書の何番かを付けて答える"+KB_T.dm],
+ human:["手順書が合っているかの確認（白）",
+        "新しい規程を番頭に入れるとき（白）",
+        "規程への答えそのものは、社内で取り消せるので自動で通ります（灰）"],
+ cant:["【やらないと決めました】規程に書かれていないことを、会社の決まりとして答えること",
+       "【当社でまだ確かめていません】声が入った録画で、どのくらい正しく文字になるか",
+       "【まだ作っていません】チャットで社員の質問に答える窓口"]},
+
+{no:"④",id:"eigyo6",name:"営業・商談まわり",
+ lead:"明日の商談の下ごしらえと、見積のたたき台まで。",view:"shitagoshirae",
+ now:["案件とアポを段階で見える化し、フォローもれを知らせる"+KB_T.dm,
+      "打ち合わせの記録の要約"+KB_T.do,
+      "提案書・見積のたたき台"+KB_T.do,
+      "出す前の文章の点検（景表法・薬機法で危ない言い方の書き直し案）"+KB_T.do],
+ human:["見積・提案を出すとき（赤）",
+        "台帳への入力（白）"],
+ cant:["【やらないと決めました】相手の言葉から「受注できそうな確率」を作ること。会社の見込みが実際とずれます",
+       "【やらないと決めました】一斉の自動送信、SNSでの自動営業、口コミ風の文章づくり",
+       "【まだ作っていません】相手の会社を外から調べること。番頭は外のサイトを見に行きません"]},
+
+{no:"②",id:"uketsuke6",name:"受付・お店の接客・多言語の案内",
+ lead:"当社が弱い分野です。他社のほうが向いています。",view:"uketsuke",
+ now:["来客と予約の予定を1枚にまとめる"+KB_T.dm,
+      "現場まわりの掲示の下書き（やさしい日本語・英語など）"+KB_T.dm],
+ human:["掲示を貼るとき・近隣への返事（赤）",
+        "予約の確定（白）"],
+ cant:["【やらないと決めました】安全の掲示（立入禁止・上部作業中など）を、番頭の訳だけで貼ること",
+       "【まだ作っていません】画面に人の姿を出しての接客、15か国語の案内",
+       "この分野は、他社の商品をご検討いただくほうがよいと考えています"]},
+
+{no:"⑤",id:"jinji",name:"人事・採用",
+ lead:"書類がそろっているかまで。人を選ぶのは人です。",view:"saiyo",
+ now:["給与明細の作成と検算"+KB_T.do,
+      "役所・登記の申請書類の下書き"+KB_T.do,
+      "契約書の台帳管理と、更新期日の見張り"+KB_T.do,
+      "応募書類がそろっているかの確認"+KB_T.dm],
+ human:["採用の合否・人事の評価は、かならず人が決めます",
+        "書類を提出するとき（赤）"],
+ cant:["【やらないと決めました】応募してきた方に点数や順位をつけること。断る理由を会社が説明できなくなります",
+       "【当社は行いません】社会保険・就業規則の判断。社会保険労務士の先生の領域です",
+       "【まだ作っていません】応募者への問い合わせ対応、面接の日程調整"]}
+];
+
+/* まだできないことだけを集めた表（この画面のいちばん下） */
+var DEKIRU_WHY=[
+ ["⑥経理","会計ソフトへの書きこみ","読み取りだけにしているためです","社長が押した1件ずつなら、書きこみも検討します"],
+ ["①問い合わせ","電話に出て話すこと","声で応答する仕組みを当社で確かめていないためです","用件の要約と、折り返しの下書きまでは今できます"],
+ ["③社内","規程に書かれていないことへの回答","<b>やらないと決めました。</b>書いていないことを会社の決まりとして答えると、あとで会社が困ります","規程を1本足していただければ、その範囲でお答えします"],
+ ["④営業","相手の会社を外から調べること","番頭は外のサイトを見に行かないためです","別オプション「与信・反社チェック便」の役目です"],
+ ["⑤採用","応募者に点数・順位をつけること","<b>やらないと決めました。</b>断る理由を会社が説明できなくなります","書類がそろっているかどうかまでは今できます"],
+ ["②受付","安全の掲示を多言語に訳すこと","命に関わる文を、当社の訳だけで貼らせられないためです","訳したものを、話せる方に見ていただく前提ならお出しします"]
+];
+
+/* できなかったこと3行（2行目は必ず「できなかったこと」。色はCSSで固定） */
+function cantBox(read, cant, did){
+  var d=el("div","kb-cant");
+  d.innerHTML='<b>番頭の足あと</b><ol><li>'+read+'</li><li>'+cant+'</li><li>'+did+'</li></ol>';
+  return d;
+}
+
+function viewDekirukoto(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>AI社員にできること <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>よその会社の資料は「できること」だけが並んでいます。当社は3つに分けて書きます。'+
+    '<b>今できること／人が押すところ／まだできないこと。</b>3つ目まで書いてあるほうを選んでいただきたいからです。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='この一覧は<b>商品の説明</b>です。画面に出ている数字・会社名は、すべて架空のサンプルです。'+
+    '<b>導入した会社は、まだ0社です。</b>効果は業務により異なり、お約束はできません。';
+  v.appendChild(note);
+
+  var lg=el("div","kb-legend");
+  lg.innerHTML='<div class="l1"><b>今できること</b>この画面から実際にさわれます</div>'+
+    '<div class="l2"><b>人が押すところ</b>番頭はここで止まります</div>'+
+    '<div class="l3"><b>まだできないこと</b>作っていない／確かめていない／やらないと決めた</div>';
+  v.appendChild(lg);
+
+  var g=el("div","kb-fields");
+  DEKIRU6.forEach(function(d){
+    var c=el("div","kb-field"+(d.main?" kb-main":""));
+    var h=el("div","kb-fhead");
+    h.innerHTML='<div class="n">'+d.no+'　AI社員の分野</div><h3>'+d.name+'</h3><div class="lead">'+d.lead+'</div>';
+    // 画面ができていれば開くボタンを出す。まだなら正直にそう書く
+    if(d.view && VIEWS[d.view]){
+      var b=el("button","kb-go");b.type="button";b.textContent="この画面をひらく";
+      b.onclick=function(){go(d.view);};
+      h.appendChild(b);
+    }else{
+      h.appendChild(el("span","kb-soon","この画面は、まだ作っていません"));
+    }
+    c.appendChild(h);
+
+    var cols=el("div","kb-cols");
+    [["c1","今できること",d.now],["c2","人が押すところ",d.human],["c3","まだできないこと",d.cant]].forEach(function(p){
+      var col=el("div","kb-col "+p[0]);
+      col.innerHTML='<b>'+p[1]+'</b><ul>'+p[2].map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>';
+      cols.appendChild(col);
+    });
+    c.appendChild(cols);
+    g.appendChild(c);
+  });
+  v.appendChild(g);
+
+  var w=el("div","card");
+  w.innerHTML='<div class="card-h"><h2>まだできないこと（なぜ、どうすればできるか）</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 14px">'+
+    'できないことを隠すと、入れたあとで必ずもめます。先に全部書いておきます。'+
+    '<b>「やらないと決めました」は、作れないのではなく、作らないと決めたものです。</b></p>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>分野</th><th>まだできないこと</th><th>なぜ</th><th>どうすればできるか</th></tr></thead><tbody>'+
+    DEKIRU_WHY.map(function(r){return '<tr><td>'+r[0]+'</td><td><b>'+r[1]+'</b></td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>';}).join("")+
+    '</tbody></table></div>';
+  v.appendChild(w);
+
+  v.appendChild(cantBox(
+    "世の中で「AI社員」と呼ばれている商品の6つの分野に、当社の中身を1つずつ当てはめました。",
+    "6つのうち5つは、まだ画面だけか、作っていません。今日から本当に動かせるのは⑥経理・バックオフィスの一部です。できるふりをすると、入れたあとで必ずもめるためです。",
+    "分野ごとに「今できること／人が押すところ／まだできないこと」を分けて並べました。"));
+
+  v.appendChild(footer());
+  return v;
+}
+
+
+/* ====================================================================
+   ③社内の決まりごと係（2026-07-30 追加）
+   規程に書かれていないことは答えない。答えるときは、どの文書の何番かを必ず付ける。
+==================================================================== */
+var KIMARI_QA=[
+ {q:"有給は何日前までに出せばいいですか",a:"原則、前々日までに申請書を出す、と書かれています",src:"就業規則（2026年4月版）第22条"},
+ {q:"作業服の支給はいつですか",a:"入社時と、年1回4月、と書かれています",src:"安全衛生マニュアル（2025年10月版）3-2"},
+ {q:"高所作業のあごひもは必要ですか",a:"かならず締める、と書かれています",src:"安全ルール（2026年1月版）5-1"},
+ {q:"現場までの移動時間は勤務時間に入りますか",a:"事務所に集合してから現場へ向かう日は勤務時間に含む、と書かれています",src:"就業規則（2026年4月版）第16条"},
+ {q:"単身赴任の手当は出ますか",a:"答えていません。規程に書かれていません。総務にお聞きください",src:"",no:true},
+ {q:"退職金はいくらもらえますか",a:"答えていません。退職金規程が番頭に入っていません（入れるには社長の確認が要ります）",src:"",no:true},
+ {q:"腰が痛いのですが労災になりますか",a:"答えていません。これは番頭が答える話ではありません。会社のご担当者と、お医者さんにご相談ください",src:"",no:true}
+];
+var KIMARI_IN=["就業規則（2026年4月版）","安全衛生マニュアル（2025年10月版）","安全ルール（2026年1月版）",
+               "車両の使い方（2024年6月版）※古いままです"];
+var KIMARI_OUT=["退職金規程","出張旅費規程","育児・介護の規程"];
+
+function viewKimarigoto(){
+  var emp=(STATE.role==="employee");
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>社内の決まりごと係 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>'+(emp?'会社の決まりについて、聞きたいことを聞いてください。番頭は<b>規程に書いてあることだけ</b>をお答えします。'
+              :'従業員の方からの「聞きごと」と、番頭の答えです。<b>答えられなかったものは、規程の穴です。</b>')+'</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='ここに出ている規程名・条番号・質問は、すべて<b>架空のサンプル</b>です。実際の就業規則ではありません。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"今週の聞きごと",     val:"18件"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"番頭が答えた",       val:"13件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.doc,  lbl:"どの文書の何番かを示せた", val:"13 / 13件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:emp?"番頭が答えなかった":"答えられなかった（規程の穴）", val:"5件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>聞かれたことと、番頭の答え</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 14px">'+
+    '答えるときは<b>どの文書の何番か</b>をかならず付けます。付けられないときは答えません。</p>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>聞かれたこと</th><th>番頭の答え</th><th>どの文書の何番か</th></tr></thead><tbody>'+
+    KIMARI_QA.map(function(r){
+      return '<tr'+(r.no?' class="kb-no"':'')+'><td>'+r.q+'</td><td>'+(r.no?'<b>'+r.a+'</b>':r.a)+'</td><td>'+(r.src||'—')+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+  v.appendChild(c);
+
+  var d=el("div","card");
+  d.innerHTML='<div class="card-h"><h2>番頭が読んでいる文書</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '入っていない文書のことは、番頭は答えられません。<b>入っていないものも隠さず出します。</b></p>';
+  var docs=el("div","kb-docs");
+  docs.innerHTML='<div class="in"><b>入っています</b><ul>'+
+      KIMARI_IN.map(function(x){return '<li'+(x.indexOf("古い")>=0?' class="old"':'')+'>'+x+'</li>';}).join("")+'</ul></div>'+
+    '<div class="out"><b>入っていません</b><ul>'+
+      KIMARI_OUT.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul></div>';
+  d.appendChild(docs);
+  d.appendChild(el("div","kb-rule",
+    "規程に書かれていないことを、会社の決まりとして答えることはしません。この決まりは設定で外せません。"));
+  v.appendChild(d);
+
+  v.appendChild(cantBox(
+    "今週の聞きごと18件を、番頭に入っている4つの文書と照らしました。",
+    "5件は答えていません。3件は規程に書かれておらず、1件は文書そのものが番頭に入っておらず、1件はからだのことで番頭が答える話ではないためです。書かれていないことを会社の決まりとして答えると、あとで会社が困ります。",
+    "13件に、どの文書の何番かを付けて答えました。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* ====================================================================
+   ①電話・問い合わせ番（2026-07-30 追加）
+   夜のあいだに来たものを、朝ひとまとめにする。番頭は電話に出ない。
+==================================================================== */
+var DENWA_LIST=[
+ {t:"昨夜 21:55",from:"留守番電話",who:"番号が出ていません",sum:"雑音が大きく、用件を聞き取れませんでした",d:false},
+ {t:"昨夜 23:40",from:"LINE公式",who:"あかね塗装 様",sum:"明日の入り時間の確認",d:true},
+ {t:"今朝 06:20",from:"電話",who:"くすのき様邸の施主 様",sum:"工事の音について、強い口調でお話でした",d:false,stop:true},
+ {t:"今朝 07:12",from:"電話",who:"きたかぜ建設 工事課 様",sum:"明日の資材搬入を30分早められないか",d:true},
+ {t:"今朝 08:40",from:"問い合わせフォーム",who:"かえで様邸の施主 様",sum:"見積の内訳を、もう少し細かく見たい",d:true},
+ {t:"今朝 08:55",from:"メール",who:"こなら建材 様",sum:"石膏ボードの納期が1週間ずれる",d:true}
+];
+var DENWA_AUTO=[
+ {q:"営業時間は何時までですか",a:"平日 8時〜17時 とお返ししています"},
+ {q:"見積は無料ですか",a:"無料です、とお返ししています"},
+ {q:"駐車場はありますか",a:"事務所の前に3台ぶんあります、とお返ししています"}
+];
+
+function viewDenwaban(){
+  var emp=(STATE.role==="employee");
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>電話・問い合わせ番 <span class="kb-opt">★オプション</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>夜のあいだに来た電話・メール・LINEを、朝ひとまとめにします。'+
+    '<b>番頭は電話に出ません。</b>用件をまとめて、折り返しの文の下書きを作るところまでです。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='着信の時刻・会社名・用件は、すべて<b>架空のサンプル</b>です。実際の電話回線にはつながっていません。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.bell, lbl:"ゆうべ21時〜今朝8時",   val:"14件", delta:"出られなかった 9件", deltaTone:"down"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"用件が分かった",         val:"7 / 9件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"折り返しの下書き",       val:"5件"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"下書きを作らなかった",   val:"4件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>出られなかった電話・問い合わせ</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>いつ</th><th>どこから</th><th>お相手</th><th>番頭がまとめた用件</th><th>折り返しの下書き</th></tr></thead><tbody>'+
+    DENWA_LIST.map(function(r){
+      return '<tr'+(r.d?'':' class="kb-no"')+'><td>'+r.t+'</td><td>'+r.from+'</td><td>'+r.who+'</td><td>'+r.sum+'</td><td>'+
+        (r.d?'あり':(r.stop?'<b>作りません。先に人がお聞きください</b>':'<b>ありません</b>'))+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+  v.appendChild(c);
+
+  var a=el("div","card");
+  a.innerHTML='<div class="card-h"><h2>あらかじめ承認した自動の返事</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '社長が先に文を決めた<b>3つだけ</b>を返しています。新しい質問には返しません。</p>';
+  var au=el("div","kb-auto");
+  DENWA_AUTO.forEach(function(x){
+    var row=el("div","row");
+    row.innerHTML='<div class="q">'+x.q+'<span>'+x.a+'</span></div>';
+    var b=el("button","btn btn-sm btn-opt-o","文を直す");b.type="button";
+    b.onclick=function(){toast("直す画面をひらきます（このデモでは中身までは動きません）");};
+    row.appendChild(b);
+    au.appendChild(row);
+  });
+  a.appendChild(au);
+  a.appendChild(el("div","kb-rule",
+    "決めた文にあてはまらない質問 6件には、番頭は返していません。次に何を教えるかは、社長が決めてください。"));
+  v.appendChild(a);
+
+  v.appendChild(cantBox(
+    "ゆうべ21時から今朝8時までの着信14件・フォーム3件・メール9通・LINE公式4件を見ました。",
+    "留守番電話1件は雑音で用件が聞き取れず、下書きを作りませんでした。もう1件は強い口調のお話でしたので、番頭は文を作りません。聞いていない事情をAIが足すと、話がこじれるためです。",
+    "残る5件について、折り返しの言い方と、いつ電話するかの下書きを作って承認箱に入れました。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* ====================================================================
+   6分野で生まれた下書きを、今日の承認箱の「1本の列」に合流させる。
+   もとのデータ（業種の大きなかたまり）には手を触れず、外から差し込む。
+   色は「分野」ではなく「出口」で決める。だから列は分かれない。
+==================================================================== */
+var SHONIN_ADD={
+ kensetsu:[
+  {at:2,card:{
+   risk:"red", kind:"メール", from:"電話・問い合わせ番",
+   title:"ゆうべ出られなかった電話に、折り返しの文を作りました",
+   what:"きたかぜ建設 工事課さまへ、資材搬入の時刻についての折り返し（1通）。押すと先方に届きます。",
+   who:"きたかぜ建設 工事課 様",
+   when:"今日の午前中まで",
+   before:"（留守番電話 07/30 07:12・番頭が文字にしたもの）\n「あすの資材の搬入なんですが、30分ほど早めていただくことはできますでしょうか。折り返しお願いします」",
+   after:"きたかぜ建設 工事課 ご担当者様\n\nお世話になっております。株式会社◯◯の◯◯です。\nお電話をいただきながら、出られず申し訳ございませんでした。\n\n明日の資材搬入の件、30分繰り上げのご相談として承りました。\n現場の受け入れ体制を確認のうえ、本日◯時までにあらためてご連絡いたします。\n\n（← 可否と、いつ返事をするかは、人が入れてください）",
+   trace:["ゆうべ21時から今朝8時までの着信14件を聞き、うち9件が未応答でした。",
+          "留守番電話1件は雑音で用件が聞き取れず、下書きを作りませんでした。もう1件は強い口調のお話でしたので、番頭は文を作っていません。聞いていない事情をAIが足すと、話がこじれるためです。",
+          "用件が分かった7件のうち、返事が要る5件の下書きを作りました。",
+          "「できます／できません」は書いていません。現場の都合を知らないためです。"],
+   needs_human:"繰り上げができるかどうかと、いつ返事をするかを入れてから出してください。番頭は現場の都合を知りません。"}},
+
+  {at:5,card:{
+   risk:"gray", kind:"その他", from:"社内の決まりごと係",
+   title:"従業員から3回聞かれたことが、規程に書かれていません",
+   what:"「単身赴任の手当」について、番頭に入っている規程に記載がありません。総務のご確認をお願いする社内メモ（1件）。取り消せる社内メモなので、自動で通しています。",
+   who:"総務ご担当",
+   when:"今週中",
+   before:"（今週の聞きごと・番頭の記録）\n・単身赴任の手当は出ますか（3人）\n・退職金はいくらですか（1人）\n・現場までの移動時間は勤務に入りますか（2人）",
+   after:"社内メモ（下書き）\n\n今週、番頭が答えられなかった質問は5件でした。\nうち3件は「単身赴任の手当」で、番頭に入っている規程に記載がありません。\n\n・就業規則（2026年4月版）に、該当する条がありません\n・退職金規程は、そもそも番頭に入っていません\n・車両の使い方は2024年6月版のままです\n\n規程を足すか、答え方を決めていただけますでしょうか。",
+   trace:["今週の聞きごと18件を、番頭に入っている4つの文書と照らしました。",
+          "5件は答えていません。3件は規程に書かれておらず、1件は文書そのものが入っておらず、1件はからだのことで番頭が答える話ではないためです。書かれていないことを会社の決まりとして答えると、あとで会社が困ります。",
+          "答えられなかったものを、規程の穴として1枚にまとめました。",
+          "何と答えるべきかは書いていません。会社の決めごとは、人が決めるためです。"],
+   needs_human:""}}
+ ]
+};
+(function(){
+  if(!window.GYOSHU_V2) return;
+  window.GYOSHU_V2.forEach(function(g){
+    var a=SHONIN_ADD[g.id]; if(!a) return;
+    a.slice().sort(function(x,y){return y.at-x.at;}).forEach(function(e){
+      g.cards.splice(Math.min(e.at,g.cards.length),0,e.card);
+    });
+  });
+})();
+
+
+/* ====================================================================
+   ④商談の下ごしらえ（2026-07-30 追加）
+   番頭は外のサイトを見に行かない。読むのは、置かれた資料とこれまでのやり取りだけ。
+==================================================================== */
+var SHITAGO_DEALS=[
+ {name:"しらかば工業 様（元請）", topic:"倉庫の外壁改修", when:"明日 10:00 ご訪問",
+  got:"これまでのやり取り12通・見積2通・現場写真8枚を読みました。前回のご相談は3月の屋根の件です。",
+  not:"相手の会社の規模・お支払いの確かさ・決算は分かりません。番頭は外のサイトを見ていないためです。",
+  qs:["前回より単価が上がっているのはなぜか","足場は自社か外注か","工期は雨天でどれだけ延びるか"]},
+ {name:"かえで様邸の施主 様", topic:"見積の内訳のご説明", when:"明日 14:00 オンライン",
+  got:"見積書1通と、今朝の問い合わせフォームの文面を読みました。",
+  not:"ご予算の上限はうかがっていません。番頭は書かれていないことを足しません。",
+  qs:["どの項目の内訳を知りたいのか","他社の見積と比べておられるか","着工の希望時期はいつか"]},
+ {name:"こなら建材 様", topic:"石膏ボードの納期がずれる件", when:"明日 16:00 お電話",
+  got:"今朝のメール1通を読みました。1週間ずれる、とだけ書かれています。",
+  not:"どの現場に影響が出るかを、番頭は割り出せていません。工程表が番頭に入っていないためです。",
+  qs:["ずれるのは全量か一部か","代替の品はあるか","次にずれる見込みはあるか"]}
+];
+var SHITAGO_MITSU=[
+ ["外壁 高圧洗浄","380㎡","<span class=\"kb-blank\">　円</span>","<span class=\"kb-blank\">　円</span>","同じ工事の記録がありません",1],
+ ["足場 架設・解体","一式","—","763,500円","2026年3月 くすのき様邸の実績",0],
+ ["塗装 3回塗り","380㎡","<span class=\"kb-blank\">　円</span>","<span class=\"kb-blank\">　円</span>","単価表に無い仕様です",1],
+ ["諸経費","—","—","128,700円","直近3件の平均",0]
+];
+
+function viewShitagoshirae(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>商談の下ごしらえ <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>明日の商談のために、番頭が手元の資料を読んでまとめておきます。'+
+    '<b>根拠のない数字は入れません。</b>空欄のまま赤でお出しします。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='会社名・金額は<b>架空のサンプル</b>です。<b>番頭は外のサイトを勝手に見に行きません。</b>'+
+    '読むのは、社長が置いた資料と、これまでのやり取りだけです。'+
+    '相手の会社を外から調べるのは、別オプション「与信・反社チェック便」の役目です。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.deal, lbl:"明日の商談",           val:"3件"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"下ごしらえができた",   val:"3件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.doc,  lbl:"たたき台",             val:"3枚"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"根拠が無くて空欄にした欄", val:"7か所", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>明日の商談</h2></div>';
+  SHITAGO_DEALS.forEach(function(d){
+    var b=el("div","kb-deal");
+    b.innerHTML='<h3>'+d.name+'</h3><div class="sub">'+d.topic+'　／　'+d.when+'</div>'+
+      '<div class="two"><div class="got"><b>番頭が集めたこと</b>'+d.got+'</div>'+
+      '<div class="not"><b>番頭には分からないこと</b>'+d.not+'</div></div>'+
+      '<div style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:5px">聞かれそうなこと</div>'+
+      '<ul class="qs">'+d.qs.map(function(q){return '<li>'+q+'</li>';}).join("")+'</ul>';
+    c.appendChild(b);
+  });
+  v.appendChild(c);
+
+  var m=el("div","card");
+  m.innerHTML='<div class="card-h"><h2>見積のたたき台（しらかば工業 様）</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 14px">'+
+    '根拠のある行だけ数字を入れています。<b>根拠のない行は空欄のまま赤で出します。</b>'+
+    'ここをAIに埋めさせると、作り話の見積になります。</p>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>項目</th><th>数量</th><th>単価</th><th>金額</th><th>どこから取った数字か</th></tr></thead><tbody>'+
+    SHITAGO_MITSU.map(function(r){
+      return '<tr'+(r[5]?' class="kb-no"':'')+'><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td></tr>';
+    }).join("")+
+    '<tr class="kb-sum"><td>合計</td><td>—</td><td>—</td><td><span class="kb-blank">　円</span></td>'+
+    '<td>2か所が空欄のため、合計は出していません</td></tr>'+
+    '</tbody></table></div>';
+  m.appendChild(el("div","kb-rule",
+    "空欄の単価は、人が入れてください。番頭は「だいたいこのくらい」で埋めることをしません。"));
+  v.appendChild(m);
+
+  var n=el("div","card");
+  n.innerHTML='<div class="card-h"><h2>打ち合わせのメモから、台帳へ</h2></div>'+
+    '<details class="sh-more" open><summary>もとのメモを見る</summary>'+
+    '<div style="padding:12px 2px;font-size:13px;line-height:1.9;color:#43525f">'+
+    '（今日の打ち合わせ・手書きメモ）<br>しらかば工業さん。外壁の件、前向きに検討しますとのこと。<br>'+
+    '足場は前回と同じでよいか確認。塗料のグレードは要相談。<br>次回、内訳を細かく出してほしいと。8月の第2週あたりに再訪。</div></details>'+
+    '<div style="margin-top:14px;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px">台帳に入れる候補</div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>入れるもの</th><th>中身</th></tr></thead><tbody>'+
+    '<tr><td>次にやること</td><td>見積の内訳を細かくして再提出</td></tr>'+
+    '<tr><td>期日</td><td>8月の第2週（日にちは未確定）</td></tr>'+
+    '<tr><td>確認すること</td><td>足場は前回と同じでよいか／塗料のグレード</td></tr>'+
+    '<tr class="kb-no"><td>受注できそうな確率</td><td><b>入れていません</b></td></tr>'+
+    '</tbody></table></div>';
+  n.appendChild(el("div","kb-rule",
+    "「前向きに検討します」を、確度の数字にはしていません。言葉から確率を作ると、会社の見込みが実際とずれるためです。"));
+  v.appendChild(n);
+
+  v.appendChild(cantBox(
+    "明日の商談3件について、これまでのやり取り・見積・現場写真・今日のメモを読みました。",
+    "見積のたたき台の2行は、単価を空欄のままにしました。同じ工事の記録が無く、単価表にも無い仕様のためです。根拠のない数字をAIが入れると、そのまま作り話の見積になります。",
+    "根拠のある2行と、聞かれそうなことを商談ごとにまとめ、見積のたたき台を承認箱に入れました。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* ====================================================================
+   ⑤採用の受付係（2026-07-30 追加）
+   番頭は応募してきた方に点数も順位も付けない。書類がそろっているかだけを見る。
+==================================================================== */
+var SAIYO_LIST=[
+ {who:"応募A（大工・経験10年）",   rep:"済", doc:"履歴書○／職務経歴書○／<b>資格証が未提出</b>", slot:"3枠", no:false},
+ {who:"応募B（施工管理・経験3年）", rep:"済", doc:"すべてそろっています",                       slot:"3枠", no:false},
+ {who:"応募C（未経験・21歳）",     rep:"済", doc:"<b>職務経歴書に空欄が2か所</b>",              slot:"—　埋めていただくお願い文の下書きだけ作りました", no:true},
+ {who:"応募D",                     rep:"済", doc:"<b>番頭は中身を見ていません</b>（手書きの履歴書がFAXで届いたためです。写真に撮って置いていただければ読みます）", slot:"—", no:true},
+ {who:"応募E・F・G",               rep:"済", doc:"<b>書類が届いていません</b>",                 slot:"—", no:true}
+];
+
+function viewSaiyo(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>採用の受付係 <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>応募の受け取りと、書類がそろっているかの確認までを引き受けます。'+
+    '<b>人を選ぶのは、人です。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='応募の内容は<b>架空のサンプル</b>です。'+
+    '<b>番頭は、応募してきた方に点数をつけたり、順位をつけたりしません。</b>'+
+    '書類がそろっているかどうかだけを見ます。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.share,lbl:"今週の応募",           val:"7件"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"受け取りの返事",       val:"7件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"面接の候補を出せた",   val:"2件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"番頭が中身を扱わなかった", val:"5件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>今週の応募</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>応募</th><th>受け取りの返事</th><th>書類</th><th>面接の候補</th></tr></thead><tbody>'+
+    SAIYO_LIST.map(function(r){
+      return '<tr'+(r.no?' class="kb-no"':'')+'><td>'+r.who+'</td><td>'+r.rep+'</td><td>'+r.doc+'</td><td>'+r.slot+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+  c.appendChild(el("div","kb-rule",
+    "自動でお返ししているのは、社長が先に文を決めた「応募を受け取りました」の1通だけです。"));
+  v.appendChild(c);
+
+  var s2=el("div","card");
+  s2.innerHTML='<div class="card-h"><h2>面接の日程（こちらの空き）</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>候補</th><th>ふさがっていないもの</th></tr></thead><tbody>'+
+    '<tr><td>8月4日（月）10:00</td><td>社長・現場ともに空いています</td></tr>'+
+    '<tr><td>8月5日（火）15:00</td><td>社長のみ空いています</td></tr>'+
+    '<tr><td>8月7日（木）13:00</td><td>社長・現場ともに空いています</td></tr>'+
+    '</tbody></table></div>';
+  s2.appendChild(el("div","kb-warnrow","この3つは「こちらの空き」です。お相手のご都合はうかがっていません。"));
+  v.appendChild(s2);
+
+  var s3=el("div","card");
+  s3.innerHTML='<div class="card-h"><h2>初日の受け入れ（下書き）</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>渡す・説明する</th><th>だれが</th></tr></thead><tbody>'+
+    '<tr><td>安全教育（高所・重機・保護具）</td><td>現場責任者</td></tr>'+
+    '<tr><td>作業服・保護具の支給</td><td>事務</td></tr>'+
+    '<tr><td>工具の貸し出しと返却の決まり</td><td>現場責任者</td></tr>'+
+    '<tr class="kb-no"><td>社会保険の手続き</td><td><b>番頭はしません。社会保険労務士の先生と社長が行います</b></td></tr>'+
+    '</tbody></table></div>';
+  s3.appendChild(el("div","kb-rule",
+    "番頭がしたのは、渡す物・説明する物の名前を並べたところまでです。手続きそのものはしていません。"));
+  v.appendChild(s3);
+
+  v.appendChild(cantBox(
+    "今週届いた応募7件と、添付の書類15点を見ました。",
+    "5件は中身を扱っていません。1件は手書きのFAX、3件は書類が届いていないためです。そしてもう1件——番頭は、応募してきた方に点数や順位をつけていません。人を選ぶ理由をAIが作ると、お断りする理由を会社が説明できなくなるためです。",
+    "書類がそろった2件について、面接の空き時間の候補を作りました。今週中のご判断なので、今日の承認箱には出していません。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* ====================================================================
+   ②受付・ご案内（2026-07-30 追加）
+   当社が弱い分野。安全の掲示は、番頭の訳だけで貼らせない。
+==================================================================== */
+var UKETSUKE_DAY=[
+ ["09:30","かえで様邸 打合せ（施主さま）","予約ずみ",false],
+ ["11:00","きたかぜ建設 工事課（現場代理人と）","予約ずみ",false],
+ ["14:00","内覧のご予約（2名）","<b>14:00がふさがっています</b>",true],
+ ["16:00","こなら建材 営業（飛び込み）","番頭は日時を控えただけです。会うかどうかは人が決めます",true]
+];
+var UKETSUKE_KOE=[
+ ["工事の音について","強い口調でお話でした","<b>返事の下書きは作りません。先に人がお聞きください</b>",true],
+ ["路上駐車について","近隣の方から1件","<b>返事の下書きは作りません。事実を確かめてからです</b>",true],
+ ["工期はいつまでか","近隣の方から1件","返事の下書きを作りました",false]
+];
+
+function viewUketsuke(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>受付・ご案内 <span class="kb-opt">★オプション</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>今日の来客と予約、現場まわりの掲示をまとめます。'+
+    '<b>この分野は当社が弱いところです。</b>できないことも下に書いています。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='予定・お名前・掲示の文は、すべて<b>架空のサンプル</b>です。予約システムにはつながっていません。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.home, lbl:"今日の来客・予約",     val:"6件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"近隣からの声",         val:"3件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.doc,  lbl:"掲示の下書き",         val:"2枚"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"番頭が作らなかった案内", val:"2件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>今日の予定</h2></div>';
+  var tl=el("div","timeline");
+  UKETSUKE_DAY.forEach(function(r){
+    var it=el("div","tl-item"+(r[3]?" warn":""));
+    it.innerHTML='<div class="tl-date">'+r[0]+'</div>'+
+      '<div style="font-size:13px;font-weight:700;margin-top:2px">'+r[1]+'</div>'+
+      '<div class="tl-t">'+r[2]+'</div>';
+    tl.appendChild(it);
+  });
+  c.appendChild(tl);
+  c.appendChild(el("div","kb-warnrow","14:00の予定が重なっています。どちらかをずらしてください。"));
+  v.appendChild(c);
+
+  var g=el("div","card");
+  g.innerHTML='<div class="card-h"><h2>現場まわりの掲示（下書き）</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '工事のお知らせを3通りの言い方で作りました。<b>貼るのは人です。</b></p>';
+  var lg=el("div","kb-lang");
+  lg.innerHTML='<div><b>やさしい日本語</b><p>こうじを します。<br>8がつ5にち〜8がつ18にち<br>あさ8じ〜ゆうがた5じ<br>おとが でます。すみません。</p></div>'+
+    '<div><b>英語</b><p>Construction work<br>Aug 5 – Aug 18<br>8:00 – 17:00<br>We are sorry for the noise.</p></div>'+
+    '<div><b>ベトナム語</b><p>Thi công xây dựng<br>5/8 – 18/8<br>8:00 – 17:00<br>Xin lỗi vì tiếng ồn.</p></div>';
+  g.appendChild(lg);
+  g.appendChild(el("div","kb-rule",
+    "訳した文が正しいかは、話せる方に一度見ていただいてください。"+
+    "安全の掲示（立入禁止・上部作業中など）は訳していません。命に関わる文を、番頭の訳だけで貼らせるわけにはいかないためです。"));
+  v.appendChild(g);
+
+  var s=el("div","card");
+  s.innerHTML='<div class="card-h"><h2>近隣からの声</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>内容</th><th>いただき方</th><th>番頭の対応</th></tr></thead><tbody>'+
+    UKETSUKE_KOE.map(function(r){
+      return '<tr'+(r[3]?' class="kb-no"':'')+'><td>'+r[0]+'</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+  v.appendChild(s);
+
+  v.appendChild(cantBox(
+    "今日の予定6件と、近隣からいただいた声3件を見ました。掲示の下書きを2枚作りました。",
+    "近隣からの声のうち2件は、返事の下書きを作っていません。1件は強い口調のお話で、もう1件は事実を確かめる前だからです。安全の掲示も訳していません。命に関わる文を、番頭の訳だけで貼らせるわけにはいかないためです。",
+    "工期についてのお問い合わせ1件に、返事の下書きを作りました。掲示とあわせて着工の3日前までのご判断なので、今日の承認箱には出していません。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* 6分野の後半で生まれた下書きも、同じ1本の列へ */
+(function(){
+  if(!window.GYOSHU_V2||typeof SHONIN_ADD==="undefined") return;
+  var add=[
+  {at:4,card:{
+   risk:"red", kind:"見積", from:"商談の下ごしらえ",
+   title:"明日の商談ぶん、見積のたたき台をつくりました（2か所は空欄です）",
+   what:"しらかば工業さま 倉庫の外壁改修の見積（4項目）。単価の根拠が無い2行は空欄のままです。押すと先方に出ます。",
+   who:"しらかば工業 様",
+   when:"明日 10:00 の訪問まで",
+   amount:"根拠のある2行のみ記入。合計は出していません（空欄2か所）",
+   before:"（これまでのやり取り12通・見積2通・現場写真8枚・単価表2026年7月版）",
+   after:"御見積書（たたき台）\n 外壁 高圧洗浄 380㎡　単価【　　円】金額【　　円】\n 足場 架設・解体 一式　763,500円\n 塗装 3回塗り 380㎡　単価【　　円】金額【　　円】\n 諸経費　128,700円\n 合計【　　円】",
+   trace:["これまでのやり取り12通・見積2通・現場写真8枚と、単価表（2026年7月版）を読みました。",
+          "2行は単価を空欄のままにしました。同じ工事の記録が無く、単価表にも無い仕様のためです。根拠のない数字をAIが入れると、そのまま作り話の見積になります。",
+          "根拠のある2行は、どこから取った数字かを行ごとに書き添えました。",
+          "合計は出していません。空欄があるためです。"],
+   needs_human:"空欄の単価を入れてから出してください。番頭は「だいたいこのくらい」で埋めません。"}}
+  ];
+  /* 掲示（着工の3日前まで）と面接枠（今週中）は、今日押す必要がないので承認箱に出しません。
+     分野が増えるたびに札が増えると、「押すのが仕事」になってしまいます。
+     朝に押す枚数は増やさない、というのがこの商品の約束です。 */
+  var t=SHONIN_ADD.kensetsu||(SHONIN_ADD.kensetsu=[]);
+  var g=null;
+  window.GYOSHU_V2.forEach(function(x){ if(x.id==="kensetsu") g=x; });
+  if(!g) return;
+  add.slice().sort(function(x,y){return y.at-x.at;}).forEach(function(e){
+    g.cards.splice(Math.min(e.at,g.cards.length),0,e.card);
+    t.push(e);
+  });
+})();
+
+
+/* ====================================================================
+   まだ手作業で残っていること（2026-07-30 追加）
+   毎月1件だけ。売り込みではなく、実際に詰まった記録がそのまま出てくるだけ。
+==================================================================== */
+var NOKORI={
+  title:"手書きの日報から、材料の使用量を人が転記しています",
+  count:"今月 23件（先月 21件）",
+  time:"1件あたり約4分／今月およそ1時間30分",
+  ev:["番頭が読めたのは、日付・現場名・作業時間まででした。",
+      "材料の欄は手書きの略号（「Gボード12.5」など）で、社内でしか通じない書き方でした。",
+      "略号の読み替え表が番頭に入っていないため、勝手に当てはめませんでした。"],
+  why:"読み替え表を1枚いただければ、来月から番頭が下書きまで作れます。"+
+      "作れないままにしておくと、この1時間30分は毎月かかり続けます。",
+  note:"これは売り込みではありません。今月、番頭が実際に詰まった記録がそのまま出ています。"+
+       "直すかどうかは社長がお決めください。そのままでもかまいません。"
+};
+
+function nokoriBox(){
+  var d=el("div","kb-nokori");
+  var hd=el("div","hd");
+  hd.innerHTML='<b>まだ手作業で残っていること（今月は1件）</b>'+
+    '<span>毎月1件だけお出しします。たくさん出すと読まれないためです。</span>';
+  d.appendChild(hd);
+  var bd=el("div","bd");
+  bd.innerHTML='<div class="ttl">'+NOKORI.title+'</div>'+
+    '<div style="font-size:13px;color:var(--muted)">'+NOKORI.count+'　／　'+NOKORI.time+'</div>'+
+    '<div class="ev"><b>番頭がどこで止まったか</b><br>'+NOKORI.ev.map(function(x){return '・'+x;}).join("<br>")+'</div>'+
+    '<div class="why">'+NOKORI.why+'</div>';
+  var acts=el("div","acts");
+  var b1=el("button","btn btn-green btn-sm","読み替え表を番頭に入れる");b1.type="button";
+  b1.onclick=function(){toast("読み替え表の取り込み画面をひらきます（このデモでは中身までは動きません）");};
+  var b2=el("button","btn btn-sm btn-opt-o","今月はそのままにする");b2.type="button";
+  b2.onclick=function(){toast("今月はそのままにしました。来月もう一度お出しします");};
+  acts.appendChild(b1);acts.appendChild(b2);
+  bd.appendChild(acts);
+  bd.appendChild(el("div","note box",NOKORI.note));
+  d.appendChild(bd);
+  return d;
+}
+
+
+/* ====================================================================
+   承認箱の札を強くする（2026-07-30 追加）
+   既存の札のデータには触らず、出すときに文面から読み取って付ける。
+==================================================================== */
+
+/* ①自信。数字(87%など)では出さない。3つの言葉だけ。
+   「87%」と出されても、人はそれをどう扱えばいいか分からないため。 */
+function shConfidence(c){
+  var t=(c.trace||[]).join("　")+"　"+(c.needs_human||"");
+  if(/作りませんでした|入れていません|埋めていません|出していません|していません|空欄/.test(t))
+    return {k:"c3",label:"自信なし",why:"番頭が埋められなかった所があります"};
+  if(c.needs_human || /確認してください|お聞きください|見てください/.test(t))
+    return {k:"c2",label:"たぶん",why:"人に見ていただきたい所があります"};
+  return {k:"c1",label:"たしか",why:"元の書類から取れた値だけで作りました"};
+}
+
+/* ②いつまでに押すか。期限が来ても勝手には実行しない。
+   「期限が来たら自動でやります」にすると、人が見ない仕組みになるため。 */
+function shLimit(c){
+  var w=String(c.when||"");
+  var hot=/今日|本日|今朝|午前|時まで|締め/.test(w);
+  return {hot:hot, text:w||"いつでも"};
+}
+
+/* ③できなかったことの3分類。書き手の気分に任せない。 */
+function shCantType(t){
+  var s=String(t||"");
+  if(/読め|潰れ|かすれ|雑音|手書き|にじ|判読/.test(s)) return "読めなかった";
+  if(/ありません|無い|ない|入っていません|届いていません|記録が/.test(s)) return "見つからなかった";
+  if(/決め|判断|人が|お聞き|確かめ|聞いて/.test(s)) return "人が決めること";
+  return "できなかった";
+}
+
+/* ④押したあと15秒だけ止められる。押し間違いは必ず起きるため。 */
+var KB_UNDO=null;
+function shUndoBar(key,title){
+  if(KB_UNDO && KB_UNDO.el && KB_UNDO.el.remove) KB_UNDO.el.remove();
+  var bar=el("div","kb-undo");
+  var left=15;
+  bar.innerHTML='<span>押しました：'+shEsc(String(title).slice(0,26))+'</span>'+
+    '<span class="cd">あと<b id="kbCd">15</b>秒は止められます</span>';
+  var b=el("button",null,"取り消す");b.type="button";
+  b.onclick=function(){
+    delete STATE.done2[key];
+    if(KB_UNDO&&KB_UNDO.t)clearInterval(KB_UNDO.t);
+    bar.remove();KB_UNDO=null;render();
+    toast("取り消しました。札を戻しています");
+  };
+  bar.appendChild(b);
+  document.body.appendChild(bar);
+  var t=setInterval(function(){
+    left--;
+    var cd=bar.querySelector("#kbCd"); if(cd)cd.textContent=String(left);
+    if(left<=0){clearInterval(t);if(bar.remove)bar.remove();KB_UNDO=null;}
+  },1000);
+  KB_UNDO={el:bar,t:t,key:key};
+}
+
+/* ⑤元の書類を開く（デモでは「くわしく見る」を開く） */
+function shOpenSource(card){
+  var d=card.querySelector(".sh-more");
+  if(d){d.open=true;if(d.scrollIntoView)d.scrollIntoView({behavior:"smooth",block:"center"});}
+  toast("元の書類をひらきました（このデモでは画像までは出ません）");
+}
+
+
+/* ====================================================================
+   番頭の任せ方（2026-07-30 追加）
+   「自動にしたい」と「勝手に送らせない」を、段階で両立させる。
+==================================================================== */
+var MAKASE_LV=[
+ {n:"×",  k:"任せない",   d:"番頭は手を出しません。今までどおり人がやります。"},
+ {n:"①", k:"口出しだけ", d:"番頭は「そろそろですよ」と言うだけ。下書きも作りません。"},
+ {n:"②", k:"確認モード", d:"下書きまで作り、承認箱に並べます。押すのは人です。<b>まずはこれで十分です。</b>"},
+ {n:"③", k:"おまかせ",   d:"社長が先に文を決めたものだけ自動で出します。出す15秒前まで止められます。"}
+];
+/* lv: 0=任せない 1=口出しだけ 2=確認モード 3=おまかせ
+   lock=true は、当社の作りとして③にできないもの（お金と、初めての相手に出るもの） */
+var MAKASE=[
+ {t:"入金の消し込み（銀行明細と請求台帳の突き合わせ）", lv:2, lock:false, why:""},
+ {t:"請求書をつくる",                       lv:2, lock:true,  why:"金額が外に出るため、③にはできません"},
+ {t:"請求書をお客様へ送る",                 lv:2, lock:true,  why:"お金の話が外に出るため、③にはできません"},
+ {t:"未入金の督促文をつくる",               lv:2, lock:true,  why:"相手との関係に関わるため、③にはできません"},
+ {t:"経費の科目わけ",                       lv:2, lock:false, why:""},
+ {t:"給与明細をつくる",                     lv:2, lock:true,  why:"人のお金なので、③にはできません"},
+ {t:"問い合わせの受け取り返事",             lv:3, lock:false, why:"社長が決めた3つの文だけ自動で返しています"},
+ {t:"応募の受け取り返事",                   lv:3, lock:false, why:"社長が決めた1つの文だけ自動で返しています"},
+ {t:"社内の決まりごとへの答え",             lv:2, lock:false, why:""},
+ {t:"日報の要約",                           lv:3, lock:false, why:"社内で取り消せるので自動で通しています"},
+ {t:"シフトの原案づくり",                   lv:2, lock:false, why:""},
+ {t:"SNSへの投稿",                          lv:0, lock:true,  why:"この会社では番頭に任せない、と決めています"}
+];
+var YATTA=[
+ {t:"昨夜 22:10", w:"今日の日報6人分を要約して、朝の1枚にまとめました", s:"社内メモ・取り消せます", md:"a"},
+ {t:"昨夜 23:40", w:"問い合わせフォームの1件に「受け取りました」を返しました", s:"社長が決めた文・おまかせ", md:"b"},
+ {t:"今朝 05:30", w:"銀行明細38行を請求台帳と突き合わせ、34件を消し込みました", s:"社内メモ・取り消せます", md:"a"},
+ {t:"今朝 05:35", w:"経費レシート12枚を科目に分けました（2枚は分けられませんでした）", s:"社内メモ・取り消せます", md:"a"},
+ {t:"今朝 06:20", w:"応募1件に「応募を受け取りました」を返しました", s:"社長が決めた文・おまかせ", md:"b"},
+ {t:"今朝 06:45", w:"今日が期限の支払い3件を、承認箱のいちばん上に並べました", s:"社内メモ・取り消せます", md:"a"}
+];
+
+function viewMakase(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>番頭の任せ方 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>どこまで番頭に任せるかは、<b>社長が仕事ごとに決めます。</b>'+
+    'はじめは②のままで十分です。慣れてきたものだけ、1つずつ③にしてください。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='③おまかせにできるのは、<b>社長が先に文を決めたものだけ</b>です。'+
+    '番頭がその場で考えた文が、人の目を通らずに外へ出ることはありません。'+
+    'お金が動くもの・初めての相手に出るものは、そもそも③にできない作りにしています。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.check,lbl:"確認モード（②）",   val:"8件"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"おまかせ（③）",     val:"3件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"口出しだけ（①）",   val:"0件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"任せない（×）",     val:"1件", tone:"warn"}));
+  v.appendChild(k);
+
+  var st=el("div","card");
+  st.innerHTML='<div class="card-h"><h2>4つの段階</h2></div>';
+  var sw=el("div","kb-steps");
+  MAKASE_LV.forEach(function(x,i){
+    var d=el("div",i===2?"cur":(i===0?"ng":""));
+    d.innerHTML='<div class="n">'+x.n+'</div><b>'+x.k+'</b><p>'+x.d+'</p>';
+    sw.appendChild(d);
+  });
+  st.appendChild(sw);
+  v.appendChild(st);
+
+  var c=el("div","card kb-mk");
+  c.innerHTML='<div class="card-h"><h2>仕事ごとの設定</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 14px">'+
+    '押すと変わります。<b>いつでも戻せます。</b>月に1回、この画面を見直すことをおすすめします。</p>';
+  var tb=el("div");tb.style.cssText="overflow-x:auto";
+  var t=el("table","tbl");
+  t.innerHTML='<thead><tr><th>仕事</th><th style="width:340px">どこまで任せるか</th><th>ひとこと</th></tr></thead>';
+  var tbody=el("tbody");
+  MAKASE.forEach(function(m,i){
+    var tr=el("tr");
+    var td1=el("td",null,m.t);
+    var td2=el("td");
+    var sel=el("div","sel");
+    MAKASE_LV.forEach(function(x,lv){
+      var b=el("button");b.type="button";b.textContent=x.n+" "+x.k;
+      b.setAttribute("data-lv",String(lv));
+      b.setAttribute("aria-pressed", m.lv===lv?"true":"false");
+      if(lv===3 && m.lock){ b.disabled=true; b.style.opacity=".45"; b.style.cursor="not-allowed"; }
+      b.onclick=function(){
+        if(lv===3 && m.lock){ toast("この仕事は、当社の作りとして③にはできません"); return; }
+        m.lv=lv;
+        if(lv===3) toast("おまかせにしました。先に文を決めていただく画面がひらきます（デモ）");
+        render();
+      };
+      sel.appendChild(b);
+    });
+    td2.appendChild(sel);
+    var td3=el("td",null, m.lock?'<span class="lock">'+shEsc(m.why||"③にはできません")+'</span>':shEsc(m.why||"—"));
+    tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
+    tbody.appendChild(tr);
+  });
+  t.appendChild(tbody);
+  tb.appendChild(t);
+  c.appendChild(tb);
+  c.appendChild(el("div","kb-rule",
+    "③おまかせにした仕事も、出す15秒前まで画面の下で止められます。"+
+    "止めた回数が増えたら、②に戻してください。番頭を信じすぎないための決まりです。"));
+  v.appendChild(c);
+
+  v.appendChild(cantBox(
+    "12の仕事について、いまの任せ方を一覧にしました。",
+    "6つの仕事は、③おまかせにできない作りにしています。お金が動くもの、初めての相手に出るもの、人のお金に関わるものだからです。設定でも外せません。",
+    "③にしている3つは、いずれも社長が先に文を決めたものだけを返しています。"));
+  v.appendChild(footer());
+  return v;
+}
+
+function viewYatta(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>昨日、番頭がやったこと <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>押さなくても通したもの（灰色の札）と、おまかせで出したものの記録です。'+
+    '<b>1つずつ取り消せます。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='自動で通したものを見えないところに置くと、<b>何が起きているか分からなくなります。</b>'+
+    'だから、朝いちばんに1画面で見られるようにしています。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.check,lbl:"自動で通した（灰）",     val:"4件"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"おまかせで出した",       val:"2件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"止めた（15秒以内）",     val:"0件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"番頭ができなかった",     val:"2件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card kb-yt");
+  c.innerHTML='<div class="card-h"><h2>昨夜から今朝までの記録</h2></div>';
+  YATTA.forEach(function(y){
+    var row=el("div","row");
+    row.innerHTML='<div class="tm">'+y.t+'</div><div class="bd">'+y.w+'<span>'+y.s+'</span></div>'+
+      '<div class="md '+y.md+'">'+(y.md==="b"?"おまかせ":"自動で通過")+'</div>';
+    var b=el("button","btn btn-sm btn-opt-o","取り消す");b.type="button";
+    b.style.cssText="flex:0 0 auto;margin-left:10px";
+    b.onclick=function(){toast("取り消しました（デモ・元の状態に戻します）");};
+    row.appendChild(b);
+    c.appendChild(row);
+  });
+  v.appendChild(c);
+
+  v.appendChild(cantBox(
+    "昨夜21時から今朝7時までに、番頭が自分で通したもの6件を並べました。",
+    "経費レシート2枚は科目に分けられませんでした。店名だけでは、何に使ったかが分からないためです。今日の承認箱に、聞き取り用の下書きとして入れてあります。",
+    "4件は社内メモとして自動で通し、2件は社長が先に決めた文で返事を出しました。"));
+  v.appendChild(footer());
+  return v;
+}
+
+
+/* ====================================================================
+   毎月の決まりごと（2026-07-30 追加）
+   毎月おなじことを、毎月おもいだしている。それをやめるための画面。
+==================================================================== */
+var ROUTINE=[
+ {h:"月のはじめ", sub:"1日〜5日", li:[
+   {s:"ai",  t:"先月の売上と入金を締めて、1枚にまとめる", n:"番頭が5日の朝に出します"},
+   {s:"ai",  t:"未入金の一覧を出す", n:"番頭が期日を過ぎたものだけ拾います"},
+   {s:"done",t:"先月分の請求書を送る", n:"7月2日に12社ぶん、社長が押しました"},
+   {s:"yet", t:"社会保険の納付", n:"7月31日まで。番頭は金額を出すだけです"}]},
+ {h:"月のなか", sub:"10日〜20日", li:[
+   {s:"done",t:"源泉所得税の納付", n:"7月10日 済み"},
+   {s:"ai",  t:"経費レシートの取り込みと科目わけ", n:"番頭が毎晩やっています"},
+   {s:"yet", t:"棚卸し（在庫の数え直し）", n:"7月20日ごろ。番頭は前月との差だけ出します"},
+   {s:"ai",  t:"取引先の支払条件の見直し確認", n:"番頭が変わった所だけ知らせます"}]},
+ {h:"月のおわり", sub:"25日〜月末", li:[
+   {s:"ai",  t:"給与の計算と明細づくり", n:"番頭が25日に下書きを出します"},
+   {s:"yet", t:"給与の振込", n:"25日まで。人が押します"},
+   {s:"ai",  t:"今月分の請求書の下書き", n:"番頭が月末に出します"},
+   {s:"yet", t:"来月の当番・シフトを決める", n:"月末まで。番頭は原案まで"}]}
+];
+var MIHARI=[
+ {hot:true, ic:"！", t:"振込先の口座が、前回と違います",
+  p:"こなら建材さまの振込先が、6月の請求書と違う口座になっています。<b>支払う前に、必ずお電話で確かめてください。</b>",
+  ev:"6月の請求書：◯◯銀行 ◯◯支店 普通 ****4021 ／ 今回の請求書：△△銀行 △△支店 普通 ****7788　※メールの文面も前回と少し違います"},
+ {hot:true, ic:"！", t:"同じ請求書が2枚あります（二重払いのおそれ）",
+  p:"あかね塗装さまから、同じ日付・同じ金額の請求書が2枚届いています。<b>1枚は取り消してください。</b>",
+  ev:"7月18日／318,600円／件名も同じ　※1枚は7月20日、もう1枚は7月26日に届いています"},
+ {hot:false, ic:"税", t:"消費税の区分が、いつもと違います",
+  p:"きたかぜ建設さまへの1件が8%になっていますが、これまでは10%でした。工事なら10%です。",
+  ev:"7月24日／96,250円／軽減8%で入力　※この取引先の過去24件はすべて10%"},
+ {hot:false, ic:"単", t:"単価が、いつもより高くなっています",
+  p:"石膏ボードの単価が、前回より18%上がっています。値上がりの連絡は届いていますか。",
+  ev:"前回 6月12日：1枚 1,180円 ／ 今回 7月26日：1枚 1,392円"},
+ {hot:false, ic:"新", t:"初めてのお取引先です",
+  p:"ゆずり葉工務店さまは、この会社では初めてのお相手です。支払う前に、会社の実在を確かめておくと安心です。",
+  ev:"※番頭は外のサイトを見に行きません。会社を調べるのは別オプション「与信・反社チェック便」の役目です"}
+];
+
+function viewRoutine(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>毎月の決まりごと <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>毎月おなじことを、毎月おもいだしていませんか。'+
+    '<b>期日から逆算して、番頭のほうから出します。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='「番」の印は、番頭が下書きまで作るものです。'+
+    '「未」の印は、<b>人がやること</b>。番頭は日にちをお知らせするだけです。'+
+    '日付・件数は架空のサンプルです。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.task, lbl:"今月の決まりごと",       val:"12件"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"終わった",               val:"3件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"番頭が下書きまでやる",   val:"6件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"人がやる（未）",         val:"3件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>今月の流れ</h2></div>';
+  var g=el("div","kb-mon");
+  ROUTINE.forEach(function(m){
+    var d=el("div");
+    d.innerHTML='<div class="h">'+m.h+'<span>'+m.sub+'</span></div><ul>'+
+      m.li.map(function(x){return '<li data-s="'+x.s+'">'+x.t+'<small>'+x.n+'</small></li>';}).join("")+'</ul>';
+    g.appendChild(d);
+  });
+  c.appendChild(g);
+  c.appendChild(el("div","kb-rule",
+    "期日が来ても、番頭が勝手に実行することはありません。「そろそろです」とお知らせするところまでです。"));
+  v.appendChild(c);
+
+  var n=el("div","card");
+  n.innerHTML='<div class="card-h"><h2>次にお知らせするもの</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>いつ</th><th>何を</th><th>番頭がやること</th></tr></thead><tbody>'+
+    '<tr><td>7月31日（木）朝</td><td>社会保険の納付</td><td>金額と納付書の場所をお知らせします</td></tr>'+
+    '<tr><td>8月1日（金）朝</td><td>7月の締め</td><td>売上・入金・未入金を1枚にまとめて出します</td></tr>'+
+    '<tr><td>8月5日（火）朝</td><td>7月分の請求書</td><td>下書き12社ぶんを承認箱に並べます</td></tr>'+
+    '<tr class="kb-no"><td>8月20日ごろ</td><td>棚卸し</td><td><b>番頭は数えられません。</b>前の月との差だけ出します</td></tr>'+
+    '</tbody></table></div>';
+  v.appendChild(n);
+
+  v.appendChild(cantBox(
+    "今月の決まりごと12件を、期日の順に並べました。",
+    "棚卸しと、社会保険の納付は、番頭がやりません。棚卸しは現物を数える仕事で、納付はお金が出る仕事だからです。日にちのお知らせだけします。",
+    "6件は番頭が下書きまで作り、期日の朝に承認箱へ入れます。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* ====================================================================
+   お金の見張り番（2026-07-30 追加）
+   AIが得意で、人が見落としやすい所だけを見張る。
+   口座のすり替え・二重払いは、実際に中小企業が被害に遭っている所。
+==================================================================== */
+function viewMihari(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>お金の見張り番 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>払う前に、番頭が「いつもと違う所」だけをお知らせします。'+
+    '<b>すべてを見張るのではなく、違う所だけです。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='会社名・金額・口座はすべて<b>架空のサンプル</b>です。'+
+    '<b>番頭はお金を動かしません。</b>気づいたことをお知らせするところまでです。'+
+    'すべての不正を見つけられるとは申し上げません。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.money,lbl:"今月見た支払い",     val:"46件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"すぐ見てほしい",     val:"2件", tone:"warn"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"念のため",           val:"3件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"番頭が見られない所", val:"1件", tone:"blue"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>いつもと違うところ</h2></div>';
+  var al=el("div","kb-al");
+  MIHARI.forEach(function(m){
+    var r=el("div","r"+(m.hot?" hot":""));
+    r.innerHTML='<div class="ic">'+m.ic+'</div><div class="bd"><b>'+m.t+'</b><p>'+m.p+'</p>'+
+      '<div class="ev">'+m.ev+'</div></div>';
+    al.appendChild(r);
+  });
+  c.appendChild(al);
+  c.appendChild(el("div","kb-rule",
+    "口座が変わっているときは、メールで確かめないでください。"+
+    "メールそのものが偽物のことがあります。前から知っている電話番号に、かけて確かめてください。"));
+  v.appendChild(c);
+
+  v.appendChild(cantBox(
+    "今月の支払い46件と、届いた請求書38枚を、これまでの記録と見くらべました。",
+    "取引先の会社が本当にあるかどうかは、番頭には分かりません。外のサイトを見に行かない作りだからです。初めてのお相手のときは、そう申し上げるところまでです。",
+    "いつもと違う5件をお知らせしました。うち2件は、払う前に確かめていただきたいものです。"));
+  v.appendChild(footer());
+  return v;
+}
+
+
+/* ====================================================================
+   メニューを畳む（2026-07-30 追加）
+   ふだん使うのは6つ。残りは必要になったときだけ開く。
+==================================================================== */
+var KB_DAILY=["shonin","dekirukoto","yatta","routine","mihari","dashboard"];
+var KB_OPEN={main:false, six:false, opt:false};
+
+function kbFoldTitle(nav,key,label,items,mk){
+  if(!items.length) return;
+  var here=items.some(function(n){return n.id===STATE.view;});
+  if(here) KB_OPEN[key]=true;
+  var h=el("div","nav-sec kb-fold");
+  h.setAttribute("aria-expanded", KB_OPEN[key]?"true":"false");
+  h.innerHTML='<span class="ar">▶</span><span>'+label+'</span><span class="cnt">'+items.length+'</span>';
+  h.onclick=function(){ KB_OPEN[key]=!KB_OPEN[key]; buildNav(); };
+  nav.appendChild(h);
+  if(KB_OPEN[key]) items.forEach(function(n){ nav.appendChild(mk(n)); });
+}
+
 const VIEWS={
   shonin:viewShonin,
   oshieru:viewOshieru,
@@ -6893,6 +8196,11 @@ const VIEWS={
   dashboard:viewDashboard, eigyo:viewEigyo, tasks:viewTasks, nippo:viewNippo, shift:viewShift,
   shushi:viewShushi, seikyu:viewSeikyu, hojokin:viewHojokin, kioku:viewKioku,
   shikin:viewShikin, shorui:viewShorui, sakugen:viewSakugen,
+  dekirukoto:viewDekirukoto,
+  makase:viewMakase, yatta:viewYatta,
+  routine:viewRoutine, mihari:viewMihari,
+  kimarigoto:viewKimarigoto, denwaban:viewDenwaban,
+  shitagoshirae:viewShitagoshirae, saiyo:viewSaiyo, uketsuke:viewUketsuke,
   tsuchi:viewTsuchi, options:viewOptions, "emp-home":viewEmpHome, "emp-eigyo":viewEmpEigyo
 };
 
@@ -6911,10 +8219,22 @@ function buildNav(){
     nav.appendChild(el("div","nav-sec","従業員メニュー"));
     EMP_NAV.forEach(n=>nav.appendChild(mkItem(n)));
   } else {
-    nav.appendChild(el("div","nav-sec","メイン"));
-    NAV.filter(n=>n.sec==="main").forEach(n=>nav.appendChild(mkItem(n)));
-    nav.appendChild(el("div","nav-sec opt","オプション"));
-    NAV.filter(n=>n.sec==="opt").forEach(n=>nav.appendChild(mkItem(n)));
+    /* ふだん使う6つだけを出す。残りは畳む。
+       機能を減らすのではなく、最初に見えるものを減らす。 */
+    nav.appendChild(el("div","nav-sec","毎日つかう"));
+    KB_DAILY.forEach(function(id){
+      var n=NAV.filter(function(x){return x.id===id;})[0];
+      if(n)nav.appendChild(mkItem(n));
+    });
+    var hint=el("div","kb-navhint");
+    hint.innerHTML="まずは<b>「今日の承認箱」</b>だけで足ります。<br>ほかは必要になったときに開いてください。";
+    nav.appendChild(hint);
+    kbFoldTitle(nav,"main","そのほかの機能",
+      NAV.filter(function(n){return n.sec==="main" && KB_DAILY.indexOf(n.id)<0;}), mkItem);
+    kbFoldTitle(nav,"six","AI社員の6分野",
+      NAV.filter(function(n){return n.sec==="six";}), mkItem);
+    kbFoldTitle(nav,"opt","オプション（別料金）",
+      NAV.filter(function(n){return n.sec==="opt";}), mkItem);
   }
   // sb-foot（ログイン中の役職＋切り替え）
   const foot=$("#sbFoot");
@@ -6968,6 +8288,16 @@ const FEATURE_INFO={
   sakugen:{what:"番頭によって削減できた作業時間とお金を“見える化”。導入効果がひと目で分かります。",points:["今月の削減時間・削減額を表示","業務別の内訳を集計","6ヶ月の推移をグラフで","※数値は試算・前提により変動"]},
   hojokin:{what:"会社に使えそうな補助金をAIが探してお知らせ。事業計画書のたたき台づくりまで助けます。",points:["公募が出るたび会社の事業内容と照合","使える補助金だけを抽出して通知","事業計画書のたたき台を下書き","※採択は保証しません。申請・提出は社長本人"]},
   kioku:{what:"社長の好み・判断基準・合言葉を覚えて、使うほど先回りするAIの“記憶ノート”です。",points:["社長の手直しや判断のクセを記録","次回から社長の段取り・口調で先回り","会社専用なので他社には真似できない","※脳を読むのではなく“好みのメモ”を貯める仕組み"]},
+  shitagoshirae:{what:"明日の商談のために、手元の資料を読んでまとめ、見積のたたき台まで作ります。",points:["これまでのやり取り・見積・写真から、聞かれそうなことを整理","見積のたたき台。根拠のない単価は空欄のまま赤で出します","打ち合わせのメモから、台帳に入れる候補を抽出","※番頭は外のサイトを見に行きません。相手の言葉から受注確率も作りません"]},
+  saiyo:{what:"応募の受け取りと、書類がそろっているかの確認までを引き受けます。",points:["受け取りの返事は、社長が先に決めた文だけを自動でお返しします","書類のそろい・不足を一覧に","社長と現場の予定から、面接に使える空き枠を提示","※番頭は応募者に点数も順位もつけません。合否と評価は必ず人が決めます"]},
+  uketsuke:{what:"今日の来客と予約、現場まわりの掲示の下書きをまとめます。当社が弱い分野です。",points:["来客・予約の予定を1枚に。重なりがあれば警告","工事のお知らせなどの掲示を、やさしい日本語ほかで下書き","近隣からの声を記録（強い口調のものは番頭が文を作りません）","※安全の掲示は訳しません。画面に人の姿を出す接客も行いません"]},
+  kimarigoto:{what:"就業規則や安全ルールについての「聞きごと」に、どの文書の何番かを付けて答えます。書かれていないことは答えません。",points:["答えるときは、どの文書の何番かをかならず付けます","規程に書かれていないことは答えません（設定で外せない決まりです）","番頭に入っていない文書も、隠さず一覧に出します","答えられなかったものは、そのまま「規程の穴」の一覧になります"]},
+  denwaban:{what:"夜のあいだに来た電話・メール・LINEを朝ひとまとめにして、折り返しの下書きまで作ります。",points:["用件の要約と、どこへ回すかの仕分け","折り返しの文の下書き（送るのは人です）","社長が先に文を決めた質問だけ、自動でお返しします","※番頭は電話に出ません。強い口調のお話には、文を作りません"]},
+  routine:{what:"毎月おなじことを、毎月おもいだす手間をなくします。期日から逆算して番頭のほうから出します。",points:["月のはじめ・なか・おわりで、今月の決まりごとを一覧に","「番」＝番頭が下書きまで作る／「未」＝人がやること、を分けて表示","期日の朝に、番頭が承認箱へ入れます","※期日が来ても、番頭が勝手に実行することはありません"]},
+  mihari:{what:"払う前に「いつもと違う所」だけをお知らせします。すべてを見張るのではありません。",points:["振込先の口座が前回と違うとき（口座のすり替えよけ）","同じ請求書が2枚あるとき（二重払いよけ）","消費税の区分や単価が、いつもと違うとき","※番頭はお金を動かしません。すべての不正を見つけられるとは申し上げません"]},
+  makase:{what:"どの仕事を、どこまで番頭に任せるかを、仕事ごとに社長が決める画面です。",points:["4段階（任せない／口出しだけ／確認モード／おまかせ）から選びます","既定は「確認モード」。下書きまで作り、押すのは人です","③おまかせにできるのは、社長が先に文を決めたものだけ","※お金が動くもの・初めての相手に出るものは、設定でも③にできません"]},
+  yatta:{what:"押さなくても通したもの（灰色の札）と、おまかせで出したものの記録です。",points:["昨夜から今朝までの動きを1画面で","1つずつ取り消せます","おまかせで出したものには、その印を付けています","※自動で通したものを見えない所に置くと、何が起きているか分からなくなるためです"]},
+  dekirukoto:{what:"世の中で「AI社員」と呼ばれている6つの分野に、番頭の中身を当てはめた一覧です。できることだけでなく、できないことも並べています。",points:["6分野それぞれを「今できること／人が押すところ／まだできないこと」の3つに分けて表示","画面ができている分野は、その場で開いて確かめられます","いちばん下に「まだできないこと」だけを集めた表（なぜ、どうすればできるか）","※導入実績は0社です。効果は業務により異なり、お約束はできません"]},
   tsuchi:{what:"日報・未入金・シフト・補助金などの“動き”を、いつものチャットへ自動でお知らせします。",points:["Chatwork・LINE WORKS・Slack・Discord・LINE・メールに対応","『何かあるたび』に自動通知（ルールは選べる）","補助金の新着・ダッシュボードの異常も通知","ログインしなくても会社が回る"]}
 };
 function featInfoBox(id){

@@ -1,0 +1,7 @@
+# 手元（kimochi-banto/legacy/app.html）と公開用（index.html）が同じものかを
+# バイト単位で確かめられるように、改行コードを LF にそろえる。
+# 以前は手元LF・公開用CRLFで、7KBの差が出て「同じものだと言い切れない」状態だった。
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
