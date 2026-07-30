@@ -986,6 +986,147 @@ svg{display:block;}
 .kb-navhint{margin:6px 12px 10px;padding:9px 11px;border-radius:9px;background:rgba(255,255,255,.07);
   font-size:11.5px;line-height:1.65;color:#cfe0d5}
 .kb-navhint b{color:#fff}
+
+/* ==== 現場の日報（2026-07-31 追加） ==== */
+.kb-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:6px;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kb-flow>div{padding:18px 20px;border-right:1px solid var(--line);background:#fff;position:relative}
+.kb-flow>div:last-child{border-right:0}
+.kb-flow .n{font-size:12px;font-weight:700;color:var(--muted)}
+.kb-flow b{display:block;font-size:15.5px;margin:4px 0 6px;color:#16202b}
+.kb-flow p{margin:0;font-size:13px;line-height:1.8;color:#43525f}
+.kb-flow .who{margin-top:9px;display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700}
+.kb-flow .who.h{background:#e3f2e9;color:#12704a}
+.kb-flow .who.b{background:#fdf7ec;color:#8a5a1a}
+.kb-ph{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.kb-ph>div{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.kb-ph .im{height:104px;display:grid;place-items:center;font-size:12px;color:#8fa0ae;
+  background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 9px,#e6eaee 9px,#e6eaee 18px)}
+.kb-ph .tx{padding:10px 12px;font-size:12.5px;line-height:1.75;color:#43525f}
+.kb-ph .tx b{display:block;color:#16202b;font-size:13px;margin-bottom:3px}
+.kb-ph .ng .im{background:repeating-linear-gradient(45deg,#fbeeec,#fbeeec 9px,#f6e2de 9px,#f6e2de 18px);color:#c98d82}
+.kb-ph .ng{border-color:#f0c4bf}
+.kb-ph .ng .tx b{color:#8f2419}
+/* A4の紙に見せる */
+.kb-a4{background:#fff;border:1px solid #c9d2d9;border-radius:4px;padding:26px 28px;margin-top:6px;
+  box-shadow:0 1px 0 #e6ebef, 0 2px 10px rgba(20,40,25,.06)}
+.kb-a4 .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+  padding-bottom:12px;border-bottom:2px solid #16202b;margin-bottom:14px}
+.kb-a4 .hd h3{margin:0;font-size:20px;font-weight:800;letter-spacing:.06em;color:#16202b}
+.kb-a4 .hd .r{text-align:right;font-size:12px;line-height:1.8;color:#5b6b78}
+.kb-a4 table{width:100%;border-collapse:collapse;font-size:12.5px}
+.kb-a4 th,.kb-a4 td{border:1px solid #c9d2d9;padding:6px 9px;text-align:left;vertical-align:top}
+.kb-a4 th{background:#f1f4f7;font-weight:700;white-space:nowrap;width:96px}
+.kb-a4 .ph{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
+.kb-a4 .ph div{border:1px solid #c9d2d9;height:74px;display:grid;place-items:center;font-size:10.5px;color:#8fa0ae;
+  background:repeating-linear-gradient(45deg,#f4f7f9,#f4f7f9 7px,#eaeef2 7px,#eaeef2 14px);text-align:center;padding:4px}
+.kb-a4 .sign{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+.kb-a4 .sign div{border:1px solid #c9d2d9;width:92px;height:52px;font-size:10px;color:#8fa0ae;
+  display:grid;place-items:start center;padding-top:3px}
+.kb-a4 .blank{color:#8f2419;font-weight:700;background:#fdf2f0;padding:1px 7px;border-radius:4px}
+.kb-csv{overflow-x:auto;margin-top:6px}
+.kb-csv table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+.kb-csv th,.kb-csv td{border:1px solid var(--line);padding:6px 10px;white-space:nowrap}
+.kb-csv th{background:#eef1f4;font-weight:700}
+.kb-csv tr.sum td{background:#f4f7f9;font-weight:800}
+.kb-mendo{margin-top:6px}
+.kb-mendo .r{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px;
+  padding:15px 0;border-bottom:1px solid var(--line)}
+.kb-mendo .r:last-child{border-bottom:0}
+.kb-mendo .a{font-size:14px;line-height:1.85;color:#8f2419;font-weight:700}
+.kb-mendo .a span{display:block;font-weight:400;color:#43525f;font-size:13px;margin-top:3px}
+.kb-mendo .b{font-size:13.5px;line-height:1.85;color:#43525f}
+.kb-mendo .b b{color:#12704a}
+@media (max-width:900px){
+  .kb-flow{grid-template-columns:minmax(0,1fr)}
+  .kb-flow>div{border-right:0;border-bottom:1px solid var(--line)}
+  .kb-ph,.kb-a4 .ph{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kb-mendo .r{grid-template-columns:minmax(0,1fr);gap:6px}
+}
+
+/* ==== 会社の全体図（2026-07-31 追加） ==== */
+.kbz{background:#070d16;color:#dbe7f2;border-radius:14px;overflow:hidden;border:1px solid #16293f;margin-top:6px}
+.kbz-hd{display:flex;align-items:center;gap:12px;padding:13px 18px;background:#0a1220;border-bottom:1px solid #16293f}
+.kbz-hd .dot{width:8px;height:8px;border-radius:4px;background:#37e0b8;box-shadow:0 0 9px #37e0b8}
+.kbz-hd b{font-size:14px;letter-spacing:.06em;color:#eaf3fb}
+.kbz-hd .st{margin-left:auto;font-size:12px;color:#7fa0c0}
+.kbz-body{display:grid;grid-template-columns:minmax(0,1fr) 288px}
+.kbz-map{position:relative;height:436px;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 46%,rgba(55,224,184,.10),transparent 58%),
+    linear-gradient(#0b1526 1px,transparent 1px) 0 0/100% 34px,
+    linear-gradient(90deg,#0b1526 1px,transparent 1px) 0 0/34px 100%,
+    #070d16}
+.kbz-map svg{position:absolute;inset:0;width:100%;height:100%}
+.kbz-map .ln{stroke:#1d4f6b;stroke-width:1.2;fill:none}
+.kbz-map .ln.on{stroke:#37e0b8;stroke-width:1.8;stroke-dasharray:5 6;animation:kbzflow 2.4s linear infinite}
+.kbz-map .ln.wt{stroke:#2a3f57;stroke-dasharray:3 7}
+@keyframes kbzflow{to{stroke-dashoffset:-44}}
+.kbz-nd{position:absolute;transform:translate(-50%,-50%);text-align:center;width:106px}
+.kbz-nd .cir{width:52px;height:52px;margin:0 auto 6px;border-radius:26px;display:grid;place-items:center;
+  background:#0e1c2e;border:1.6px solid #1d4f6b;font-size:11px;font-weight:800;color:#7fa0c0;line-height:1.25}
+.kbz-nd.on .cir{border-color:#37e0b8;color:#37e0b8;box-shadow:0 0 0 4px rgba(55,224,184,.10),0 0 18px rgba(55,224,184,.35)}
+.kbz-nd.dn .cir{border-color:#2f7d5c;color:#5cc79a}
+.kbz-nd.st .cir{border-color:#a8562f;color:#e0925f}
+.kbz-nd .nm{font-size:11.5px;line-height:1.45;color:#a9c4dc}
+.kbz-nd.on .nm{color:#eaf3fb;font-weight:700}
+.kbz-nd .sub{font-size:10px;color:#5c7a97;margin-top:1px}
+.kbz-ceo{width:130px}
+.kbz-ceo .cir{width:68px;height:68px;border-radius:34px;background:#0f2436;border-color:#37e0b8;color:#eaf3fb;
+  font-size:13px;box-shadow:0 0 0 6px rgba(55,224,184,.09),0 0 26px rgba(55,224,184,.28)}
+.kbz-bub{position:absolute;transform:translate(-50%,-50%);max-width:190px;padding:7px 11px;border-radius:9px;
+  background:rgba(12,28,46,.94);border:1px solid #1d4f6b;font-size:11px;line-height:1.6;color:#bcd6ec}
+.kbz-bub.g{border-color:#2f7d5c;color:#a8e6c8}
+.kbz-bub.w{border-color:#a8562f;color:#e8b48c}
+.kbz-side{border-left:1px solid #16293f;background:#08111d;overflow-y:auto;max-height:436px}
+.kbz-side .h{padding:11px 15px;font-size:11.5px;font-weight:700;color:#7fa0c0;border-bottom:1px solid #16293f;
+  position:sticky;top:0;background:#08111d}
+.kbz-side .it{padding:11px 15px;border-bottom:1px solid #0f1e30;font-size:11.5px;line-height:1.7}
+.kbz-side .it .t{color:#5c7a97;font-size:10.5px}
+.kbz-side .it .w{color:#cfe2f2;margin-top:2px}
+.kbz-side .it .w b{color:#37e0b8}
+.kbz-side .it.warn .w b{color:#e0925f}
+.kbz-log{border-top:1px solid #16293f;background:#08111d;padding:0}
+.kbz-log .h{display:flex;gap:0;border-bottom:1px solid #16293f}
+.kbz-log .h div{padding:10px 16px;font-size:12px;font-weight:700;color:#5c7a97;border-right:1px solid #16293f}
+.kbz-log .h div.on{color:#37e0b8;box-shadow:inset 0 -2px 0 #37e0b8}
+.kbz-log .rows{max-height:172px;overflow-y:auto}
+.kbz-log .r{display:grid;grid-template-columns:74px 128px minmax(0,1fr) 92px;gap:12px;
+  padding:9px 16px;border-bottom:1px solid #0f1e30;font-size:11.5px;line-height:1.6;align-items:baseline}
+.kbz-log .r .tm{color:#5c7a97}
+.kbz-log .r .wo{color:#7fa0c0}
+.kbz-log .r .wt{color:#cfe2f2}
+.kbz-log .r .rs{text-align:right;font-size:11px}
+.kbz-log .r .rs.ok{color:#5cc79a}
+.kbz-log .r .rs.ng{color:#e0925f}
+.kbz-log .r .rs.wait{color:#5c7a97}
+.kbz-goal{display:flex;gap:9px;flex-wrap:wrap;margin-top:6px}
+.kbz-goal button{min-height:42px;padding:0 15px;border-radius:9px;border:1px solid var(--line);background:#fff;
+  font-size:13.5px;font-weight:700;color:#43525f;cursor:pointer}
+.kbz-goal button:hover{border-color:var(--green);color:var(--green)}
+.kbz-goal button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.kb-lack .r{display:grid;grid-template-columns:34px minmax(0,1fr) 152px;gap:14px;padding:14px 0;
+  border-bottom:1px solid var(--line);align-items:start}
+.kb-lack .r:last-child{border-bottom:0}
+.kb-lack .n{width:28px;height:28px;border-radius:14px;display:grid;place-items:center;
+  background:#fdf2f0;color:#8f2419;font-size:13px;font-weight:800}
+.kb-lack b{display:block;font-size:15px;line-height:1.6;color:#16202b;margin-bottom:4px}
+.kb-lack p{margin:0;font-size:13px;line-height:1.85;color:#43525f}
+.kb-lack .who{font-size:12.5px;color:var(--muted);text-align:right;line-height:1.7}
+.kb-next{margin-top:16px;padding:20px 22px;border:2px solid var(--green);border-radius:12px;background:#f0f8f3}
+.kb-next .lb{font-size:12.5px;font-weight:700;color:#12704a}
+.kb-next>b{display:block;font-size:19px;line-height:1.55;color:#16202b;margin:6px 0 8px}
+.kb-next p b{font-weight:700;color:#16202b}
+.kb-next p{margin:0;font-size:13.5px;line-height:1.9;color:#43525f}
+@media (max-width:900px){
+  .kbz-body{grid-template-columns:minmax(0,1fr)}
+  .kbz-side{border-left:0;border-top:1px solid #16293f;max-height:240px}
+  .kbz-map{height:390px}
+  .kbz-log .r{grid-template-columns:64px minmax(0,1fr);gap:6px}
+  .kbz-log .r .rs{text-align:left}
+  .kb-lack .r{grid-template-columns:28px minmax(0,1fr);gap:10px}
+  .kb-lack .who{grid-column:2/-1;text-align:left}
+}
 </style>
   <meta name="robots" content="noindex, nofollow">
 </head>
@@ -1077,6 +1218,8 @@ const NAV = [
   {id:"makase",    ic:I.ai,    label:"番頭の任せ方", sec:"main"},
   {id:"routine",   ic:I.task,  label:"毎月の決まりごと", sec:"main"},
   {id:"mihari",    ic:I.money, label:"お金の見張り番", sec:"main"},
+  {id:"kaisha",    ic:I.share, label:"会社の全体図", sec:"main"},
+  {id:"genba",     ic:I.scan,  label:"現場の日報", sec:"main"},
   {id:"oshieru",   ic:I.ai,    label:"番頭に教える", sec:"main"},
   {id:"banto",     ic:I.ai,   label:"番頭（経営参謀AI）", sec:"main"},
   {id:"dashboard", ic:I.home, label:"ダッシュボード", sec:"main"},
@@ -6009,6 +6152,7 @@ const EMP_NAV=[
   {id:"kimarigoto", ic:I.doc, label:"社内の決まりごと係", sec:"main"},
   {id:"denwaban", ic:I.bell, label:"電話・問い合わせ番", sec:"main"},
   {id:"uketsuke", ic:I.home, label:"受付・ご案内", sec:"main"},
+  {id:"genba", ic:I.scan, label:"現場の日報", sec:"main"},
   {id:"routine", ic:I.task, label:"毎月の決まりごと", sec:"main"},
   {id:"weekly", ic:I.nippo, label:"週次レポート（全員）", sec:"main"}
 ];
@@ -8174,7 +8318,7 @@ function viewMihari(){
    メニューを畳む（2026-07-30 追加）
    ふだん使うのは6つ。残りは必要になったときだけ開く。
 ==================================================================== */
-var KB_DAILY=["shonin","dekirukoto","yatta","routine","mihari","dashboard"];
+var KB_DAILY=["shonin","kaisha","genba","yatta","routine","mihari"];
 var KB_OPEN={main:false, six:false, opt:false};
 
 function kbFoldTitle(nav,key,label,items,mk){
@@ -8189,6 +8333,433 @@ function kbFoldTitle(nav,key,label,items,mk){
   if(KB_OPEN[key]) items.forEach(function(n){ nav.appendChild(mk(n)); });
 }
 
+
+/* ====================================================================
+   現場の日報（2026-07-31 追加）
+   現場で写真と一言を送るだけ。事務所に戻ってからの清書をやめる。
+   出てくるのは、元請に出せる1枚のPDFと、原価管理に取り込めるCSV。
+==================================================================== */
+var GENBA={
+ kensetsu:{
+  name:"現場の日報", unit:"人工", to:"元請けへ提出",
+  photos:[
+   {t:"07:52 現場につきました",  c:"朝礼のようす／今日の作業の確認"},
+   {t:"10:20 足場を組みました",  c:"北面 3層目まで完了"},
+   {t:"14:05 外壁の洗浄",        c:"高圧洗浄 北面〜西面"},
+   {t:"16:40 かたづけ",          c:"養生シート撤去・清掃",
+    ng:true, ngw:"手ぶれで日付の黒板が読めません。番頭は日付を勝手に入れません"}],
+  voice:"きたかぜ現場、今日は4人。足場の3層目まで終わって、あしたは西面の洗浄から。石膏ボードが1週間ずれるって連絡があったんで、内装の順番を入れかえるかもしれません。",
+  rows:[["現場名","くすのき様邸 外壁改修工事"],
+        ["工事番号","2026-K-0418"],
+        ["天候","晴れ　最高31℃／最低24℃"],
+        ["作業内容","足場 架設（北面3層目まで）／外壁 高圧洗浄（北面〜西面 約210㎡）"],
+        ["出面（人工）","4.0人工（職長1・作業員3）　8:00〜17:00　休憩60分"],
+        ["使用材料","養生シート 12枚／洗浄用ノズル 2","blank"],
+        ["安全確認","朝礼・KY活動 実施／墜落制止用器具 着用確認 4名"],
+        ["明日の予定","西面の高圧洗浄から。石膏ボードの納期が1週間ずれるため、内装の順番は要相談"],
+        ["連絡事項","こなら建材さまより石膏ボード納期遅延の連絡あり（7/26）"]],
+  blankNote:"使用材料の数量は空欄のままにしました。写真からは数えられず、声のメモにも数が出てこなかったためです。",
+  csv:{head:["日付","現場名","工事番号","職長","作業員","人工","作業時間","工種"],
+       rows:[["2026-07-31","くすのき様邸 外壁改修","2026-K-0418","1","3","4.0","8.0","足場・洗浄"],
+             ["2026-07-30","くすのき様邸 外壁改修","2026-K-0418","1","2","3.0","8.0","足場"],
+             ["2026-07-29","ゆずり葉様邸 内装","2026-K-0402","1","2","3.0","7.5","内装下地"]],
+       sum:["","","","","計","10.0","23.5",""]},
+  mendo:[
+   ["元請けごとに日報の書式が違う","会社ごとにExcelの様式が配られていて、同じことを何度も書き写している",
+    "<b>置いていただいた様式に合わせて出します。</b>現場ごとに様式を選べます"],
+   ["写真の整理","現場から戻って、撮った写真をフォルダに分けて、日付と現場名を付けている",
+    "<b>撮った時刻と位置から、番頭が現場ごとに仕分けます。</b>黒板が読めないものは分けずに残します"],
+   ["人工（にんく）の集計","月末に日報を1枚ずつ見て、誰が何日入ったかを数えている",
+    "<b>日報ができた時点でCSVに積んでいきます。</b>月末は書き出すだけです"],
+   ["安全書類","新規入場者教育・KY活動の記録を、別の紙にもう一度書いている",
+    "日報に書いた内容から下書きを作ります。<b>署名はご本人が書いてください</b>"]]},
+
+ unso:{
+  name:"today", unit:"件", to:"荷主へ報告",
+  photos:[{t:"07:10 出発前の点検",c:"タイヤ・オイル・灯火"},
+          {t:"09:30 積み込み",c:"12件 積載完了"},
+          {t:"13:15 納品",c:"みどり青果店さま 受領印あり"},
+          {t:"17:50 帰庫",c:"走行 148km",ng:true,ngw:"メーターの数字がぼやけています。番頭は距離を勝手に入れません"}],
+  voice:"きょう32件、うち再配達が4件。夕方の渋滞で1件だけ翌日になりました。冷蔵の温度は問題なし。",
+  rows:[["日付・車両","2026年7月31日／大分 100 か 12-34"],
+        ["運転者","佐藤（乗務前・乗務後の点呼 済）"],
+        ["アルコール検査","乗務前 0.00mg/L ／ 乗務後 0.00mg/L　※記録は別紙に保存"],
+        ["配送件数","32件（再配達4件・翌日回し1件）"],
+        ["走行距離","【　　km】","blank"],
+        ["車両点検","タイヤ・オイル・灯火 異常なし（出発前）"],
+        ["特記事項","夕方の渋滞により1件を翌日へ。荷主さまへ連絡済み"]],
+  blankNote:"走行距離は空欄のままにしました。メーターの写真がぼやけていて、番頭には読めなかったためです。",
+  csv:{head:["日付","車両","運転者","配送件数","再配達","翌日回し","走行km","乗務前","乗務後"],
+       rows:[["2026-07-31","か 12-34","佐藤","32","4","1","―","0.00","0.00"],
+             ["2026-07-30","か 12-34","佐藤","28","2","0","132","0.00","0.00"],
+             ["2026-07-29","か 56-78","林田","35","5","1","161","0.00","0.00"]],
+       sum:["","","計","95","11","2","293","",""]},
+  mendo:[
+   ["日報・点呼記録・アルコール記録が別々の紙","同じ日付と名前を3回書いている",
+    "<b>1回入れたら3枚に流し込みます。</b>ただし<b>アルコール検査の数値は人が入れてください</b>（測るのは人です）"],
+   ["再配達の理由書き","不在の理由を毎回手で書いている","よくある理由から選べるようにし、<b>ちがう時だけ書いていただきます</b>"],
+   ["月末の走行距離の集計","日報を1枚ずつ見て電卓で足している","<b>日報ができた時点で積みます。</b>読めなかった日は空欄で残します"]]},
+
+ kaigo:{
+  name:"訪問の記録", unit:"件", to:"事業所へ提出",
+  photos:[{t:"09:05 訪問（1件目）",c:"玄関先のようす"},
+          {t:"11:20 訪問（2件目）",c:"手すりの設置状況"},
+          {t:"14:00 訪問（3件目）",c:"お部屋の環境整備"},
+          {t:"16:30 事業所へ",c:"記録の提出",ng:true,ngw:"利用者さまが写り込んでいます。番頭はこの写真を記録に入れません"}],
+  voice:"きょうは3件。2件目の方、手すりのことを気にされていました。3件目は前回よりお元気そうでした。",
+  rows:[["日付・担当","2026年7月31日／訪問介護　担当 佐藤"],
+        ["訪問件数","3件（9:05／11:20／14:00）"],
+        ["サービス内容","身体介護 2件・生活援助 1件（計画書のとおり）"],
+        ["ご様子","2件目：手すりについてご相談あり／3件目：前回より歩行が安定"],
+        ["バイタル","【　　　　　】","blank"],
+        ["特記事項","2件目の手すりについて、ケアマネジャーへ申し送り"],
+        ["次回の予定","8月2日（金）同時刻"]],
+  blankNote:"バイタルは空欄のままにしました。測った数字は声のメモに出てこず、番頭が測ることもできないためです。お名前と病状が一緒になる記録は、番頭に入れないでください。",
+  csv:{head:["日付","担当","訪問件数","身体介護","生活援助","所要時間","申し送り"],
+       rows:[["2026-07-31","佐藤","3","2","1","4.5","1件"],
+             ["2026-07-30","佐藤","4","3","1","5.5","0件"],
+             ["2026-07-29","田中","3","1","2","4.0","2件"]],
+       sum:["","計","10","6","4","14.0","3件"]},
+  mendo:[
+   ["事業所に戻ってからの清書","訪問先で手書きしたメモを、戻ってからパソコンに打ち直している",
+    "<b>訪問先で声を吹き込むだけにできます。</b>戻ってからは、番頭の下書きを直すだけです"],
+   ["同じことを3か所に書く","記録・請求・ケアマネへの報告に、同じ内容を書き写している",
+    "1回入れたら、それぞれの様式に流し込みます。<b>確定は人が押します</b>"],
+   ["個人情報の扱い","記録に利用者さまのお名前と病状が並んでしまう",
+    "<b>お名前と病状が一緒になる記録は、番頭に入れない設定にできます。</b>写真の写り込みも番頭が弾きます"]]}
+};
+var GENBA_DEF={
+ name:"今日の報告", unit:"件", to:"社内で共有",
+ photos:[{t:"09:00 開始",c:"今日のようす"},{t:"12:00 途中",c:"進み具合"},
+         {t:"15:00 できたもの",c:"仕上がり"},{t:"17:00 かたづけ",c:"おわり",
+          ng:true,ngw:"暗くて写っているものが分かりません。番頭は中身を書きません"}],
+ voice:"きょうの作業と、あしたの予定を吹き込みます。",
+ rows:[["日付・担当","2026年7月31日／担当 佐藤"],["やったこと","（声のメモから番頭が書き起こします）"],
+       ["かかった時間","8.0時間"],["数量","【　　　】","blank"],["明日の予定","（声のメモから）"]],
+ blankNote:"数量は空欄のままにしました。写真からは数えられず、声のメモにも出てこなかったためです。",
+ csv:{head:["日付","担当","作業","時間","数量"],
+      rows:[["2026-07-31","佐藤","―","8.0","―"],["2026-07-30","佐藤","―","8.0","12"]],
+      sum:["","計","","16.0","12"]},
+ mendo:[["事務所に戻ってからの清書","現場で書いたメモを、戻ってから打ち直している",
+         "<b>現場から写真と一言を送るだけにできます</b>"],
+        ["同じことを何枚も書く","社内の記録と、お客様への報告に同じことを書いている",
+         "1回入れたら、それぞれの様式に流し込みます"]]};
+
+function genbaData(){
+  var g=(window.GYOSHU_V2&&window.GYOSHU_V2[STATE.gy2])||{id:""};
+  return GENBA[g.id]||GENBA_DEF;
+}
+
+function viewGenba(){
+  var d=genbaData();
+  var g=(window.GYOSHU_V2&&window.GYOSHU_V2[STATE.gy2])||{label:""};
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>'+shEsc(d.name==="today"?"今日のしめ作業":d.name)+
+    ' <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>現場から<b>写真とひとことを送るだけ。</b>事務所に戻ってからの清書をやめます。'+
+    '出てくるのは、<b>そのまま出せる1枚</b>と、<b>集計に取り込めるCSV</b>です。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='いま <b>'+shEsc(g.label||"—")+'</b> の中身を出しています。'+
+    '「今日の承認箱」で業種を変えると、日報の項目も、下の「面倒な作業」も丸ごと入れ替わります。'+
+    '写真・数字・お名前はすべて架空のサンプルです。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.scan, lbl:"今日届いた写真",       val:"4枚"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"声のメモ",             val:"1件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.doc,  lbl:"日報の下書き",         val:"1枚"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"番頭が埋められなかった欄", val:"1か所", tone:"warn"}));
+  v.appendChild(k);
+
+  /* 流れ */
+  var f=el("div","card");
+  f.innerHTML='<div class="card-h"><h2>やることは、これだけ</h2></div>';
+  var fl=el("div","kb-flow");
+  fl.innerHTML=
+   '<div><div class="n">①</div><b>現場で、写真を撮る</b><p>いつも撮っている写真で足ります。あわせて、ひとことしゃべるか打つだけ。</p><span class="who h">人がやること</span></div>'+
+   '<div><div class="n">②</div><b>番頭が下書きにする</b><p>写真の時刻と、話した内容から、日報の形に組み立てます。<b>分からない欄は空欄のまま赤で出します。</b></p><span class="who b">番頭がやること</span></div>'+
+   '<div><div class="n">③</div><b>押して、1枚で出す</b><p>'+shEsc(d.to)+'用の1枚と、集計用のCSV。<b>出すのは人が押してからです。</b></p><span class="who h">人が押します</span></div>';
+  f.appendChild(fl);
+  v.appendChild(f);
+
+  /* 届いた写真 */
+  var p=el("div","card");
+  p.innerHTML='<div class="card-h"><h2>今日、現場から届いたもの</h2></div>';
+  var ph=el("div","kb-ph");
+  d.photos.forEach(function(x){
+    var c=el("div",x.ng?"ng":"");
+    c.innerHTML='<div class="im">'+(x.ng?"読み取れません":"写真")+'</div>'+
+      '<div class="tx"><b>'+x.t+'</b>'+(x.ng?x.ngw:x.c)+'</div>';
+    ph.appendChild(c);
+  });
+  p.appendChild(ph);
+  var vo=el("div");vo.style.cssText="margin-top:14px;padding:14px 16px;border-radius:10px;background:#f4f7f9;border:1px solid var(--line)";
+  vo.innerHTML='<div style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:5px">'+
+    '声のメモ（そのまま文字にしたもの）</div>'+
+    '<div style="font-size:13.5px;line-height:1.9;color:#43525f">「'+shEsc(d.voice)+'」</div>';
+  p.appendChild(vo);
+  v.appendChild(p);
+
+  /* 1枚の紙 */
+  var a=el("div","card");
+  a.innerHTML='<div class="card-h"><h2>番頭が作った1枚（'+shEsc(d.to)+'）</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    'このまま印刷するか、PDFで送れます。<b>出すのは、押してからです。</b></p>';
+  var a4=el("div","kb-a4");
+  var rows=d.rows.map(function(r){
+    return '<tr><th>'+r[0]+'</th><td>'+(r[2]==="blank"?'<span class="blank">'+r[1]+'</span>':r[1])+'</td></tr>';
+  }).join("");
+  a4.innerHTML='<div class="hd"><h3>'+shEsc(d.name==="today"?"日　報":d.name.replace("の","　"))+'</h3>'+
+    '<div class="r">2026年7月31日（金）<br>株式会社◯◯</div></div>'+
+    '<table>'+rows+'</table>'+
+    '<div class="ph"><div>写真1<br>07:52</div><div>写真2<br>10:20</div><div>写真3<br>14:05</div>'+
+    '<div style="border-color:#e0b5ad;color:#c98d82">写真4<br>入れていません</div></div>'+
+    '<div class="sign"><div>担当</div><div>確認</div></div>';
+  a.appendChild(a4);
+  a.appendChild(el("div","kb-rule",d.blankNote));
+  var ab=el("div");ab.style.cssText="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap";
+  var b1=el("button","btn btn-green","この1枚をPDFで出す");b1.type="button";
+  b1.onclick=function(){toast("PDFにしました（デモ・実際の書き出しは今後実装します）");};
+  var b2=el("button","btn btn-opt-o","様式を選ぶ（元請けごと）");b2.type="button";
+  b2.onclick=function(){toast("置いていただいた様式に合わせて出します（デモ）");};
+  ab.appendChild(b1);ab.appendChild(b2);
+  a.appendChild(ab);
+  v.appendChild(a);
+
+  /* CSV */
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>集計に取り込むCSV</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '日報ができた時点で、1行ずつ積んでいきます。<b>月末は書き出すだけです。</b></p>';
+  var cs=el("div","kb-csv");
+  cs.innerHTML='<table><thead><tr>'+d.csv.head.map(function(h){return '<th>'+h+'</th>';}).join("")+'</tr></thead><tbody>'+
+    d.csv.rows.map(function(r){return '<tr>'+r.map(function(x){return '<td>'+x+'</td>';}).join("")+'</tr>';}).join("")+
+    '<tr class="sum">'+d.csv.sum.map(function(x){return '<td>'+x+'</td>';}).join("")+'</tr>'+
+    '</tbody></table>';
+  c.appendChild(cs);
+  var cb=el("button","btn btn-green mt16","CSVで書き出す");cb.type="button";
+  cb.onclick=function(){toast("CSVにしました（デモ・実際の書き出しは今後実装します）");};
+  c.appendChild(cb);
+  v.appendChild(c);
+
+  /* 面倒な作業 */
+  var m=el("div","card");
+  m.innerHTML='<div class="card-h"><h2>この仕事で、面倒だと言われるところ</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '左が<b>いま手でやっていること</b>、右が<b>番頭にできること</b>です。'+
+    'できないことは、できないと書いています。</p>';
+  var md=el("div","kb-mendo");
+  d.mendo.forEach(function(x){
+    var r=el("div","r");
+    r.innerHTML='<div class="a">'+x[0]+'<span>'+x[1]+'</span></div><div class="b">'+x[2]+'</div>';
+    md.appendChild(r);
+  });
+  m.appendChild(md);
+  v.appendChild(m);
+
+  v.appendChild(cantBox(
+    "現場から届いた写真4枚と、声のメモ1件を読みました。",
+    "写真1枚は入れていません。"+(d.photos[3]&&d.photos[3].ngw?d.photos[3].ngw:"読み取れなかったためです")+"。また、埋められなかった欄は空欄のまま赤で出しました。番頭が見ていないものを書くと、記録が作り話になるためです。",
+    "残りの写真と声のメモから1枚を組み立て、CSVに1行積みました。押していただければ、そのまま出せます。"));
+  v.appendChild(footer());
+  return v;
+}
+
+
+/* ====================================================================
+   会社の全体図（2026-07-31 追加）
+   目標を入れると、部署に分かれて動く。ただし決めるのは人。
+==================================================================== */
+var KZ_GOALS=[
+ {g:"今期の売上を1.5倍にしたい", lead:"いまの商品のまま数を増やすのか、単価を上げるのか、新しい商品を出すのか。まずそこを分けます。"},
+ {g:"人を増やさずに回したい",   lead:"どの仕事に何時間かかっているかを先に数えます。減らせるのは、手順が決まっている仕事だけです。"},
+ {g:"新しい商品を出したい",     lead:"作る前に、買う人がいるかを確かめます。ここを飛ばすと在庫だけが残ります。"}
+];
+/* x,y はパーセント。中央が社長 */
+var KZ_NODES=[
+ {id:"ceo",  n:"社長",         s:"あなた",         x:50, y:50, st:"on", ceo:true},
+ {id:"ichi", n:"市場を見る",   s:"市場調査",       x:19, y:22, st:"dn"},
+ {id:"kyaku",n:"お客さまを知る",s:"顧客分析",      x:41, y:15, st:"dn"},
+ {id:"shina",n:"商品を考える", s:"商品設計",       x:64, y:16, st:"on"},
+ {id:"uri",  n:"売り方を考える",s:"マーケティング", x:84, y:27, st:"on"},
+ {id:"tsuku",n:"作る",         s:"開発・制作",     x:87, y:57, st:"wt"},
+ {id:"mie",  n:"見た目を整える",s:"デザイン",       x:71, y:79, st:"wt"},
+ {id:"hin",  n:"品質を見る",   s:"検品・法令",     x:46, y:85, st:"wt"},
+ {id:"dasu", n:"出す準備",     s:"ローンチ",       x:24, y:78, st:"wt"},
+ {id:"kane", n:"お金を見る",   s:"財務",           x:13, y:50, st:"st"}
+];
+var KZ_EDGES=[["ceo","ichi","on"],["ceo","kyaku","on"],["ceo","shina","on"],["ceo","uri","on"],
+               ["ceo","tsuku","wt"],["ceo","mie","wt"],["ceo","hin","wt"],["ceo","dasu","wt"],["ceo","kane","wt"],
+               ["ichi","kyaku","on"],["kyaku","shina","on"],["shina","uri","on"],["uri","tsuku","wt"],
+               ["tsuku","mie","wt"],["mie","hin","wt"],["hin","dasu","wt"],["kane","ceo","wt"]];
+var KZ_BUBS=[
+ {x:33, y:38, t:"取引先の8割が、上位2社に寄っています",           k:"g"},
+ {x:70, y:38, t:"値上げか、点数を増やすかの2案を作りました",       k:""},
+ {x:22, y:64, t:"原価がそろっていないので、粗利が出せません",     k:"w"}
+];
+var KZ_SIDE=[
+ {t:"07:02", w:"<b>市場を見る</b> → 社長　業種別の受注をまとめました"},
+ {t:"07:14", w:"<b>お客さまを知る</b> → 商品を考える　上位2社への寄りを申し送り"},
+ {t:"07:31", w:"<b>商品を考える</b> → 売り方を考える　2案を渡しました"},
+ {t:"07:45", w:"<b>売り方を考える</b> → 社長　<b>営業資料の下書きができました</b>"},
+ {t:"07:52", w:"<b>お金を見る</b> が止まっています　原価の表が入っていません", warn:true},
+ {t:"08:00", w:"作る／見た目／品質／出す準備 は、社長が押すまで動きません"}
+];
+var KZ_LOG=[
+ ["07:02","市場を見る",   "3年ぶんの受注を業種別・月別に並べ、伸びと落ちを出した",      "ok","できた"],
+ ["07:09","市場を見る",   "同業の値段は調べていない。外のサイトを見に行かないため",     "ng","できず"],
+ ["07:14","お客さまを知る","取引先42社を金額順に並べ、上位2社で8割を占めると出した",    "ok","できた"],
+ ["07:22","お客さまを知る","なぜ離れたかは分からない。やり取りの記録が無い先が11社",    "ng","できず"],
+ ["07:31","商品を考える", "値上げ案と、点数を増やす案の2つを作った",                    "ok","できた"],
+ ["07:45","売り方を考える","<b>営業資料の下書き（12枚）を作った</b>",                    "ok","承認箱へ"],
+ ["07:52","お金を見る",   "粗利が出せない。原価の表が番頭に入っていない",               "ng","止まり"],
+ ["08:00","作る",         "社長が押すまで動かない",                                     "wait","待ち"],
+ ["08:00","品質を見る",   "社長が押すまで動かない",                                     "wait","待ち"]
+];
+var KZ_LACK=[
+ {n:"1", t:"原価の表が入っていません", p:"仕入れ値・人件費・配送費の表が番頭に入っていないため、粗利が出せません。値上げの判断がここで止まります。", w:"Excel1枚<br>置いていただければ再開します"},
+ {n:"2", t:"離れたお客さまの記録がありません", p:"11社について、いつ・なぜ取引が止まったかの記録が残っていません。理由が分からないと、同じことが繰り返されます。", w:"分かる範囲で<br>1行ずつで足ります"},
+ {n:"3", t:"同業の値段が分かりません", p:"番頭は外のサイトを見に行かない作りです。相場は社長か、別オプション「与信・取引先チェック便」の役目になります。", w:"社長のお手元の<br>情報が要ります"}
+];
+
+function kzNode(id){ for(var i=0;i<KZ_NODES.length;i++) if(KZ_NODES[i].id===id) return KZ_NODES[i]; return null; }
+
+function viewKaisha(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>会社の全体図 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>やりたいことを1つ入れると、番頭が<b>部署に分けて動きます。</b>'+
+    'ただし<b>決めるのは社長です。</b>作ったものは、いつもの承認箱に入ります。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='会社名・数字はすべて<b>架空のサンプル</b>です。'+
+    'この画面は<b>「いま何が起きているか」を見るためのもの</b>で、'+
+    '番頭がここから外へ出すことはありません。';
+  v.appendChild(note);
+
+  /* 目標 */
+  var g=el("div","card");
+  g.innerHTML='<div class="card-h"><h2>やりたいこと</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '1つ選んでください。選ぶと、下の図の動きが変わります。</p>';
+  var gw=el("div","kbz-goal");
+  KZ_GOALS.forEach(function(x,i){
+    var b=el("button");b.type="button";b.textContent=x.g;
+    b.setAttribute("aria-pressed", i===0?"true":"false");
+    b.onclick=function(){ toast(x.lead); };
+    gw.appendChild(b);
+  });
+  g.appendChild(gw);
+  g.appendChild(el("div","kb-rule",
+    "はじめに聞かれるのは「どれを選ぶか」です。全部やろうとすると、どれも終わりません。"));
+  v.appendChild(g);
+
+  /* 管制室 */
+  var z=el("div","kbz");
+  var hd=el("div","kbz-hd");
+  hd.innerHTML='<span class="dot"></span><b>いま、会社の中で動いていること</b>'+
+    '<span class="st">4つの部署が動いています ／ 1つ止まっています ／ 4つは社長待ちです</span>';
+  z.appendChild(hd);
+
+  var body=el("div","kbz-body");
+  var map=el("div","kbz-map");
+  /* 線 */
+  var svg='<svg viewBox="0 0 100 100" preserveAspectRatio="none">';
+  KZ_EDGES.forEach(function(e){
+    var a=kzNode(e[0]), b=kzNode(e[1]); if(!a||!b) return;
+    svg+='<path class="ln '+(e[2]==="on"?"on":"wt")+'" d="M'+a.x+','+a.y+' L'+b.x+','+b.y+'" '+
+         'vector-effect="non-scaling-stroke"/>';
+  });
+  svg+='</svg>';
+  map.innerHTML=svg;
+  /* ノード */
+  KZ_NODES.forEach(function(n){
+    var d=el("div","kbz-nd "+(n.ceo?"kbz-ceo ":"")+n.st);
+    d.style.left=n.x+"%"; d.style.top=n.y+"%";
+    d.innerHTML='<div class="cir">'+(n.ceo?"社長":n.n.slice(0,2))+'</div>'+
+      '<div class="nm">'+n.n+'</div><div class="sub">'+n.s+'</div>';
+    d.onclick=function(){
+      toast(n.ceo?"押すのはあなたです。番頭は下書きまで作ります"
+                 :n.n+"（"+n.s+"）："+({on:"いま動いています",dn:"終わりました",wt:"社長が押すまで動きません",st:"止まっています"}[n.st]));
+    };
+    map.appendChild(d);
+  });
+  /* 吹き出し */
+  KZ_BUBS.forEach(function(b){
+    var d=el("div","kbz-bub "+(b.k||""));
+    d.style.left=b.x+"%"; d.style.top=b.y+"%";
+    d.textContent=b.t;
+    map.appendChild(d);
+  });
+  body.appendChild(map);
+
+  var side=el("div","kbz-side");
+  side.innerHTML='<div class="h">やり取りの記録（今日）</div>'+
+    KZ_SIDE.map(function(s){
+      return '<div class="it'+(s.warn?" warn":"")+'"><div class="t">'+s.t+'</div><div class="w">'+s.w+'</div></div>';
+    }).join("");
+  body.appendChild(side);
+  z.appendChild(body);
+
+  /* ログ */
+  var lg=el("div","kbz-log");
+  lg.innerHTML='<div class="h"><div class="on">できたこと・できなかったこと</div><div>すべての記録</div></div>'+
+    '<div class="rows">'+KZ_LOG.map(function(r){
+      return '<div class="r"><span class="tm">'+r[0]+'</span><span class="wo">'+r[1]+'</span>'+
+             '<span class="wt">'+r[2]+'</span><span class="rs '+r[3]+'">'+r[4]+'</span></div>';
+    }).join("")+'</div>';
+  z.appendChild(lg);
+  v.appendChild(z);
+
+  var rule=el("div","kb-rule");
+  rule.innerHTML="部署が動いても、<b>お金と社外に出るものは1つも出ていません。</b>"+
+    "できたものは、いつもの「今日の承認箱」に札として並びます。押すのは社長です。";
+  v.appendChild(rule);
+
+  /* いま足りていないもの */
+  var lk=el("div","card");
+  lk.innerHTML='<div class="card-h"><h2>いま足りていないもの</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '番頭が止まっているのは、能力の問題ではなく<b>材料が無い</b>からです。何を渡せば動くかを書きます。</p>';
+  var lw=el("div","kb-lack");
+  KZ_LACK.forEach(function(x){
+    var r=el("div","r");
+    r.innerHTML='<div class="n">'+x.n+'</div><div><b>'+x.t+'</b><p>'+x.p+'</p></div>'+
+      '<div class="who">'+x.w+'</div>';
+    lw.appendChild(r);
+  });
+  lk.appendChild(lw);
+  v.appendChild(lk);
+
+  /* 次にやること1件 */
+  var nx=el("div","kb-next");
+  nx.innerHTML='<div class="lb">売上を上げるために、次にやること（1件だけ）</div>'+
+    '<b>上位2社に8割が寄っています。3社目を作ることを、値上げより先に。</b>'+
+    '<p>取引先42社のうち、上位2社で売上の8割です。この状態で値上げをすると、'+
+    '断られたときの落ち込みが大きくなります。<b>まず3社目を作ってから、値上げの話をする</b>のが順番です。<br>'+
+    'ただし、これは<b>受注の記録から出した見立て</b>です。相手の事情までは番頭に分かりません。'+
+    '最後は社長がお決めください。</p>';
+  v.appendChild(nx);
+
+  var out=el("div","card");
+  out.innerHTML='<div class="card-h"><h2>今日できたもの（承認箱へ）</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>できたもの</th><th>作った部署</th><th>どうなるか</th></tr></thead><tbody>'+
+    '<tr><td><b>営業資料の下書き（12枚）</b></td><td>売り方を考える</td><td>承認箱の赤い札。<b>押すまで誰にも出ません</b></td></tr>'+
+    '<tr><td>受注の分析（業種別・月別）</td><td>市場を見る</td><td>社内メモ。自動で通ります</td></tr>'+
+    '<tr><td>取引先の並べ替え（金額順）</td><td>お客さまを知る</td><td>社内メモ。自動で通ります</td></tr>'+
+    '<tr><td>値上げ案・点数を増やす案</td><td>商品を考える</td><td>社内で確定。押す人を決めておきます</td></tr>'+
+    '<tr class="kb-no"><td>粗利の計算</td><td>お金を見る</td><td><b>できていません。</b>原価の表が要ります</td></tr>'+
+    '</tbody></table></div>';
+  v.appendChild(out);
+
+  v.appendChild(cantBox(
+    "3年ぶんの受注記録と、取引先42社のやり取りを読みました。9つの部署のうち5つが動きました。",
+    "「お金を見る」は止まりました。原価の表が番頭に入っていないため、粗利が出せません。また、同業の値段と、11社が離れた理由も分かりません。番頭は外のサイトを見に行かず、記録に無いことは書かないためです。",
+    "動いた5つの部署の成果を承認箱に入れ、次にやることを1件だけお出ししました。"));
+  v.appendChild(footer());
+  return v;
+}
+
 const VIEWS={
   shonin:viewShonin,
   oshieru:viewOshieru,
@@ -8199,6 +8770,8 @@ const VIEWS={
   dekirukoto:viewDekirukoto,
   makase:viewMakase, yatta:viewYatta,
   routine:viewRoutine, mihari:viewMihari,
+  genba:viewGenba,
+  kaisha:viewKaisha,
   kimarigoto:viewKimarigoto, denwaban:viewDenwaban,
   shitagoshirae:viewShitagoshirae, saiyo:viewSaiyo, uketsuke:viewUketsuke,
   tsuchi:viewTsuchi, options:viewOptions, "emp-home":viewEmpHome, "emp-eigyo":viewEmpEigyo
@@ -8293,6 +8866,8 @@ const FEATURE_INFO={
   uketsuke:{what:"今日の来客と予約、現場まわりの掲示の下書きをまとめます。当社が弱い分野です。",points:["来客・予約の予定を1枚に。重なりがあれば警告","工事のお知らせなどの掲示を、やさしい日本語ほかで下書き","近隣からの声を記録（強い口調のものは番頭が文を作りません）","※安全の掲示は訳しません。画面に人の姿を出す接客も行いません"]},
   kimarigoto:{what:"就業規則や安全ルールについての「聞きごと」に、どの文書の何番かを付けて答えます。書かれていないことは答えません。",points:["答えるときは、どの文書の何番かをかならず付けます","規程に書かれていないことは答えません（設定で外せない決まりです）","番頭に入っていない文書も、隠さず一覧に出します","答えられなかったものは、そのまま「規程の穴」の一覧になります"]},
   denwaban:{what:"夜のあいだに来た電話・メール・LINEを朝ひとまとめにして、折り返しの下書きまで作ります。",points:["用件の要約と、どこへ回すかの仕分け","折り返しの文の下書き（送るのは人です）","社長が先に文を決めた質問だけ、自動でお返しします","※番頭は電話に出ません。強い口調のお話には、文を作りません"]},
+  kaisha:{what:"やりたいことを1つ入れると、番頭が9つの部署に分けて動きます。いま何が動いていて、何が止まっているかが1画面で分かります。",points:["市場を見る／お客さまを知る／商品を考える／売り方を考える／作る／見た目／品質／出す準備／お金を見る","できたこと・できなかったことが、部署ごとに記録に残ります","「いま足りていないもの」と「次にやること1件」を出します","※部署が動いても、お金と社外に出るものは1つも出ません。押すのは社長です"]},
+  genba:{what:"現場から写真とひとことを送るだけで、日報の下書きができます。事務所に戻ってからの清書をやめるための機能です。",points:["いつも撮っている写真＋ひとこと（声でも文字でも）","元請け・荷主・事業所へ出せる1枚と、集計用のCSVの両方で出せます","業種を変えると、日報の項目も面倒な作業も丸ごと入れ替わります","※読めなかった写真は入れません。分からない欄は空欄のまま赤で出します"]},
   routine:{what:"毎月おなじことを、毎月おもいだす手間をなくします。期日から逆算して番頭のほうから出します。",points:["月のはじめ・なか・おわりで、今月の決まりごとを一覧に","「番」＝番頭が下書きまで作る／「未」＝人がやること、を分けて表示","期日の朝に、番頭が承認箱へ入れます","※期日が来ても、番頭が勝手に実行することはありません"]},
   mihari:{what:"払う前に「いつもと違う所」だけをお知らせします。すべてを見張るのではありません。",points:["振込先の口座が前回と違うとき（口座のすり替えよけ）","同じ請求書が2枚あるとき（二重払いよけ）","消費税の区分や単価が、いつもと違うとき","※番頭はお金を動かしません。すべての不正を見つけられるとは申し上げません"]},
   makase:{what:"どの仕事を、どこまで番頭に任せるかを、仕事ごとに社長が決める画面です。",points:["4段階（任せない／口出しだけ／確認モード／おまかせ）から選びます","既定は「確認モード」。下書きまで作り、押すのは人です","③おまかせにできるのは、社長が先に文を決めたものだけ","※お金が動くもの・初めての相手に出るものは、設定でも③にできません"]},
