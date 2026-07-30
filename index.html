@@ -1127,6 +1127,183 @@ svg{display:block;}
   .kb-lack .r{grid-template-columns:28px minmax(0,1fr);gap:10px}
   .kb-lack .who{grid-column:2/-1;text-align:left}
 }
+
+/* ==== 見た目の切り替え（2026-07-31 追加） ==== */
+body.dark{
+  --bg:#0a1220; --bg-grad-a:#0a1220; --bg-grad-b:#0d1726;
+  --card:#111d2c; --ink:#e7eff7; --ink-soft:#c4d3e0;
+  --muted:#8ea6bb; --muted-soft:#6d859a;
+  --line:#1f3247; --line-soft:#18293a;
+  --green:#39c47c; --green-bright:#52dd93; --green-dark:#2b9c62; --green-darkest:#1d7a4a;
+  --green-soft:#0f2a1d; --green-soft2:#0d2018;
+  --amber:#e0a63a; --amber-deep:#c98a1c; --amber-soft:#2b2214;
+  --warn:#e07257; --warn-soft:#2d1a16;
+  --blue:#5c9fd6; --blue-soft:#132639;
+  --opt:#d7a63c; --opt-deep:#bb8a1e; --opt-soft:#2a2314; --opt-soft2:#1f1a10; --opt-line:#4b3e1f;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.35);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.32);
+  --shadow-md:0 1px 2px rgba(0,0,0,.4), 0 10px 26px rgba(0,0,0,.38);
+  --shadow-lg:0 2px 4px rgba(0,0,0,.45), 0 20px 48px rgba(0,0,0,.5);
+}
+/* 直に色を書いてある所を、暗いときだけ上から塗り替える */
+body.dark .card,
+body.dark .sh-card,
+body.dark .kb-field,
+body.dark .kb-deal,
+body.dark .kb-a4,
+body.dark .kb-al .r,
+body.dark .kb-mon>div,
+body.dark .kb-flow>div,
+body.dark .kb-ph>div,
+body.dark .lv div,
+body.dark .kb-nokori{background:#111d2c;border-color:#1f3247;color:#e7eff7}
+body.dark .sh-top,
+body.dark .kb-fhead,
+body.dark .kb-mon .h,
+body.dark .kbz-log .h div,
+body.dark .kb-csv th,
+body.dark .tbl th,
+body.dark .kb-a4 th{background:#152437;border-color:#1f3247;color:#dbe7f2}
+body.dark .tbl td,
+body.dark .kb-csv td,
+body.dark .kb-a4 td{border-color:#1f3247;color:#cfdeeb}
+body.dark .kb-note,
+body.dark .note.box,
+body.dark .note{background:#1c2415;border-color:#3d4a25;color:#e3d9b6}
+body.dark .kb-rule,
+body.dark .sh-need,
+body.dark .kb-lack .n,
+body.dark .tbl tr.kb-no td{background:#2a1613;border-color:#4a251f;color:#f0b5a4}
+body.dark .kb-cant{background:#152437;border-color:#1f3247}
+body.dark .kb-cant>b{color:#b9cddf}
+body.dark .kb-cant li{color:#cfdeeb}
+body.dark .kb-cant li:nth-child(2){background:#2a1613;color:#f0b5a4}
+body.dark .kb-col li,
+body.dark .kb-deal .qs li,
+body.dark .kb-mon li,
+body.dark .kb-flow p,
+body.dark .kb-mendo .b,
+body.dark .kb-lack p,
+body.dark .kb-ph .tx{color:#b9cddf}
+body.dark .kb-col.c3 li,
+body.dark .kb-mendo .a{color:#f0b5a4}
+body.dark .kb-deal .got{background:#0f2a1d;border-color:#2b5a41;color:#cfe8db}
+body.dark .kb-deal .not{background:#2a1613;border-color:#4a251f;color:#f0b5a4}
+body.dark .kb-docs .in{background:#0f2a1d;border-color:#2b5a41}
+body.dark .kb-docs .out{background:#2a1613;border-color:#4a251f}
+body.dark .kb-lang>div,
+body.dark .kb-auto .row,
+body.dark .kb-yt .row{background:#111d2c;border-color:#1f3247;color:#cfdeeb}
+body.dark .kb-lang p,
+body.dark .kb-a4{color:#dbe7f2}
+body.dark .kb-a4{background:#0e1a28;border-color:#24384f}
+body.dark .kb-a4 .hd{border-bottom-color:#8ea6bb}
+body.dark .kb-a4 .hd h3{color:#e7eff7}
+body.dark .kb-a4 .ph div,
+body.dark .kb-a4 .sign div{background:#152437;border-color:#24384f;color:#6d859a}
+body.dark .kb-next{background:#0f2a1d;border-color:#2b8f5e}
+body.dark .kb-next>b{color:#e7eff7}
+body.dark .kb-next p{color:#b9cddf}
+body.dark .kb-next .lb{color:#52dd93}
+body.dark .kb-blank{background:#2a1613;border-color:#7a4034;color:#f0b5a4}
+body.dark .kb-sample{background:#152437;border-color:#2a3f57;color:#8ea6bb}
+body.dark .kb-warnrow,
+body.dark .kb-legend .l2{background:#2b2214;border-color:#4b3e1f;color:#e3c88f}
+body.dark .kb-legend .l1{background:#0f2a1d;border-color:#2b5a41;color:#7fdcae}
+body.dark .kb-legend .l3{background:#2a1613;border-color:#4a251f;color:#f0b5a4}
+body.dark .kb-steps>div{background:#111d2c;border-color:#1f3247}
+body.dark .kb-steps .cur{background:#0f2a1d;border-color:#2b8f5e}
+body.dark .kb-steps .ng{background:#2a1613;border-color:#4a251f}
+body.dark .kb-steps p,body.dark .lv p,body.dark .step p{color:#b9cddf}
+body.dark .kb-steps b,body.dark .lv h3,body.dark .step h3{color:#e7eff7}
+body.dark .kb-mk .sel button{background:#152437;border-color:#2a3f57;color:#b9cddf}
+body.dark .kbz-goal button{background:#152437;border-color:#2a3f57;color:#b9cddf}
+body.dark .sh-diff .a{background:#152437;color:#b9cddf}
+body.dark .sh-diff .b{background:#0f2a1d;border-color:#2b5a41;color:#cfe8db}
+body.dark .sh-tr li{color:#b9cddf;border-bottom-color:#1f3247}
+body.dark .sh-tr li::before{background:#1f3247;color:#8ea6bb}
+body.dark .sh-btn.s{background:#152437;color:#cfdeeb;border-color:#2a3f57}
+body.dark .sh-today{background:#111d2c;border-color:#2b8f5e}
+body.dark .sh-pick button{background:#152437;border-color:#2a3f57;color:#b9cddf}
+body.dark .kb-conf.c1{background:#0f2a1d;border-color:#2b5a41;color:#7fdcae}
+body.dark .kb-conf.c2{background:#2b2214;border-color:#4b3e1f;color:#e3c88f}
+body.dark .kb-conf.c3{background:#2a1613;border-color:#4a251f;color:#f0b5a4}
+body.dark .kb-lim{background:#152437;border-color:#1f3247;color:#b9cddf}
+body.dark .kb-lim.hot{background:#2b2214;border-color:#4b3e1f;color:#e3c88f}
+body.dark .kb-lim b{color:#e7eff7}
+body.dark .kb-src,body.dark .kb-srcbtn{background:#152437;border-color:#2a3f57;color:#b9cddf}
+body.dark .kb-opt{background:#2b2214;border-color:#4b3e1f;color:#e3c88f}
+body.dark .kb-docs li,body.dark .kb-auto .q{color:#cfdeeb}
+body.dark .kb-auto .q span,body.dark .kb-yt .bd span,body.dark .cap{color:#8ea6bb}
+body.dark .kb-yt .md.a{background:#1f3247;color:#b9cddf}
+body.dark .kb-yt .md.b{background:#2b2214;color:#e3c88f;border-color:#4b3e1f}
+/* --- 承認箱。ここは毎日見る所なので、文字が読めるまで潰しきる --- */
+body.dark .sh-card{background:#111d2c;border-color:#1f3247}
+body.dark .sh-card[data-risk="red"]{border-color:#5a2a22}
+body.dark .sh-card[data-done="1"]{background:#0d1826}
+body.dark .sh-top{background:#152437;border-bottom-color:#1f3247}
+body.dark .sh-card[data-risk="red"] .sh-top{background:#2a1613;border-bottom-color:#4a251f}
+body.dark .sh-card[data-risk="white"] .sh-top{background:#13243a;border-bottom-color:#24405c}
+body.dark .sh-card[data-done="1"] .sh-top{background:#0d1826}
+body.dark .sh-top h3{color:#e7eff7}
+body.dark .sh-tag{background:#0e1a28;border-color:#2a3f57;color:#b9cddf}
+body.dark .sh-four dt{color:#8ea6bb;border-bottom-color:#1f3247}
+body.dark .sh-four dd{color:#e7eff7;border-bottom-color:#1f3247}
+body.dark .sh-today{background:#111d2c;border-color:#2b8f5e}
+body.dark .sh-today .t{color:#cfdeeb}
+body.dark .sh-today .t b{color:#e7eff7}
+body.dark .sh-head{color:#8ea6bb;border-bottom-color:#1f3247}
+body.dark .sh-more>summary{border-color:#2a3f57;color:#cfdeeb}
+body.dark .sh-diff .cap{color:#8ea6bb}
+body.dark .sh-prog{color:#cfdeeb}
+body.dark .sh-prog .bar{background:#1f3247}
+body.dark .sh-pickwrap>div{color:#8ea6bb}
+/* --- 全画面に共通する見出し・数字 --- */
+body.dark .page-head h1,
+body.dark .card-h h2,
+body.dark .card-h h3,
+body.dark .kpi .val,
+body.dark .kb-fhead h3,
+body.dark .kb-deal>h3,
+body.dark .kb-lack b,
+body.dark .kb-mon .h,
+body.dark .kb-flow b,
+body.dark .kb-ph .tx b,
+body.dark .kb-al .bd b,
+body.dark .kb-nokori .ttl{color:#e7eff7}
+body.dark .page-head p,
+body.dark .kpi .lbl,
+body.dark .kb-fhead .lead,
+body.dark .kb-deal .sub,
+body.dark .kb-nokori .bd>div,
+body.dark .kb-mon li small,
+body.dark .kb-flow .n,
+body.dark .foot{color:#8ea6bb}
+body.dark .kb-al .bd p,
+body.dark .kb-nokori .why,
+body.dark .kb-yt .bd{color:#b9cddf}
+body.dark .kb-al .bd .ev,
+body.dark .kb-nokori .ev{background:#152437;color:#b9cddf}
+body.dark .kb-al .r.hot{background:#2a1613}
+body.dark .kb-al .r.hot .bd b{color:#f0b5a4}
+body.dark .kb-al .ic{background:#1f3247;color:#b9cddf}
+body.dark .kb-nokori{border-color:#4b3e1f;background:#1d1a12}
+body.dark .kb-nokori .hd{background:#2b2214;border-bottom-color:#4b3e1f}
+body.dark .kb-nokori .hd b{color:#e3c88f}
+body.dark .kb-nokori .hd span{color:#b79c68}
+body.dark .kb-mon li{border-bottom-color:#1f3247}
+body.dark .kb-mendo .r,
+body.dark .kb-lack .r,
+body.dark .kb-auto .row,
+body.dark .kb-yt .row,
+body.dark .iro div{border-bottom-color:#1f3247}
+body.dark .kb-mendo .a span{color:#b9cddf}
+body.dark .kb-lack .who{color:#8ea6bb}
+/* 切り替えボタン */
+.kb-theme{width:100%;margin-top:8px;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);color:#dde9e0;border-radius:9px;padding:9px;
+  font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
+.kb-theme:hover{background:rgba(255,255,255,.16)}
 </style>
   <meta name="robots" content="noindex, nofollow">
 </head>
@@ -4162,6 +4339,7 @@ const STATE = {
   mode2:"list",
   filter2:"",
   role:"admin",
+  dark:false,
   tasksTab:"list",
   hojoTab:"list",
   expenses:2210000,
@@ -8760,6 +8938,30 @@ function viewKaisha(){
   return v;
 }
 
+
+/* ====================================================================
+   見た目の切り替え（2026-07-31 追加）
+   既定は明るい。毎日押すのは非IT層の方なので、そちらを標準にする。
+   暗いのは商談で見せる用。いつでも戻せる。
+==================================================================== */
+function kbTheme(dark){
+  STATE.dark=!!dark;
+  if(dark) document.body.classList.add("dark");
+  else document.body.classList.remove("dark");
+  buildNav();
+}
+function kbThemeBtn(){
+  var b=el("button","kb-theme");
+  b.type="button";
+  b.textContent=STATE.dark?"明るい見た目に戻す":"暗い見た目にする";
+  b.onclick=function(){
+    kbTheme(!STATE.dark);
+    toast(STATE.dark?"暗い見た目にしました（商談で見せる用です。いつでも戻せます）"
+                    :"明るい見た目に戻しました");
+  };
+  return b;
+}
+
 const VIEWS={
   shonin:viewShonin,
   oshieru:viewOshieru,
@@ -8828,6 +9030,7 @@ function buildNav(){
     if(STATE.role==="employee"){ sw.textContent="🔒 管理者に切り替え"; sw.onclick=requestAdmin; }
     else { sw.textContent="👤 従業員画面に切り替え"; sw.onclick=()=>setRole("employee"); }
     foot.appendChild(sw);
+    foot.appendChild(kbThemeBtn());
   }
 }
 
