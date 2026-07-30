@@ -890,6 +890,102 @@ svg{display:block;}
 .kb-nokori .ev b{color:#16202b}
 .kb-nokori .why{margin-top:12px;font-size:13px;line-height:1.85;color:#43525f}
 .kb-nokori .acts{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
+
+/* ==== 承認箱の札を強くする（2026-07-30 追加） ==== */
+.kb-conf{margin-left:auto;padding:3px 11px;border-radius:13px;font-size:12px;font-weight:700;white-space:nowrap}
+.kb-conf.c1{background:#e3f2e9;color:#12704a;border:1px solid #b3cdbe}
+.kb-conf.c2{background:#fdf7ec;color:#8a5a1a;border:1px solid #e6c68c}
+.kb-conf.c3{background:#fdf2f0;color:#8f2419;border:1px solid #f0c4bf}
+.kb-lim{display:flex;align-items:center;gap:9px;margin:12px 20px 0;padding:10px 14px;border-radius:9px;
+  background:#f4f7f9;border:1px solid var(--line);font-size:13.5px;line-height:1.7;color:#43525f}
+.kb-lim b{color:#16202b}
+.kb-lim.hot{background:#fdf7ec;border-color:#e6c68c;color:#8a5a1a}
+.kb-lim.hot b{color:#8a5a1a}
+.sh-tr li .kb-ct{display:inline-block;margin-right:7px;padding:1px 8px;border-radius:11px;
+  background:#b3271b;color:#fff;font-size:11.5px;font-weight:700;vertical-align:middle}
+.kb-srcbtn{margin-left:8px;padding:2px 10px;border-radius:12px;border:1px solid #c3ced8;background:#fff;
+  color:#43525f;font-size:11.5px;font-weight:700;cursor:pointer}
+.kb-srcbtn:hover{border-color:var(--green);color:var(--green)}
+.sh-acts .sh-btn.k4{min-height:50px;padding:0 18px;font-size:15px}
+.kb-undo{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:900;
+  display:flex;align-items:center;gap:14px;padding:13px 20px;border-radius:12px;
+  background:#16202b;color:#fff;box-shadow:0 6px 22px rgba(0,0,0,.28);font-size:14.5px;font-weight:700}
+.kb-undo button{min-height:40px;padding:0 16px;border-radius:9px;border:2px solid #fff;
+  background:transparent;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
+.kb-undo button:hover{background:rgba(255,255,255,.14)}
+.kb-undo .cd{font-variant-numeric:tabular-nums;opacity:.75;font-weight:400}
+@media (max-width:860px){
+  .kb-undo{left:12px;right:12px;transform:none;justify-content:space-between}
+  .sh-acts .sh-btn.k4{flex:1 1 46%}
+}
+
+/* ==== 番頭の任せ方（2026-07-30 追加） ==== */
+.kb-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.kb-steps>div{padding:14px 15px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.kb-steps .n{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.kb-steps b{display:block;font-size:14.5px;margin-bottom:6px;color:#16202b}
+.kb-steps p{margin:0;font-size:12.8px;line-height:1.75;color:#43525f}
+.kb-steps .cur{border-color:var(--green);background:#f0f8f3;box-shadow:0 2px 10px rgba(20,90,50,.08)}
+.kb-steps .cur b{color:#12704a}
+.kb-steps .ng{border-color:#f0c4bf;background:#fdf2f0}
+.kb-steps .ng b{color:#8f2419}
+.kb-mk td .sel{display:flex;gap:5px;flex-wrap:wrap}
+.kb-mk .sel button{min-height:36px;padding:0 11px;border:1px solid #c3ced8;border-radius:8px;background:#fff;
+  font-size:12.5px;font-weight:700;color:#5b6b78;cursor:pointer;white-space:nowrap}
+.kb-mk .sel button:hover{border-color:var(--green);color:var(--green)}
+.kb-mk .sel button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.kb-mk .sel button[aria-pressed="true"][data-lv="0"]{background:#8f2419;border-color:#8f2419}
+.kb-mk .sel button[aria-pressed="true"][data-lv="3"]{background:#8a5a1a;border-color:#8a5a1a}
+.kb-mk .lock{font-size:12px;color:#8f2419;font-weight:700}
+.kb-yt .row{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.kb-yt .row:last-child{border-bottom:0}
+.kb-yt .tm{flex:0 0 92px;font-size:12.5px;color:var(--muted);padding-top:2px}
+.kb-yt .bd{flex:1;min-width:0;font-size:13.5px;line-height:1.75}
+.kb-yt .bd span{display:block;margin-top:3px;font-size:12.5px;color:var(--muted)}
+.kb-yt .md{flex:0 0 auto;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.kb-yt .md.a{background:#eef1f4;color:#5b6b78}
+.kb-yt .md.b{background:#fdf7ec;color:#8a5a1a;border:1px solid #e6c68c}
+@media (max-width:900px){ .kb-steps{grid-template-columns:repeat(2,minmax(0,1fr))} }
+
+/* ==== 毎月の決まりごと／お金の見張り番（2026-07-30 追加） ==== */
+.kb-mon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:6px}
+.kb-mon>div{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.kb-mon .h{padding:12px 15px;background:#f4f7f9;border-bottom:1px solid var(--line);font-size:14px;font-weight:800;color:#16202b}
+.kb-mon .h span{float:right;font-size:12px;font-weight:700;color:var(--muted)}
+.kb-mon ul{margin:0;padding:8px 15px 14px;list-style:none}
+.kb-mon li{position:relative;padding:9px 0 9px 26px;font-size:13px;line-height:1.7;border-bottom:1px solid var(--line)}
+.kb-mon li:last-child{border-bottom:0}
+.kb-mon li::before{position:absolute;left:0;top:9px;font-size:13px;font-weight:700}
+.kb-mon li[data-s="done"]{color:var(--muted)}
+.kb-mon li[data-s="done"]::before{content:"済";color:#12704a}
+.kb-mon li[data-s="ai"]::before{content:"番";color:#8a5a1a}
+.kb-mon li[data-s="yet"]::before{content:"未";color:#8f2419}
+.kb-mon li[data-s="yet"]{font-weight:700}
+.kb-mon li small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
+.kb-al{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:6px}
+.kb-al .r{display:flex;align-items:flex-start;gap:13px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fff}
+.kb-al .r:last-child{border-bottom:0}
+.kb-al .r.hot{background:#fdf2f0}
+.kb-al .ic{flex:0 0 34px;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  background:#eef1f4;color:#5b6b78;font-size:15px;font-weight:800}
+.kb-al .r.hot .ic{background:#b3271b;color:#fff}
+.kb-al .bd{flex:1;min-width:0}
+.kb-al .bd b{display:block;font-size:14.5px;line-height:1.55;color:#16202b;margin-bottom:4px}
+.kb-al .r.hot .bd b{color:#8f2419}
+.kb-al .bd p{margin:0;font-size:13px;line-height:1.8;color:#43525f}
+.kb-al .bd .ev{margin-top:7px;padding:9px 12px;border-radius:8px;background:#f4f7f9;font-size:12.5px;line-height:1.75;color:#43525f}
+@media (max-width:900px){ .kb-mon{grid-template-columns:minmax(0,1fr)} }
+
+/* ==== メニューを畳む（2026-07-30 追加） ==== */
+.nav-sec.kb-fold{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none;
+  padding-top:14px;padding-bottom:7px}
+.nav-sec.kb-fold:hover{color:#fff}
+.nav-sec.kb-fold .ar{display:inline-block;transition:transform .18s;font-size:10px;opacity:.75}
+.nav-sec.kb-fold[aria-expanded="true"] .ar{transform:rotate(90deg)}
+.nav-sec.kb-fold .cnt{margin-left:auto;font-size:11px;opacity:.6;font-weight:400}
+.kb-navhint{margin:6px 12px 10px;padding:9px 11px;border-radius:9px;background:rgba(255,255,255,.07);
+  font-size:11.5px;line-height:1.65;color:#cfe0d5}
+.kb-navhint b{color:#fff}
 </style>
 </head>
 <body>
@@ -976,6 +1072,10 @@ const I = {
 const NAV = [
   {id:"shonin",    ic:I.check, label:"今日の承認箱", sec:"main"},
   {id:"dekirukoto",ic:I.star,  label:"番頭にできること", sec:"main"},
+  {id:"yatta",     ic:I.check, label:"昨日やったこと", sec:"main"},
+  {id:"makase",    ic:I.ai,    label:"番頭の任せ方", sec:"main"},
+  {id:"routine",   ic:I.task,  label:"毎月の決まりごと", sec:"main"},
+  {id:"mihari",    ic:I.money, label:"お金の見張り番", sec:"main"},
   {id:"oshieru",   ic:I.ai,    label:"番頭に教える", sec:"main"},
   {id:"banto",     ic:I.ai,   label:"番頭（経営参謀AI）", sec:"main"},
   {id:"dashboard", ic:I.home, label:"ダッシュボード", sec:"main"},
@@ -5908,6 +6008,7 @@ const EMP_NAV=[
   {id:"kimarigoto", ic:I.doc, label:"社内の決まりごと係", sec:"main"},
   {id:"denwaban", ic:I.bell, label:"電話・問い合わせ番", sec:"main"},
   {id:"uketsuke", ic:I.home, label:"受付・ご案内", sec:"main"},
+  {id:"routine", ic:I.task, label:"毎月の決まりごと", sec:"main"},
   {id:"weekly", ic:I.nippo, label:"週次レポート（全員）", sec:"main"}
 ];
 
@@ -6682,6 +6783,9 @@ function shCard(c,i){
   var top=el("div","sh-top");
   top.innerHTML='<span class="sh-tag">'+shEsc(c.kind)+'</span><span class="sh-tag r">'+shEsc(SH_RISK[c.risk]||"")+'</span><h3>'+shEsc(c.title)+'</h3>';
   if(c.from){var fs=el("span","kb-src",shEsc(c.from));top.insertBefore(fs,top.lastChild);}
+  var _cf=shConfidence(c);
+  var _cb=el("span","kb-conf "+_cf.k,shEsc(_cf.label));
+  _cb.title=_cf.why; top.insertBefore(_cb,top.lastChild);
   card.appendChild(top);
 
   var isMoney=/円|￥/.test(c.amount||""), isShort=String(c.amount||"").length<=22;
@@ -6692,6 +6796,11 @@ function shCard(c,i){
     four.appendChild(el("dd",r[2]||null,shEsc(r[1])));
   });
   card.appendChild(four);
+  var _lm=shLimit(c);
+  if(c.when){
+    card.appendChild(el("div","kb-lim"+(_lm.hot?" hot":""),
+      "<b>いつまでに押すか：</b>"+shEsc(_lm.text)+"　／　期限が過ぎても、番頭が勝手に実行することはありません"));
+  }
 
   var more=el("details","sh-more");
   if(STATE.mode2==="one")more.open=true;
@@ -6702,9 +6811,14 @@ function shCard(c,i){
   more.appendChild(diff);
   var tr=el("ul","sh-tr");
   (c.trace||[]).forEach(function(t,n){
-    var li=el("li",null,shEsc(t));
+    var li=el("li",null,(n===1?'<span class="kb-ct">'+shCantType(t)+"</span>":"")+shEsc(t));
     li.setAttribute("data-n",String(n+1));
     if(n===1)li.setAttribute("data-skip","1");
+    if(n===(c.trace.length-1)){
+      var sb=el("button","kb-srcbtn","元の書類を見る");sb.type="button";
+      sb.onclick=function(ev){ev.stopPropagation();shOpenSource(card);};
+      li.appendChild(sb);
+    }
     tr.appendChild(li);
   });
   more.appendChild(tr);
@@ -6718,15 +6832,20 @@ function shCard(c,i){
     u.onclick=function(){delete STATE.done2[key];render();};
     acts.appendChild(u);
   }else{
-    var ok=el("button","sh-btn g");ok.type="button";
-    ok.textContent=c.risk==="red"?"確認しました。これで出す":"これでOK";
-    ok.onclick=function(){STATE.done2[key]=true;render();};
+    /* 押す選択肢は4つ。「はい／いいえ」の2択にすると、
+       迷ったときに「とりあえず通す」しか道がなくなり、確認が形だけになる。 */
+    var ok=el("button","sh-btn g k4");ok.type="button";
+    ok.textContent=c.risk==="red"?"確認しました。これで出す":"そのまま通す";
+    ok.onclick=function(){STATE.done2[key]=true;shUndoBar(key,c.title);render();};
     acts.appendChild(ok);
-    var f=el("button","sh-btn s");f.type="button";f.textContent="直す";
+    var f=el("button","sh-btn s k4");f.type="button";f.textContent="直して通す";
     f.onclick=function(){toast("直す画面をひらきます（このデモでは中身までは動きません）");};
     acts.appendChild(f);
-    var h=el("button","sh-btn s");h.type="button";h.textContent="人に回す";
-    h.onclick=function(){toast("担当の方へ回しました（このデモでは通知は飛びません）");};
+    var q=el("button","sh-btn s k4");q.type="button";q.textContent="ひとこと返す";
+    q.onclick=function(){toast("番頭にひとこと伝えました。明日、直したものを出します（デモ）");};
+    acts.appendChild(q);
+    var h=el("button","sh-btn s k4");h.type="button";h.textContent="今日は見送る";
+    h.onclick=function(){toast("今日は見送りました。明日また出します（デモ・期限は過ぎても勝手に実行しません）");};
     acts.appendChild(h);
   }
   card.appendChild(acts);
@@ -7692,6 +7811,383 @@ function nokoriBox(){
   return d;
 }
 
+
+/* ====================================================================
+   承認箱の札を強くする（2026-07-30 追加）
+   既存の札のデータには触らず、出すときに文面から読み取って付ける。
+==================================================================== */
+
+/* ①自信。数字(87%など)では出さない。3つの言葉だけ。
+   「87%」と出されても、人はそれをどう扱えばいいか分からないため。 */
+function shConfidence(c){
+  var t=(c.trace||[]).join("　")+"　"+(c.needs_human||"");
+  if(/作りませんでした|入れていません|埋めていません|出していません|していません|空欄/.test(t))
+    return {k:"c3",label:"自信なし",why:"番頭が埋められなかった所があります"};
+  if(c.needs_human || /確認してください|お聞きください|見てください/.test(t))
+    return {k:"c2",label:"たぶん",why:"人に見ていただきたい所があります"};
+  return {k:"c1",label:"たしか",why:"元の書類から取れた値だけで作りました"};
+}
+
+/* ②いつまでに押すか。期限が来ても勝手には実行しない。
+   「期限が来たら自動でやります」にすると、人が見ない仕組みになるため。 */
+function shLimit(c){
+  var w=String(c.when||"");
+  var hot=/今日|本日|今朝|午前|時まで|締め/.test(w);
+  return {hot:hot, text:w||"いつでも"};
+}
+
+/* ③できなかったことの3分類。書き手の気分に任せない。 */
+function shCantType(t){
+  var s=String(t||"");
+  if(/読め|潰れ|かすれ|雑音|手書き|にじ|判読/.test(s)) return "読めなかった";
+  if(/ありません|無い|ない|入っていません|届いていません|記録が/.test(s)) return "見つからなかった";
+  if(/決め|判断|人が|お聞き|確かめ|聞いて/.test(s)) return "人が決めること";
+  return "できなかった";
+}
+
+/* ④押したあと15秒だけ止められる。押し間違いは必ず起きるため。 */
+var KB_UNDO=null;
+function shUndoBar(key,title){
+  if(KB_UNDO && KB_UNDO.el && KB_UNDO.el.remove) KB_UNDO.el.remove();
+  var bar=el("div","kb-undo");
+  var left=15;
+  bar.innerHTML='<span>押しました：'+shEsc(String(title).slice(0,26))+'</span>'+
+    '<span class="cd">あと<b id="kbCd">15</b>秒は止められます</span>';
+  var b=el("button",null,"取り消す");b.type="button";
+  b.onclick=function(){
+    delete STATE.done2[key];
+    if(KB_UNDO&&KB_UNDO.t)clearInterval(KB_UNDO.t);
+    bar.remove();KB_UNDO=null;render();
+    toast("取り消しました。札を戻しています");
+  };
+  bar.appendChild(b);
+  document.body.appendChild(bar);
+  var t=setInterval(function(){
+    left--;
+    var cd=bar.querySelector("#kbCd"); if(cd)cd.textContent=String(left);
+    if(left<=0){clearInterval(t);if(bar.remove)bar.remove();KB_UNDO=null;}
+  },1000);
+  KB_UNDO={el:bar,t:t,key:key};
+}
+
+/* ⑤元の書類を開く（デモでは「くわしく見る」を開く） */
+function shOpenSource(card){
+  var d=card.querySelector(".sh-more");
+  if(d){d.open=true;if(d.scrollIntoView)d.scrollIntoView({behavior:"smooth",block:"center"});}
+  toast("元の書類をひらきました（このデモでは画像までは出ません）");
+}
+
+
+/* ====================================================================
+   番頭の任せ方（2026-07-30 追加）
+   「自動にしたい」と「勝手に送らせない」を、段階で両立させる。
+==================================================================== */
+var MAKASE_LV=[
+ {n:"×",  k:"任せない",   d:"番頭は手を出しません。今までどおり人がやります。"},
+ {n:"①", k:"口出しだけ", d:"番頭は「そろそろですよ」と言うだけ。下書きも作りません。"},
+ {n:"②", k:"確認モード", d:"下書きまで作り、承認箱に並べます。押すのは人です。<b>まずはこれで十分です。</b>"},
+ {n:"③", k:"おまかせ",   d:"社長が先に文を決めたものだけ自動で出します。出す15秒前まで止められます。"}
+];
+/* lv: 0=任せない 1=口出しだけ 2=確認モード 3=おまかせ
+   lock=true は、当社の作りとして③にできないもの（お金と、初めての相手に出るもの） */
+var MAKASE=[
+ {t:"入金の消し込み（銀行明細と請求台帳の突き合わせ）", lv:2, lock:false, why:""},
+ {t:"請求書をつくる",                       lv:2, lock:true,  why:"金額が外に出るため、③にはできません"},
+ {t:"請求書をお客様へ送る",                 lv:2, lock:true,  why:"お金の話が外に出るため、③にはできません"},
+ {t:"未入金の督促文をつくる",               lv:2, lock:true,  why:"相手との関係に関わるため、③にはできません"},
+ {t:"経費の科目わけ",                       lv:2, lock:false, why:""},
+ {t:"給与明細をつくる",                     lv:2, lock:true,  why:"人のお金なので、③にはできません"},
+ {t:"問い合わせの受け取り返事",             lv:3, lock:false, why:"社長が決めた3つの文だけ自動で返しています"},
+ {t:"応募の受け取り返事",                   lv:3, lock:false, why:"社長が決めた1つの文だけ自動で返しています"},
+ {t:"社内の決まりごとへの答え",             lv:2, lock:false, why:""},
+ {t:"日報の要約",                           lv:3, lock:false, why:"社内で取り消せるので自動で通しています"},
+ {t:"シフトの原案づくり",                   lv:2, lock:false, why:""},
+ {t:"SNSへの投稿",                          lv:0, lock:true,  why:"この会社では番頭に任せない、と決めています"}
+];
+var YATTA=[
+ {t:"昨夜 22:10", w:"今日の日報6人分を要約して、朝の1枚にまとめました", s:"社内メモ・取り消せます", md:"a"},
+ {t:"昨夜 23:40", w:"問い合わせフォームの1件に「受け取りました」を返しました", s:"社長が決めた文・おまかせ", md:"b"},
+ {t:"今朝 05:30", w:"銀行明細38行を請求台帳と突き合わせ、34件を消し込みました", s:"社内メモ・取り消せます", md:"a"},
+ {t:"今朝 05:35", w:"経費レシート12枚を科目に分けました（2枚は分けられませんでした）", s:"社内メモ・取り消せます", md:"a"},
+ {t:"今朝 06:20", w:"応募1件に「応募を受け取りました」を返しました", s:"社長が決めた文・おまかせ", md:"b"},
+ {t:"今朝 06:45", w:"今日が期限の支払い3件を、承認箱のいちばん上に並べました", s:"社内メモ・取り消せます", md:"a"}
+];
+
+function viewMakase(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>番頭の任せ方 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>どこまで番頭に任せるかは、<b>社長が仕事ごとに決めます。</b>'+
+    'はじめは②のままで十分です。慣れてきたものだけ、1つずつ③にしてください。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='③おまかせにできるのは、<b>社長が先に文を決めたものだけ</b>です。'+
+    '番頭がその場で考えた文が、人の目を通らずに外へ出ることはありません。'+
+    'お金が動くもの・初めての相手に出るものは、そもそも③にできない作りにしています。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.check,lbl:"確認モード（②）",   val:"8件"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"おまかせ（③）",     val:"3件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"口出しだけ（①）",   val:"0件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"任せない（×）",     val:"1件", tone:"warn"}));
+  v.appendChild(k);
+
+  var st=el("div","card");
+  st.innerHTML='<div class="card-h"><h2>4つの段階</h2></div>';
+  var sw=el("div","kb-steps");
+  MAKASE_LV.forEach(function(x,i){
+    var d=el("div",i===2?"cur":(i===0?"ng":""));
+    d.innerHTML='<div class="n">'+x.n+'</div><b>'+x.k+'</b><p>'+x.d+'</p>';
+    sw.appendChild(d);
+  });
+  st.appendChild(sw);
+  v.appendChild(st);
+
+  var c=el("div","card kb-mk");
+  c.innerHTML='<div class="card-h"><h2>仕事ごとの設定</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 14px">'+
+    '押すと変わります。<b>いつでも戻せます。</b>月に1回、この画面を見直すことをおすすめします。</p>';
+  var tb=el("div");tb.style.cssText="overflow-x:auto";
+  var t=el("table","tbl");
+  t.innerHTML='<thead><tr><th>仕事</th><th style="width:340px">どこまで任せるか</th><th>ひとこと</th></tr></thead>';
+  var tbody=el("tbody");
+  MAKASE.forEach(function(m,i){
+    var tr=el("tr");
+    var td1=el("td",null,m.t);
+    var td2=el("td");
+    var sel=el("div","sel");
+    MAKASE_LV.forEach(function(x,lv){
+      var b=el("button");b.type="button";b.textContent=x.n+" "+x.k;
+      b.setAttribute("data-lv",String(lv));
+      b.setAttribute("aria-pressed", m.lv===lv?"true":"false");
+      if(lv===3 && m.lock){ b.disabled=true; b.style.opacity=".45"; b.style.cursor="not-allowed"; }
+      b.onclick=function(){
+        if(lv===3 && m.lock){ toast("この仕事は、当社の作りとして③にはできません"); return; }
+        m.lv=lv;
+        if(lv===3) toast("おまかせにしました。先に文を決めていただく画面がひらきます（デモ）");
+        render();
+      };
+      sel.appendChild(b);
+    });
+    td2.appendChild(sel);
+    var td3=el("td",null, m.lock?'<span class="lock">'+shEsc(m.why||"③にはできません")+'</span>':shEsc(m.why||"—"));
+    tr.appendChild(td1);tr.appendChild(td2);tr.appendChild(td3);
+    tbody.appendChild(tr);
+  });
+  t.appendChild(tbody);
+  tb.appendChild(t);
+  c.appendChild(tb);
+  c.appendChild(el("div","kb-rule",
+    "③おまかせにした仕事も、出す15秒前まで画面の下で止められます。"+
+    "止めた回数が増えたら、②に戻してください。番頭を信じすぎないための決まりです。"));
+  v.appendChild(c);
+
+  v.appendChild(cantBox(
+    "12の仕事について、いまの任せ方を一覧にしました。",
+    "6つの仕事は、③おまかせにできない作りにしています。お金が動くもの、初めての相手に出るもの、人のお金に関わるものだからです。設定でも外せません。",
+    "③にしている3つは、いずれも社長が先に文を決めたものだけを返しています。"));
+  v.appendChild(footer());
+  return v;
+}
+
+function viewYatta(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>昨日、番頭がやったこと <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>押さなくても通したもの（灰色の札）と、おまかせで出したものの記録です。'+
+    '<b>1つずつ取り消せます。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='自動で通したものを見えないところに置くと、<b>何が起きているか分からなくなります。</b>'+
+    'だから、朝いちばんに1画面で見られるようにしています。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.check,lbl:"自動で通した（灰）",     val:"4件"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"おまかせで出した",       val:"2件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"止めた（15秒以内）",     val:"0件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"番頭ができなかった",     val:"2件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card kb-yt");
+  c.innerHTML='<div class="card-h"><h2>昨夜から今朝までの記録</h2></div>';
+  YATTA.forEach(function(y){
+    var row=el("div","row");
+    row.innerHTML='<div class="tm">'+y.t+'</div><div class="bd">'+y.w+'<span>'+y.s+'</span></div>'+
+      '<div class="md '+y.md+'">'+(y.md==="b"?"おまかせ":"自動で通過")+'</div>';
+    var b=el("button","btn btn-sm btn-opt-o","取り消す");b.type="button";
+    b.style.cssText="flex:0 0 auto;margin-left:10px";
+    b.onclick=function(){toast("取り消しました（デモ・元の状態に戻します）");};
+    row.appendChild(b);
+    c.appendChild(row);
+  });
+  v.appendChild(c);
+
+  v.appendChild(cantBox(
+    "昨夜21時から今朝7時までに、番頭が自分で通したもの6件を並べました。",
+    "経費レシート2枚は科目に分けられませんでした。店名だけでは、何に使ったかが分からないためです。今日の承認箱に、聞き取り用の下書きとして入れてあります。",
+    "4件は社内メモとして自動で通し、2件は社長が先に決めた文で返事を出しました。"));
+  v.appendChild(footer());
+  return v;
+}
+
+
+/* ====================================================================
+   毎月の決まりごと（2026-07-30 追加）
+   毎月おなじことを、毎月おもいだしている。それをやめるための画面。
+==================================================================== */
+var ROUTINE=[
+ {h:"月のはじめ", sub:"1日〜5日", li:[
+   {s:"ai",  t:"先月の売上と入金を締めて、1枚にまとめる", n:"番頭が5日の朝に出します"},
+   {s:"ai",  t:"未入金の一覧を出す", n:"番頭が期日を過ぎたものだけ拾います"},
+   {s:"done",t:"先月分の請求書を送る", n:"7月2日に12社ぶん、社長が押しました"},
+   {s:"yet", t:"社会保険の納付", n:"7月31日まで。番頭は金額を出すだけです"}]},
+ {h:"月のなか", sub:"10日〜20日", li:[
+   {s:"done",t:"源泉所得税の納付", n:"7月10日 済み"},
+   {s:"ai",  t:"経費レシートの取り込みと科目わけ", n:"番頭が毎晩やっています"},
+   {s:"yet", t:"棚卸し（在庫の数え直し）", n:"7月20日ごろ。番頭は前月との差だけ出します"},
+   {s:"ai",  t:"取引先の支払条件の見直し確認", n:"番頭が変わった所だけ知らせます"}]},
+ {h:"月のおわり", sub:"25日〜月末", li:[
+   {s:"ai",  t:"給与の計算と明細づくり", n:"番頭が25日に下書きを出します"},
+   {s:"yet", t:"給与の振込", n:"25日まで。人が押します"},
+   {s:"ai",  t:"今月分の請求書の下書き", n:"番頭が月末に出します"},
+   {s:"yet", t:"来月の当番・シフトを決める", n:"月末まで。番頭は原案まで"}]}
+];
+var MIHARI=[
+ {hot:true, ic:"！", t:"振込先の口座が、前回と違います",
+  p:"こなら建材さまの振込先が、6月の請求書と違う口座になっています。<b>支払う前に、必ずお電話で確かめてください。</b>",
+  ev:"6月の請求書：◯◯銀行 ◯◯支店 普通 ****4021 ／ 今回の請求書：△△銀行 △△支店 普通 ****7788　※メールの文面も前回と少し違います"},
+ {hot:true, ic:"！", t:"同じ請求書が2枚あります（二重払いのおそれ）",
+  p:"あかね塗装さまから、同じ日付・同じ金額の請求書が2枚届いています。<b>1枚は取り消してください。</b>",
+  ev:"7月18日／318,600円／件名も同じ　※1枚は7月20日、もう1枚は7月26日に届いています"},
+ {hot:false, ic:"税", t:"消費税の区分が、いつもと違います",
+  p:"きたかぜ建設さまへの1件が8%になっていますが、これまでは10%でした。工事なら10%です。",
+  ev:"7月24日／96,250円／軽減8%で入力　※この取引先の過去24件はすべて10%"},
+ {hot:false, ic:"単", t:"単価が、いつもより高くなっています",
+  p:"石膏ボードの単価が、前回より18%上がっています。値上がりの連絡は届いていますか。",
+  ev:"前回 6月12日：1枚 1,180円 ／ 今回 7月26日：1枚 1,392円"},
+ {hot:false, ic:"新", t:"初めてのお取引先です",
+  p:"ゆずり葉工務店さまは、この会社では初めてのお相手です。支払う前に、会社の実在を確かめておくと安心です。",
+  ev:"※番頭は外のサイトを見に行きません。会社を調べるのは別オプション「与信・反社チェック便」の役目です"}
+];
+
+function viewRoutine(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>毎月の決まりごと <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>毎月おなじことを、毎月おもいだしていませんか。'+
+    '<b>期日から逆算して、番頭のほうから出します。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='「番」の印は、番頭が下書きまで作るものです。'+
+    '「未」の印は、<b>人がやること</b>。番頭は日にちをお知らせするだけです。'+
+    '日付・件数は架空のサンプルです。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.task, lbl:"今月の決まりごと",       val:"12件"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"終わった",               val:"3件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"番頭が下書きまでやる",   val:"6件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"人がやる（未）",         val:"3件", tone:"warn"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>今月の流れ</h2></div>';
+  var g=el("div","kb-mon");
+  ROUTINE.forEach(function(m){
+    var d=el("div");
+    d.innerHTML='<div class="h">'+m.h+'<span>'+m.sub+'</span></div><ul>'+
+      m.li.map(function(x){return '<li data-s="'+x.s+'">'+x.t+'<small>'+x.n+'</small></li>';}).join("")+'</ul>';
+    g.appendChild(d);
+  });
+  c.appendChild(g);
+  c.appendChild(el("div","kb-rule",
+    "期日が来ても、番頭が勝手に実行することはありません。「そろそろです」とお知らせするところまでです。"));
+  v.appendChild(c);
+
+  var n=el("div","card");
+  n.innerHTML='<div class="card-h"><h2>次にお知らせするもの</h2></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>いつ</th><th>何を</th><th>番頭がやること</th></tr></thead><tbody>'+
+    '<tr><td>7月31日（木）朝</td><td>社会保険の納付</td><td>金額と納付書の場所をお知らせします</td></tr>'+
+    '<tr><td>8月1日（金）朝</td><td>7月の締め</td><td>売上・入金・未入金を1枚にまとめて出します</td></tr>'+
+    '<tr><td>8月5日（火）朝</td><td>7月分の請求書</td><td>下書き12社ぶんを承認箱に並べます</td></tr>'+
+    '<tr class="kb-no"><td>8月20日ごろ</td><td>棚卸し</td><td><b>番頭は数えられません。</b>前の月との差だけ出します</td></tr>'+
+    '</tbody></table></div>';
+  v.appendChild(n);
+
+  v.appendChild(cantBox(
+    "今月の決まりごと12件を、期日の順に並べました。",
+    "棚卸しと、社会保険の納付は、番頭がやりません。棚卸しは現物を数える仕事で、納付はお金が出る仕事だからです。日にちのお知らせだけします。",
+    "6件は番頭が下書きまで作り、期日の朝に承認箱へ入れます。"));
+  v.appendChild(footer());
+  return v;
+}
+
+/* ====================================================================
+   お金の見張り番（2026-07-30 追加）
+   AIが得意で、人が見落としやすい所だけを見張る。
+   口座のすり替え・二重払いは、実際に中小企業が被害に遭っている所。
+==================================================================== */
+function viewMihari(){
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>お金の見張り番 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>払う前に、番頭が「いつもと違う所」だけをお知らせします。'+
+    '<b>すべてを見張るのではなく、違う所だけです。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='会社名・金額・口座はすべて<b>架空のサンプル</b>です。'+
+    '<b>番頭はお金を動かしません。</b>気づいたことをお知らせするところまでです。'+
+    'すべての不正を見つけられるとは申し上げません。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.money,lbl:"今月見た支払い",     val:"46件"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"すぐ見てほしい",     val:"2件", tone:"warn"}));
+  k.appendChild(kpiCard({icon:I.check,lbl:"念のため",           val:"3件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"番頭が見られない所", val:"1件", tone:"blue"}));
+  v.appendChild(k);
+
+  var c=el("div","card");
+  c.innerHTML='<div class="card-h"><h2>いつもと違うところ</h2></div>';
+  var al=el("div","kb-al");
+  MIHARI.forEach(function(m){
+    var r=el("div","r"+(m.hot?" hot":""));
+    r.innerHTML='<div class="ic">'+m.ic+'</div><div class="bd"><b>'+m.t+'</b><p>'+m.p+'</p>'+
+      '<div class="ev">'+m.ev+'</div></div>';
+    al.appendChild(r);
+  });
+  c.appendChild(al);
+  c.appendChild(el("div","kb-rule",
+    "口座が変わっているときは、メールで確かめないでください。"+
+    "メールそのものが偽物のことがあります。前から知っている電話番号に、かけて確かめてください。"));
+  v.appendChild(c);
+
+  v.appendChild(cantBox(
+    "今月の支払い46件と、届いた請求書38枚を、これまでの記録と見くらべました。",
+    "取引先の会社が本当にあるかどうかは、番頭には分かりません。外のサイトを見に行かない作りだからです。初めてのお相手のときは、そう申し上げるところまでです。",
+    "いつもと違う5件をお知らせしました。うち2件は、払う前に確かめていただきたいものです。"));
+  v.appendChild(footer());
+  return v;
+}
+
+
+/* ====================================================================
+   メニューを畳む（2026-07-30 追加）
+   ふだん使うのは6つ。残りは必要になったときだけ開く。
+==================================================================== */
+var KB_DAILY=["shonin","dekirukoto","yatta","routine","mihari","dashboard"];
+var KB_OPEN={main:false, six:false, opt:false};
+
+function kbFoldTitle(nav,key,label,items,mk){
+  if(!items.length) return;
+  var here=items.some(function(n){return n.id===STATE.view;});
+  if(here) KB_OPEN[key]=true;
+  var h=el("div","nav-sec kb-fold");
+  h.setAttribute("aria-expanded", KB_OPEN[key]?"true":"false");
+  h.innerHTML='<span class="ar">▶</span><span>'+label+'</span><span class="cnt">'+items.length+'</span>';
+  h.onclick=function(){ KB_OPEN[key]=!KB_OPEN[key]; buildNav(); };
+  nav.appendChild(h);
+  if(KB_OPEN[key]) items.forEach(function(n){ nav.appendChild(mk(n)); });
+}
+
 const VIEWS={
   shonin:viewShonin,
   oshieru:viewOshieru,
@@ -7700,6 +8196,8 @@ const VIEWS={
   shushi:viewShushi, seikyu:viewSeikyu, hojokin:viewHojokin, kioku:viewKioku,
   shikin:viewShikin, shorui:viewShorui, sakugen:viewSakugen,
   dekirukoto:viewDekirukoto,
+  makase:viewMakase, yatta:viewYatta,
+  routine:viewRoutine, mihari:viewMihari,
   kimarigoto:viewKimarigoto, denwaban:viewDenwaban,
   shitagoshirae:viewShitagoshirae, saiyo:viewSaiyo, uketsuke:viewUketsuke,
   tsuchi:viewTsuchi, options:viewOptions, "emp-home":viewEmpHome, "emp-eigyo":viewEmpEigyo
@@ -7720,14 +8218,22 @@ function buildNav(){
     nav.appendChild(el("div","nav-sec","従業員メニュー"));
     EMP_NAV.forEach(n=>nav.appendChild(mkItem(n)));
   } else {
-    nav.appendChild(el("div","nav-sec","メイン"));
-    NAV.filter(n=>n.sec==="main").forEach(n=>nav.appendChild(mkItem(n)));
-    if(NAV.some(function(n){return n.sec==="six";})){
-      nav.appendChild(el("div","nav-sec","AI社員の6分野"));
-      NAV.filter(function(n){return n.sec==="six";}).forEach(function(n){nav.appendChild(mkItem(n));});
-    }
-    nav.appendChild(el("div","nav-sec opt","オプション"));
-    NAV.filter(n=>n.sec==="opt").forEach(n=>nav.appendChild(mkItem(n)));
+    /* ふだん使う6つだけを出す。残りは畳む。
+       機能を減らすのではなく、最初に見えるものを減らす。 */
+    nav.appendChild(el("div","nav-sec","毎日つかう"));
+    KB_DAILY.forEach(function(id){
+      var n=NAV.filter(function(x){return x.id===id;})[0];
+      if(n)nav.appendChild(mkItem(n));
+    });
+    var hint=el("div","kb-navhint");
+    hint.innerHTML="まずは<b>「今日の承認箱」</b>だけで足ります。<br>ほかは必要になったときに開いてください。";
+    nav.appendChild(hint);
+    kbFoldTitle(nav,"main","そのほかの機能",
+      NAV.filter(function(n){return n.sec==="main" && KB_DAILY.indexOf(n.id)<0;}), mkItem);
+    kbFoldTitle(nav,"six","AI社員の6分野",
+      NAV.filter(function(n){return n.sec==="six";}), mkItem);
+    kbFoldTitle(nav,"opt","オプション（別料金）",
+      NAV.filter(function(n){return n.sec==="opt";}), mkItem);
   }
   // sb-foot（ログイン中の役職＋切り替え）
   const foot=$("#sbFoot");
@@ -7786,6 +8292,10 @@ const FEATURE_INFO={
   uketsuke:{what:"今日の来客と予約、現場まわりの掲示の下書きをまとめます。当社が弱い分野です。",points:["来客・予約の予定を1枚に。重なりがあれば警告","工事のお知らせなどの掲示を、やさしい日本語ほかで下書き","近隣からの声を記録（強い口調のものは番頭が文を作りません）","※安全の掲示は訳しません。画面に人の姿を出す接客も行いません"]},
   kimarigoto:{what:"就業規則や安全ルールについての「聞きごと」に、どの文書の何番かを付けて答えます。書かれていないことは答えません。",points:["答えるときは、どの文書の何番かをかならず付けます","規程に書かれていないことは答えません（設定で外せない決まりです）","番頭に入っていない文書も、隠さず一覧に出します","答えられなかったものは、そのまま「規程の穴」の一覧になります"]},
   denwaban:{what:"夜のあいだに来た電話・メール・LINEを朝ひとまとめにして、折り返しの下書きまで作ります。",points:["用件の要約と、どこへ回すかの仕分け","折り返しの文の下書き（送るのは人です）","社長が先に文を決めた質問だけ、自動でお返しします","※番頭は電話に出ません。強い口調のお話には、文を作りません"]},
+  routine:{what:"毎月おなじことを、毎月おもいだす手間をなくします。期日から逆算して番頭のほうから出します。",points:["月のはじめ・なか・おわりで、今月の決まりごとを一覧に","「番」＝番頭が下書きまで作る／「未」＝人がやること、を分けて表示","期日の朝に、番頭が承認箱へ入れます","※期日が来ても、番頭が勝手に実行することはありません"]},
+  mihari:{what:"払う前に「いつもと違う所」だけをお知らせします。すべてを見張るのではありません。",points:["振込先の口座が前回と違うとき（口座のすり替えよけ）","同じ請求書が2枚あるとき（二重払いよけ）","消費税の区分や単価が、いつもと違うとき","※番頭はお金を動かしません。すべての不正を見つけられるとは申し上げません"]},
+  makase:{what:"どの仕事を、どこまで番頭に任せるかを、仕事ごとに社長が決める画面です。",points:["4段階（任せない／口出しだけ／確認モード／おまかせ）から選びます","既定は「確認モード」。下書きまで作り、押すのは人です","③おまかせにできるのは、社長が先に文を決めたものだけ","※お金が動くもの・初めての相手に出るものは、設定でも③にできません"]},
+  yatta:{what:"押さなくても通したもの（灰色の札）と、おまかせで出したものの記録です。",points:["昨夜から今朝までの動きを1画面で","1つずつ取り消せます","おまかせで出したものには、その印を付けています","※自動で通したものを見えない所に置くと、何が起きているか分からなくなるためです"]},
   dekirukoto:{what:"世の中で「AI社員」と呼ばれている6つの分野に、番頭の中身を当てはめた一覧です。できることだけでなく、できないことも並べています。",points:["6分野それぞれを「今できること／人が押すところ／まだできないこと」の3つに分けて表示","画面ができている分野は、その場で開いて確かめられます","いちばん下に「まだできないこと」だけを集めた表（なぜ、どうすればできるか）","※導入実績は0社です。効果は業務により異なり、お約束はできません"]},
   tsuchi:{what:"日報・未入金・シフト・補助金などの“動き”を、いつものチャットへ自動でお知らせします。",points:["Chatwork・LINE WORKS・Slack・Discord・LINE・メールに対応","『何かあるたび』に自動通知（ルールは選べる）","補助金の新着・ダッシュボードの異常も通知","ログインしなくても会社が回る"]}
 };
