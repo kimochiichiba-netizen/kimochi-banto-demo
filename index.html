@@ -993,7 +993,8 @@ svg{display:block;}
 .kb-flow>div{padding:18px 20px;border-right:1px solid var(--line);background:#fff;position:relative}
 .kb-flow>div:last-child{border-right:0}
 .kb-flow .n{font-size:12px;font-weight:700;color:var(--muted)}
-.kb-flow b{display:block;font-size:15.5px;margin:4px 0 6px;color:#16202b}
+.kb-flow>div>b{display:block;font-size:15.5px;margin:4px 0 6px;color:#16202b}
+.kb-flow p b{font-weight:700;color:#16202b}
 .kb-flow p{margin:0;font-size:13px;line-height:1.8;color:#43525f}
 .kb-flow .who{margin-top:9px;display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700}
 .kb-flow .who.h{background:#e3f2e9;color:#12704a}
@@ -1304,6 +1305,61 @@ body.dark .kb-lack .who{color:#8ea6bb}
   background:rgba(255,255,255,.08);color:#dde9e0;border-radius:9px;padding:9px;
   font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
 .kb-theme:hover{background:rgba(255,255,255,.16)}
+
+/* ==== 今日の営業（2026-07-31 追加） ==== */
+.kb-mawaru{margin-top:6px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kb-mawaru .r{display:grid;grid-template-columns:78px minmax(0,1fr) 132px;gap:14px;
+  padding:15px 17px;border-bottom:1px solid var(--line);background:#fff;align-items:start}
+.kb-mawaru .r:last-child{border-bottom:0}
+.kb-mawaru .r.now{background:#f0f8f3;border-left:4px solid var(--green);padding-left:13px}
+.kb-mawaru .tm{font-size:14.5px;font-weight:800;color:#16202b;line-height:1.4}
+.kb-mawaru .tm small{display:block;font-size:11.5px;font-weight:400;color:var(--muted);margin-top:2px}
+.kb-mawaru .nm{font-size:15.5px;font-weight:700;color:#16202b;margin-bottom:5px}
+.kb-mawaru .mk{font-size:13px;line-height:1.85;color:#43525f}
+.kb-mawaru .mk b{color:#16202b}
+.kb-mawaru .st{font-size:12px;text-align:right;line-height:1.75;color:var(--muted)}
+.kb-mawaru .st .go{display:inline-block;margin-top:6px;padding:5px 12px;border-radius:8px;
+  border:1px solid var(--green);color:var(--green);font-weight:700;cursor:pointer;background:#fff}
+.kb-3line{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:9px;
+  border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.kb-3line>div{padding:11px 13px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fbfcfd}
+.kb-3line .h{font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.kb-3line p{margin:0;font-size:12.8px;line-height:1.8;color:#43525f}
+.kb-3line p b{color:#16202b}
+.kb-kizu .r{display:grid;grid-template-columns:40px minmax(0,1fr) 150px;gap:14px;padding:14px 0;
+  border-bottom:1px solid var(--line);align-items:start}
+.kb-kizu .r:last-child{border-bottom:0}
+.kb-kizu .d{width:34px;height:34px;border-radius:17px;display:grid;place-items:center;
+  background:#fdf7ec;color:#8a5a1a;font-size:12.5px;font-weight:800}
+.kb-kizu .r.hot .d{background:#fdf2f0;color:#8f2419}
+.kb-kizu b{display:block;font-size:15px;line-height:1.6;color:#16202b;margin-bottom:4px}
+.kb-kizu p{margin:0;font-size:13px;line-height:1.85;color:#43525f}
+.kb-kizu .act{text-align:right}
+.kb-kizu .act button{padding:7px 13px;border-radius:8px;border:1px solid var(--green);background:#fff;
+  color:var(--green);font-size:12.5px;font-weight:700;cursor:pointer}
+.kb-num{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:6px;
+  border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.kb-num>div{padding:15px 17px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.kb-num .l{font-size:12px;color:var(--muted)}
+.kb-num .v{font-size:25px;font-weight:800;color:#16202b;line-height:1.25;margin-top:3px;font-variant-numeric:tabular-nums}
+.kb-num .s{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.6}
+body.dark .kb-mawaru .r,body.dark .kb-3line>div,body.dark .kb-num>div{background:#111d2c;border-color:#1f3247}
+body.dark .kb-mawaru .r.now{background:#0f2a1d}
+body.dark .kb-mawaru .tm,body.dark .kb-mawaru .nm,body.dark .kb-kizu b,
+body.dark .kb-num .v,body.dark .kb-3line p b,body.dark .kb-mawaru .mk b{color:#e7eff7}
+body.dark .kb-mawaru .mk,body.dark .kb-3line p,body.dark .kb-kizu p{color:#b9cddf}
+body.dark .kb-mawaru,body.dark .kb-3line,body.dark .kb-num{border-color:#1f3247}
+body.dark .kb-kizu .r{border-bottom-color:#1f3247}
+body.dark .kb-kizu .d{background:#2b2214;color:#e3c88f}
+body.dark .kb-kizu .r.hot .d{background:#2a1613;color:#f0b5a4}
+body.dark .kb-mawaru .st .go,body.dark .kb-kizu .act button{background:#152437}
+@media (max-width:900px){
+  .kb-mawaru .r{grid-template-columns:66px minmax(0,1fr);gap:10px}
+  .kb-mawaru .st{grid-column:2/-1;text-align:left}
+  .kb-3line,.kb-num{grid-template-columns:minmax(0,1fr)}
+  .kb-kizu .r{grid-template-columns:34px minmax(0,1fr);gap:10px}
+  .kb-kizu .act{grid-column:2/-1;text-align:left}
+}
 </style>
   <meta name="robots" content="noindex, nofollow">
 </head>
@@ -1396,6 +1452,7 @@ const NAV = [
   {id:"routine",   ic:I.task,  label:"毎月の決まりごと", sec:"main"},
   {id:"mihari",    ic:I.money, label:"お金の見張り番", sec:"main"},
   {id:"kaisha",    ic:I.share, label:"会社の全体図", sec:"main"},
+  {id:"eigyobi",   ic:I.deal,  label:"今日の営業", sec:"main"},
   {id:"genba",     ic:I.scan,  label:"現場の日報", sec:"main"},
   {id:"oshieru",   ic:I.ai,    label:"番頭に教える", sec:"main"},
   {id:"banto",     ic:I.ai,   label:"番頭（経営参謀AI）", sec:"main"},
@@ -6330,6 +6387,7 @@ const EMP_NAV=[
   {id:"kimarigoto", ic:I.doc, label:"社内の決まりごと係", sec:"main"},
   {id:"denwaban", ic:I.bell, label:"電話・問い合わせ番", sec:"main"},
   {id:"uketsuke", ic:I.home, label:"受付・ご案内", sec:"main"},
+  {id:"eigyobi", ic:I.deal, label:"今日の営業", sec:"main"},
   {id:"genba", ic:I.scan, label:"現場の日報", sec:"main"},
   {id:"routine", ic:I.task, label:"毎月の決まりごと", sec:"main"},
   {id:"weekly", ic:I.nippo, label:"週次レポート（全員）", sec:"main"}
@@ -8962,6 +9020,192 @@ function kbThemeBtn(){
   return b;
 }
 
+
+/* ====================================================================
+   今日の営業（2026-07-31 追加）
+   外まわりの人が、移動中にスマホで見て、訪問先で写真を1枚送るだけ。
+   戻ってからの入力をやめる。
+==================================================================== */
+var EIGYO_DAY={
+ kensetsu:[
+  {t:"09:30",m:"車で20分",n:"しらかば工業 様（元請）",now:true,
+   pre:["前回：3月の屋根の件。外壁の見積を出したところで止まっています",
+        "今日：見積の内訳を細かくして持っていく。<b>足場が自社か外注かを聞く</b>",
+        "持ち物：見積の内訳（2案）／前回の現場写真8枚"],
+   st:"見積を出して13日"},
+  {t:"11:00",m:"車で15分",n:"きたかぜ建設 工事課 様",
+   pre:["前回：資材搬入の時刻を30分早める相談（今朝お電話をいただきました）",
+        "今日：<b>折り返しの返事</b>と、来月の工程の確認",
+        "持ち物：工程表／搬入の可否（現場に確認したもの）"],
+   st:"今朝、着信あり"},
+  {t:"14:00",m:"オンライン",n:"かえで様邸の施主 様",
+   pre:["前回：見積をお出ししたところ。内訳をもっと細かく見たいとのご希望",
+        "今日：内訳のご説明。<b>ご予算の上限はうかがっていません</b>",
+        "持ち物：内訳の資料（項目ごと）／工期の目安"],
+   st:"問い合わせフォームから"},
+  {t:"16:00",m:"車で10分",n:"こなら建材 様",
+   pre:["前回：石膏ボードの納期が1週間ずれるとのご連絡（メール1通）",
+        "今日：<b>どの現場に影響が出るかを一緒に見る</b>。代替の品があるか",
+        "持ち物：影響しそうな現場の一覧（人が作ってください。番頭は工程表を持っていません）"],
+   st:"納期の相談"}],
+ def:[
+  {t:"10:00",m:"車で15分",n:"みどり青果店 様",now:true,
+   pre:["前回：追加注文のご相談。単価のことも少し出ました",
+        "今日：今月の納品のご確認と、来月のご予定をうかがう",
+        "持ち物：今月の納品の一覧／相場の資料"],
+   st:"毎月ご訪問"},
+  {t:"13:30",m:"車で25分",n:"ひまわり食堂 様",
+   pre:["前回：レタスの単価変更のお知らせをお送りしたところ",
+        "今日：<b>単価のご相談</b>。新しい単価は資料に書かれていないので、人が決めてください",
+        "持ち物：単価の資料／相場の動き"],
+   st:"お知らせを出して2日"},
+  {t:"15:30",m:"車で10分",n:"やまびこストア 様",
+   pre:["前回：3か月前にお見積り。そのままになっています",
+        "今日：様子うかがい。<b>断られた理由は記録にありません</b>",
+        "持ち物：新しい品目の一覧"],
+   st:"3か月ご無沙汰"}]
+};
+var EIGYO_KIZU=[
+ {hot:true, d:"91", t:"みずなら工務店さま、91日ご連絡が空いています",
+  p:"昨年は毎月ご注文をいただいていた先です。<b>なぜ止まったかは記録にありません。</b>番頭には理由が分かりません。",
+  b:"様子うかがいの文を作る"},
+ {hot:true, d:"13", t:"しらかば工業さま、見積を出して13日たちました",
+  p:"当社の平均は7日で何かしらお返事があります。<b>催促ではなく、追加のご説明として</b>お声がけする文を作れます。",
+  b:"お声がけの文を作る"},
+ {hot:false, d:"新", t:"ゆずり葉工務店さまは、初めてのお相手です",
+  p:"会社の実在や支払いの確かさは、番頭には分かりません。外のサイトを見に行かない作りです。",
+  b:"初回の持ち物を出す"},
+ {hot:false, d:"3", t:"今月、3件のご訪問がまだ記録されていません",
+  p:"7/24・7/26・7/29 のご訪問です。写真かひとことをいただければ、番頭が記録の下書きを作ります。",
+  b:"あとから記録する"}
+];
+
+function eigyoDay(){
+  var g=(window.GYOSHU_V2&&window.GYOSHU_V2[STATE.gy2])||{id:""};
+  return EIGYO_DAY[g.id]||EIGYO_DAY.def;
+}
+
+function viewEigyobi(){
+  var list=eigyoDay();
+  var emp=(STATE.role==="employee");
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>今日の営業 <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>朝、これだけ見てから出てください。'+
+    '訪問先では<b>写真とひとことを送るだけ。</b>戻ってからの入力をやめます。</p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='会社名・数字はすべて<b>架空のサンプル</b>です。'+
+    '<b>番頭は、お相手に自分から連絡しません。</b>文の下書きを作るところまでで、送るのは人です。';
+  v.appendChild(note);
+
+  var k=el("div","grid g4");
+  k.appendChild(kpiCard({icon:I.deal, lbl:"今日まわる先",           val:String(list.length)+"件"}));
+  k.appendChild(kpiCard({icon:I.ai,   lbl:"下ごしらえができた",     val:String(list.length)+"件", tone:"blue"}));
+  k.appendChild(kpiCard({icon:I.send, lbl:"今日中にお返しするもの", val:"2件", tone:"amber"}));
+  k.appendChild(kpiCard({icon:I.bell, lbl:"番頭に分からなかったこと", val:"3件", tone:"warn"}));
+  v.appendChild(k);
+
+  /* まわる順 */
+  var m=el("div","card");
+  m.innerHTML='<div class="card-h"><h2>今日まわる順</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '訪問の前に読む3行を、それぞれに付けてあります。<b>移動中に読めば足ります。</b></p>';
+  var mw=el("div","kb-mawaru");
+  list.forEach(function(x,i){
+    var r=el("div","r"+(x.now?" now":""));
+    var pre='<div class="kb-3line">'+
+      ['前回までのこと','今日のご用件','持っていくもの'].map(function(h,j){
+        return '<div><div class="h">'+h+'</div><p>'+x.pre[j]+'</p></div>';
+      }).join("")+'</div>';
+    r.innerHTML='<div class="tm">'+x.t+'<small>'+x.m+'</small></div>'+
+      '<div><div class="nm">'+x.n+'</div><div class="mk">'+(x.now?'<b>いま向かっている先です</b>':'')+'</div>'+pre+'</div>'+
+      '<div class="st">'+x.st+'</div>';
+    var st=r.querySelector(".st");
+    var b=el("span","go","訪問を記録する");
+    b.onclick=function(){toast("写真とひとことを送る画面をひらきます（デモ）");};
+    if(st)st.appendChild(b);
+    mw.appendChild(r);
+  });
+  m.appendChild(mw);
+  v.appendChild(m);
+
+  /* 訪問後 */
+  var a=el("div","card");
+  a.innerHTML='<div class="card-h"><h2>訪問のあと、送るのはこれだけ</h2></div>';
+  var fl=el("div","kb-flow");
+  fl.innerHTML=
+   '<div><div class="n">①</div><b>写真1枚とひとこと</b><p>名刺でも、現場でも、ホワイトボードでも。'+
+   '車に戻って30秒しゃべるだけでもかまいません。</p><span class="who h">人がやること</span></div>'+
+   '<div><div class="n">②</div><b>番頭が3つに分ける</b><p><b>商談のメモ</b>／<b>お礼の文の下書き</b>／'+
+   '<b>台帳に入れる候補</b>。<b>言っていないことは書きません。</b></p><span class="who b">番頭がやること</span></div>'+
+   '<div><div class="n">③</div><b>押して、送る</b><p>お礼の文は承認箱の赤い札に入ります。'+
+   '<b>押すまで、お相手には届きません。</b></p><span class="who h">人が押します</span></div>';
+  a.appendChild(fl);
+
+  var ex=el("div");ex.style.cssText="margin-top:16px";
+  ex.innerHTML='<div style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px">'+
+    '例：しらかば工業さまから戻って、車の中でひとこと</div>'+
+    '<div style="padding:13px 16px;border-radius:10px;background:#f4f7f9;border:1px solid var(--line);'+
+    'font-size:13.5px;line-height:1.9;color:#43525f">'+
+    '「しらかばさん、外壁の件は前向き。足場は自社でやりたいって。塗料のグレードは相談したいと。'+
+    '次は8月の第2週あたりに内訳を細かくして持っていく」</div>'+
+    '<div style="overflow-x:auto;margin-top:14px"><table class="tbl">'+
+    '<thead><tr><th style="width:150px">番頭が作るもの</th><th>中身</th><th style="width:130px">どうなるか</th></tr></thead><tbody>'+
+    '<tr><td><b>商談のメモ</b></td><td>足場は自社希望／塗料のグレードは要相談／次回8月第2週</td><td>社内メモ。自動で通ります</td></tr>'+
+    '<tr><td><b>お礼の文</b></td><td>本日のお礼と、内訳を細かくしてお持ちする旨（<b>金額は入れていません</b>）</td><td>赤い札。<b>押すまで届きません</b></td></tr>'+
+    '<tr><td><b>台帳へ</b></td><td>次にやること／期日／確認すること</td><td>社内で確定。押す人を決めます</td></tr>'+
+    '<tr class="kb-no"><td>受注できそうな確率</td><td><b>作りません。</b>「前向き」を数字にすると、会社の見込みが実際とずれます</td><td>—</td></tr>'+
+    '</tbody></table></div>';
+  a.appendChild(ex);
+  a.appendChild(el("div","kb-rule",
+    "名刺を撮ると、お名前・会社名・電話・メールを読み取って取引先の台帳に入れます。"+
+    "<b>読めなかった欄は空欄のまま赤で残します。</b>勝手に埋めません。"));
+  v.appendChild(a);
+
+  /* 番頭が気づいたこと */
+  var kz=el("div","card");
+  kz.innerHTML='<div class="card-h"><h2>番頭が気づいたこと</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '記録から分かることだけを出します。<b>理由までは分かりません。</b></p>';
+  var kw=el("div","kb-kizu");
+  EIGYO_KIZU.forEach(function(x){
+    var r=el("div","r"+(x.hot?" hot":""));
+    r.innerHTML='<div class="d">'+x.d+'</div><div><b>'+x.t+'</b><p>'+x.p+'</p></div>';
+    var act=el("div","act");
+    var b=el("button");b.type="button";b.textContent=x.b;
+    b.onclick=function(){toast("下書きを作りました。承認箱に入れます（デモ・送るのは人です）");};
+    act.appendChild(b);
+    r.appendChild(act);
+    kw.appendChild(r);
+  });
+  kz.appendChild(kw);
+  v.appendChild(kz);
+
+  /* 今月の数字 */
+  var n=el("div","card");
+  n.innerHTML='<div class="card-h"><h2>'+(emp?"あなたの今月":"今月の営業（担当ごと）")+'</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '数えているのは<b>やったこと</b>です。人を比べるための数字ではありません。</p>';
+  var nw=el("div","kb-num");
+  nw.innerHTML=
+   '<div><div class="l">ご訪問</div><div class="v">18件</div><div class="s">先月 21件</div></div>'+
+   '<div><div class="l">お見積り</div><div class="v">7件</div><div class="s">うち返事待ち 3件</div></div>'+
+   '<div><div class="l">ご成約</div><div class="v">2件</div><div class="s">先月 3件</div></div>'+
+   '<div><div class="l">記録が空いている先</div><div class="v">3件</div><div class="s">30日以上ご連絡なし</div></div>';
+  n.appendChild(nw);
+  n.appendChild(el("div","kb-rule",
+    "この数字は、営業の方を評価するためのものではありません。"+
+    "<b>番頭は、人に点数をつけません。</b>次にどこへ行くかを決めるための材料としてお使いください。"));
+  v.appendChild(n);
+
+  v.appendChild(cantBox(
+    "今日のご訪問4件について、これまでのやり取り・見積・お電話の記録を読み、3行にまとめました。",
+    "3件は番頭に分かりませんでした。みずなら工務店さまが91日空いている理由、ゆずり葉工務店さまの会社の確かさ、こなら建材さまの納期のずれがどの現場に響くか。順に、記録が無い／外のサイトを見に行かない／工程表が番頭に入っていない、が理由です。",
+    "訪問前の3行と、気づいたこと4件をお出ししました。文の下書きは、押していただければ承認箱に入ります。"));
+  v.appendChild(footer());
+  return v;
+}
+
 const VIEWS={
   shonin:viewShonin,
   oshieru:viewOshieru,
@@ -8974,6 +9218,7 @@ const VIEWS={
   routine:viewRoutine, mihari:viewMihari,
   genba:viewGenba,
   kaisha:viewKaisha,
+  eigyobi:viewEigyobi,
   kimarigoto:viewKimarigoto, denwaban:viewDenwaban,
   shitagoshirae:viewShitagoshirae, saiyo:viewSaiyo, uketsuke:viewUketsuke,
   tsuchi:viewTsuchi, options:viewOptions, "emp-home":viewEmpHome, "emp-eigyo":viewEmpEigyo
@@ -9069,6 +9314,7 @@ const FEATURE_INFO={
   uketsuke:{what:"今日の来客と予約、現場まわりの掲示の下書きをまとめます。当社が弱い分野です。",points:["来客・予約の予定を1枚に。重なりがあれば警告","工事のお知らせなどの掲示を、やさしい日本語ほかで下書き","近隣からの声を記録（強い口調のものは番頭が文を作りません）","※安全の掲示は訳しません。画面に人の姿を出す接客も行いません"]},
   kimarigoto:{what:"就業規則や安全ルールについての「聞きごと」に、どの文書の何番かを付けて答えます。書かれていないことは答えません。",points:["答えるときは、どの文書の何番かをかならず付けます","規程に書かれていないことは答えません（設定で外せない決まりです）","番頭に入っていない文書も、隠さず一覧に出します","答えられなかったものは、そのまま「規程の穴」の一覧になります"]},
   denwaban:{what:"夜のあいだに来た電話・メール・LINEを朝ひとまとめにして、折り返しの下書きまで作ります。",points:["用件の要約と、どこへ回すかの仕分け","折り返しの文の下書き（送るのは人です）","社長が先に文を決めた質問だけ、自動でお返しします","※番頭は電話に出ません。強い口調のお話には、文を作りません"]},
+  eigyobi:{what:"外まわりの方が、朝これだけ見てから出るための画面です。訪問先では写真とひとことを送るだけで、戻ってからの入力をやめます。",points:["今日まわる順に、訪問前に読む3行（前回のこと／今日の用件／持ち物）","訪問のあとは写真1枚とひとこと。商談メモ・お礼の文・台帳の候補に分かれます","番頭が気づいたこと（連絡が空いている先・見積の返事待ち・初めての相手）","※番頭は自分から連絡しません。受注確率も作りません。人に点数もつけません"]},
   kaisha:{what:"やりたいことを1つ入れると、番頭が9つの部署に分けて動きます。いま何が動いていて、何が止まっているかが1画面で分かります。",points:["市場を見る／お客さまを知る／商品を考える／売り方を考える／作る／見た目／品質／出す準備／お金を見る","できたこと・できなかったことが、部署ごとに記録に残ります","「いま足りていないもの」と「次にやること1件」を出します","※部署が動いても、お金と社外に出るものは1つも出ません。押すのは社長です"]},
   genba:{what:"現場から写真とひとことを送るだけで、日報の下書きができます。事務所に戻ってからの清書をやめるための機能です。",points:["いつも撮っている写真＋ひとこと（声でも文字でも）","元請け・荷主・事業所へ出せる1枚と、集計用のCSVの両方で出せます","業種を変えると、日報の項目も面倒な作業も丸ごと入れ替わります","※読めなかった写真は入れません。分からない欄は空欄のまま赤で出します"]},
   routine:{what:"毎月おなじことを、毎月おもいだす手間をなくします。期日から逆算して番頭のほうから出します。",points:["月のはじめ・なか・おわりで、今月の決まりごとを一覧に","「番」＝番頭が下書きまで作る／「未」＝人がやること、を分けて表示","期日の朝に、番頭が承認箱へ入れます","※期日が来ても、番頭が勝手に実行することはありません"]},
