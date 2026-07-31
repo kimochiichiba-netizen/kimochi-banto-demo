@@ -1436,6 +1436,60 @@ body.dark .kb-open{background:#152437;border-color:#2a3f57;color:#b9cddf}
   .kb-sim .rs .row{grid-template-columns:minmax(0,1fr);gap:2px}
   .kb-sim .pk button{flex:1 1 44%}
 }
+
+/* ==== 資料をつくる（2026-07-31 追加） ==== */
+.kb-pick2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px}
+.kb-pick2 button{padding:15px 16px;border:2px solid var(--line);border-radius:11px;background:#fff;
+  text-align:left;cursor:pointer}
+.kb-pick2 button:hover{border-color:var(--green)}
+.kb-pick2 button[aria-pressed="true"]{border-color:var(--green);background:#f0f8f3}
+.kb-pick2 b{display:block;font-size:15.5px;color:#16202b;margin-bottom:5px}
+.kb-pick2 span{display:block;font-size:12.5px;line-height:1.75;color:#43525f}
+.kb-slides{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.kb-sl{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;cursor:pointer;
+  transition:border-color .15s}
+.kb-sl:hover{border-color:var(--green)}
+.kb-sl[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 3px rgba(31,107,58,.12)}
+.kb-sl .no{padding:5px 10px;background:#f4f7f9;border-bottom:1px solid var(--line);
+  font-size:11px;font-weight:700;color:var(--muted)}
+.kb-sl .ti{padding:11px 12px;font-size:12.8px;line-height:1.65;font-weight:700;color:#16202b;min-height:62px}
+.kb-sl.blank{border-color:#e0b5ad;background:#fdf9f8}
+.kb-sl.blank .no{background:#fdf2f0;border-bottom-color:#f0c4bf;color:#8f2419}
+.kb-sl.blank .ti{color:#8f2419}
+.kb-page{margin-top:16px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.kb-page .ph{display:flex;align-items:baseline;gap:12px;padding:14px 20px;background:#f4f7f9;
+  border-bottom:1px solid var(--line)}
+.kb-page .ph .n{font-size:12px;font-weight:700;color:var(--muted)}
+.kb-page .ph h3{margin:0;font-size:18px;font-weight:800;color:#16202b}
+.kb-page .bd{padding:20px 22px}
+.kb-page .bd .lead{font-size:15px;line-height:1.95;color:#16202b;margin:0 0 14px}
+.kb-page .bd ul{margin:0;padding-left:20px}
+.kb-page .bd li{font-size:13.8px;line-height:1.95;color:#43525f;margin:5px 0}
+.kb-page .bd li b{color:#16202b}
+.kb-page .src{margin-top:16px;padding:12px 15px;border-radius:9px;background:#f0f8f3;
+  border:1px solid #cbe5d8;font-size:12.8px;line-height:1.85;color:#12704a}
+.kb-page .src b{color:#0e5a37}
+.kb-page .warn{margin-top:11px;padding:12px 15px;border-radius:9px;background:#fdf2f0;
+  border:1px solid #f0c4bf;font-size:12.8px;line-height:1.85;color:#8f2419}
+.kb-blank2{display:inline-block;min-width:96px;padding:1px 10px;border-radius:5px;background:#fdf2f0;
+  border:1px dashed #d98d80;color:#8f2419;font-weight:700;text-align:center}
+body.dark .kb-pick2 button,body.dark .kb-sl,body.dark .kb-page{background:#111d2c;border-color:#1f3247}
+body.dark .kb-pick2 button[aria-pressed="true"],body.dark .kb-sl[aria-pressed="true"]{border-color:#2b8f5e;background:#0f2a1d}
+body.dark .kb-pick2 b,body.dark .kb-sl .ti,body.dark .kb-page .ph h3,
+body.dark .kb-page .bd .lead,body.dark .kb-page .bd li b{color:#e7eff7}
+body.dark .kb-pick2 span,body.dark .kb-page .bd li{color:#b9cddf}
+body.dark .kb-sl .no,body.dark .kb-page .ph{background:#152437;border-color:#1f3247;color:#8ea6bb}
+body.dark .kb-sl.blank{background:#2a1613;border-color:#4a251f}
+body.dark .kb-sl.blank .no{background:#2a1613;color:#f0b5a4}
+body.dark .kb-sl.blank .ti,body.dark .kb-page .warn{color:#f0b5a4}
+body.dark .kb-page .warn{background:#2a1613;border-color:#4a251f}
+body.dark .kb-page .src{background:#0f2a1d;border-color:#2b5a41;color:#a8e6c8}
+body.dark .kb-page .src b{color:#7fdcae}
+body.dark .kb-blank2{background:#2a1613;border-color:#7a4034;color:#f0b5a4}
+@media (max-width:900px){
+  .kb-pick2{grid-template-columns:minmax(0,1fr)}
+  .kb-slides{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
   <meta name="robots" content="noindex, nofollow">
 </head>
@@ -1529,6 +1583,7 @@ const NAV = [
   {id:"mihari",    ic:I.money, label:"お金の見張り番", sec:"main"},
   {id:"kaisha",    ic:I.share, label:"会社の全体図", sec:"main"},
   {id:"eigyobi",   ic:I.deal,  label:"今日の営業", sec:"main"},
+  {id:"shiryo",    ic:I.doc,   label:"資料をつくる", sec:"main"},
   {id:"genba",     ic:I.scan,  label:"現場の日報", sec:"main"},
   {id:"oshieru",   ic:I.ai,    label:"番頭に教える", sec:"main"},
   {id:"banto",     ic:I.ai,   label:"番頭（経営参謀AI）", sec:"main"},
@@ -4476,6 +4531,9 @@ const STATE = {
   kzGoal:"uriage",
   kzSim:0,
   kzOpen:"",
+  srKind:"eigyo",
+  srAite:"new",
+  srPage:0,
   tasksTab:"list",
   hojoTab:"list",
   expenses:2210000,
@@ -6467,6 +6525,7 @@ const EMP_NAV=[
   {id:"denwaban", ic:I.bell, label:"電話・問い合わせ番", sec:"main"},
   {id:"uketsuke", ic:I.home, label:"受付・ご案内", sec:"main"},
   {id:"eigyobi", ic:I.deal, label:"今日の営業", sec:"main"},
+  {id:"shiryo", ic:I.doc, label:"資料をつくる", sec:"main"},
   {id:"genba", ic:I.scan, label:"現場の日報", sec:"main"},
   {id:"routine", ic:I.task, label:"毎月の決まりごと", sec:"main"},
   {id:"weekly", ic:I.nippo, label:"週次レポート（全員）", sec:"main"}
@@ -9592,6 +9651,209 @@ var KZ_BUSHO={
        cant:"原価の表が番頭に入っていないため、粗利も、いくらで作れるかも出せません"}
 };
 
+
+/* ====================================================================
+   資料をつくる（2026-07-31 追加）
+   資料づくりのAIは「それっぽい数字」を入れてしまう。
+   入れた瞬間に、商談で嘘をつくことになる。
+   だから金額・実績・連絡先は空欄のまま赤で残す。
+==================================================================== */
+var SR_KIND=[
+ {k:"eigyo", n:"営業資料",  s:"はじめてお会いする相手に。当社が何をする会社かを伝える"},
+ {k:"teian", n:"提案資料",  s:"一度お話しした相手に。その会社の困りごとに合わせて出す"},
+ {k:"mitsu", n:"見積のご説明", s:"金額を出したあとに。なぜこの金額かを説明する"}
+];
+var SR_AITE=[
+ {k:"new",  n:"はじめての相手", s:"当社を知らない。まず何の会社かから"},
+ {k:"once", n:"一度お会いした", s:"困りごとを聞いてある。そこに合わせる"},
+ {k:"long", n:"長いお付き合い", s:"分かっている前提。新しい話だけ"}
+];
+
+var SR_DOC={
+"eigyo|new":{ttl:"営業資料（はじめての相手／10枚）",
+ note:"当社を知らない相手なので、まず「何の会社か」から入ります。困りごとはまだ聞いていないので、決めつけずに3つ並べます。",
+ pages:[
+  {t:"表紙",lead:"御社のお名前と、今日の日付。当社の社名と、一行の説明。",
+   li:["株式会社◯◯ 御中","2026年7月31日","株式会社気持ち市場"],
+   src:"社名と日付は、案件・アポ管理に入っている情報から入れました。",blank:0},
+  {t:"こんなことでお困りではありませんか",lead:"3つ並べます。相手の困りごとはまだ聞いていないので、決めつけません。",
+   li:["夜9時、まだ事務をしている","紙とFAXが残っていて、結局そこに入力する人が要る","頼りの1人が抜けたら、何が止まるか分からない"],
+   src:"当社が普段いただくご相談の上位3つです。",blank:0},
+  {t:"当社は何をする会社か",lead:"一行で。長く書くと読まれません。",
+   li:["<b>夜のうちにAIが事務の下書きを作り、朝、人が押して確定する仕組みをお作りします</b>","押すまで、どこにも出ません。お金も動きません"],
+   src:"",blank:0},
+  {t:"できること",lead:"6つの分野のうち、当社が受け持つところ。",
+   li:["お金と書類の事務（請求・入金・経費・給与）","払う前の見張り（口座のすり替え・二重払い）","毎月の決まりごと","現場の日報／今日の営業"],
+   src:"",blank:0},
+  {t:"できないこと",lead:"先に書きます。あとで分かって困ることは、先に申し上げます。",
+   li:["<b>番頭は自分で送りません。</b>送信・振込・公開は人が押します","規程に書かれていないことは答えません","応募してきた方に点数をつけません"],
+   src:"",blank:0},
+  {t:"お値段",lead:"金額は空欄です。相手や範囲で変わるので、番頭は勝手に入れません。",
+   li:["初期の導入：<span class='kb-blank2'>　円</span>","月額：<span class='kb-blank2'>　円</span>","<b>人がお決めください</b>"],
+   src:"",blank:1,warn:"金額を入れていません。相手・範囲・条件で変わる数字を番頭が埋めると、商談で食い違います。"},
+  {t:"導入した会社",lead:"",
+   li:["<b>0社です。</b>御社が1社目になります"],
+   src:"",blank:1,warn:"「実績多数」などとは書けません。当社の導入実績は0社です。"},
+  {t:"はじめかた",lead:"いきなり全部は入れません。",
+   li:["事務の健康診断（無料・40分）","書類を1枚、読ませてみる","小さく始める（30日・合わなければ全額返金）"],
+   src:"",blank:0},
+  {t:"よくいただくご質問",lead:"",
+   li:["高くないですか／データは大丈夫ですか／間違えませんか／効果はどれくらいですか"],
+   src:"想定問答から4つ選びました。",blank:0},
+  {t:"会社概要・連絡先",lead:"",
+   li:["株式会社気持ち市場／大分県大分市都町2丁目6番6号","お電話：<span class='kb-blank2'>　　　</span>／メール：<span class='kb-blank2'>　　　</span>"],
+   src:"",blank:1,warn:"連絡先が空欄です。社長が事業用の番号を決めてから入れてください。"}]},
+
+"teian|once":{ttl:"提案資料（一度お会いした相手／8枚）",
+ note:"前回うかがった困りごとに合わせて作ります。<b>聞いていないことは書きません。</b>",
+ pages:[
+  {t:"表紙",lead:"前回の日付を入れます。「覚えている」ことが伝わります。",
+   li:["株式会社しらかば工業 御中","2026年7月31日 ／ 前回：7月18日 ご訪問"],
+   src:"案件・アポ管理の訪問記録から入れました。",blank:0},
+  {t:"前回うかがったこと",lead:"こちらの言葉ではなく、相手が言ったことをそのまま。",
+   li:["「請求書を出すのに、月末は毎回2日つぶれる」","「入金の消し込みが、担当者1人の頭の中にしかない」","「紙の注文書がFAXで来る」"],
+   src:"<b>7月18日の商談メモから、そのまま引きました。</b>言い換えていません。",blank:0},
+  {t:"いま、どこに時間がかかっているか",lead:"うかがった話から、番頭が整理しました。",
+   li:["請求書づくり：<span class='kb-blank2'>　時間/月</span>","入金の消し込み：<span class='kb-blank2'>　時間/月</span>","<b>実際の時間は、まだ測っていません</b>"],
+   src:"",blank:1,warn:"時間の数字は空欄です。うかがったのは「2日つぶれる」という言い方までで、実測ではありません。"},
+  {t:"当社がお手伝いできること",lead:"3つの困りごとに、1つずつ対応させます。",
+   li:["請求書 → 下書きまで番頭が作り、押すだけに","入金の消し込み → 銀行明細と台帳を突き合わせ","FAXの注文書 → 写真から文字に（<b>お使いのパソコンの中だけで処理</b>）"],
+   src:"",blank:0},
+  {t:"人が押すところ",lead:"任せる範囲を、先に決めておきます。",
+   li:["請求書をお客様へ出すとき（<b>赤</b>）","台帳への記帳（<b>白</b>）","要約・仕分け（<b>灰・自動で通ります</b>）"],
+   src:"",blank:0},
+  {t:"まず30日、1つだけ",lead:"全部を一度に入れません。",
+   li:["<b>請求書づくりだけ</b>を30日","最初の3回は一緒に確認","合わなければ全額返金"],
+   src:"うかがった中で、いちばん時間がかかっているものを選びました。",blank:0},
+  {t:"お値段",lead:"",
+   li:["初期：<span class='kb-blank2'>　円</span>／月額：<span class='kb-blank2'>　円</span>"],
+   src:"",blank:1,warn:"金額を入れていません。人がお決めください。"},
+  {t:"次にお願いしたいこと",lead:"相手が次に何をすればいいかを、1つだけ。",
+   li:["<b>請求書を1枚、お預かりさせてください。</b>その場で読ませて、読めないところまでお見せします"],
+   src:"",blank:0}]},
+
+"mitsu|long":{ttl:"見積のご説明（長いお付き合いの相手／6枚）",
+ note:"金額を出したあとの説明です。<b>金額そのものは、人が入れてから使ってください。</b>",
+ pages:[
+  {t:"表紙",lead:"",li:["御見積のご説明","株式会社◯◯ 御中 ／ 2026年7月31日"],src:"",blank:0},
+  {t:"御見積の内訳",lead:"項目ごとに、どこから取った数字かを添えます。",
+   li:["足場 架設・解体：763,500円（<b>2026年3月 くすのき様邸の実績</b>）",
+       "諸経費：128,700円（<b>直近3件の平均</b>）",
+       "外壁 高圧洗浄：<span class='kb-blank2'>　円</span>（<b>同じ工事の記録がありません</b>）"],
+   src:"根拠のある行だけ数字を入れています。",blank:1,
+   warn:"2行は空欄のままです。同じ工事の記録が無く、単価表にも無い仕様のためです。人が入れてください。"},
+  {t:"前回とくらべて",lead:"長いお付き合いの相手には、ここがいちばん聞かれます。",
+   li:["前回（2026年3月）：<span class='kb-blank2'>　円</span>","今回：<span class='kb-blank2'>　円</span>","差：<span class='kb-blank2'>　円</span>"],
+   src:"",blank:1,warn:"合計が空欄なので、差も出せません。"},
+  {t:"なぜ変わったか",lead:"値上がりしているなら、理由を書きます。",
+   li:["石膏ボードの単価が、前回より18%上がっています（6月12日 1,180円 → 7月26日 1,392円）"],
+   src:"<b>お金の見張り番が見つけた差です。</b>仕入れの記録から取りました。",blank:0},
+  {t:"工期",lead:"",li:["8月5日〜8月18日（<b>雨天で延びる場合があります</b>）"],src:"工程表から取りました。",blank:0},
+  {t:"ご不明な点",lead:"",li:["この見積について、分からないところは何でもおたずねください"],src:"",blank:0}]}
+};
+
+function srKey(){
+  var k=(STATE.srKind||"eigyo")+"|"+(STATE.srAite||"new");
+  if(SR_DOC[k]) return k;
+  /* 用意していない組み合わせは、いちばん近いものを出す */
+  if(STATE.srKind==="teian") return "teian|once";
+  if(STATE.srKind==="mitsu") return "mitsu|long";
+  return "eigyo|new";
+}
+
+function viewShiryo(){
+  var key=srKey(), doc=SR_DOC[key];
+  var pi=Math.min(STATE.srPage||0, doc.pages.length-1);
+  var pg=doc.pages[pi];
+  var v=el("div","view");
+  v.innerHTML='<div class="page-head"><h1>資料をつくる <span class="kb-std">標準装備</span> <span class="kb-sample">サンプル画面</span></h1>'+
+    '<p>営業資料も、提案資料も、見積のご説明も。'+
+    '<b>番頭は下書きまで作ります。金額と連絡先は空欄のまま赤で残します。</b></p></div>';
+
+  var note=el("div","kb-note");
+  note.innerHTML='会社名・数字は<b>架空のサンプル</b>です。'+
+    '資料づくりのAIは、それっぽい数字を入れてしまいがちです。'+
+    '<b>入れた瞬間に、商談で嘘をつくことになります。</b>だから番頭は空けたまま出します。';
+  v.appendChild(note);
+
+  /* 何を作るか */
+  var c1=el("div","card");
+  c1.innerHTML='<div class="card-h"><h2>何を作りますか</h2></div>';
+  var p1=el("div","kb-pick2");
+  SR_KIND.forEach(function(x){
+    var b=el("button");b.type="button";
+    b.setAttribute("aria-pressed",(STATE.srKind||"eigyo")===x.k?"true":"false");
+    b.innerHTML='<b>'+x.n+'</b><span>'+x.s+'</span>';
+    b.onclick=function(){STATE.srKind=x.k;STATE.srPage=0;render();};
+    p1.appendChild(b);
+  });
+  c1.appendChild(p1);
+  v.appendChild(c1);
+
+  /* 誰に出すか */
+  var c2=el("div","card");
+  c2.innerHTML='<div class="card-h"><h2>どなたに出しますか</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
+    '相手によって、書くことが変わります。<b>はじめての相手に前回の話はできません。</b></p>';
+  var p2=el("div","kb-pick2");
+  SR_AITE.forEach(function(x){
+    var b=el("button");b.type="button";
+    b.setAttribute("aria-pressed",(STATE.srAite||"new")===x.k?"true":"false");
+    b.innerHTML='<b>'+x.n+'</b><span>'+x.s+'</span>';
+    b.onclick=function(){STATE.srAite=x.k;STATE.srPage=0;render();};
+    p2.appendChild(b);
+  });
+  c2.appendChild(p2);
+  v.appendChild(c2);
+
+  /* 番頭が作った構成 */
+  var c3=el("div","card");
+  c3.innerHTML='<div class="card-h"><h2>'+doc.ttl+'</h2></div>'+
+    '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+doc.note+
+    '　<b>押すと、その1枚の中身が下に出ます。</b></p>';
+  var sl=el("div","kb-slides");
+  doc.pages.forEach(function(p,i){
+    var d=el("div","kb-sl"+(p.blank?" blank":""));
+    d.setAttribute("aria-pressed", i===pi?"true":"false");
+    d.innerHTML='<div class="no">'+(i+1)+' / '+doc.pages.length+(p.blank?'　空欄あり':'')+'</div>'+
+                '<div class="ti">'+p.t+'</div>';
+    d.onclick=function(){STATE.srPage=i;render();};
+    sl.appendChild(d);
+  });
+  c3.appendChild(sl);
+
+  var pv=el("div","kb-page");
+  pv.innerHTML='<div class="ph"><span class="n">'+(pi+1)+'枚目</span><h3>'+pg.t+'</h3></div>'+
+    '<div class="bd">'+(pg.lead?'<p class="lead">'+pg.lead+'</p>':'')+
+    '<ul>'+pg.li.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>'+
+    (pg.src?'<div class="src"><b>どこから取ったか：</b>'+pg.src+'</div>':'')+
+    (pg.warn?'<div class="warn"><b>空けてあります：</b>'+pg.warn+'</div>':'')+
+    '</div>';
+  c3.appendChild(pv);
+
+  var ab=el("div");ab.style.cssText="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap";
+  var b1=el("button","btn btn-green","この資料を承認箱へ送る");b1.type="button";
+  b1.onclick=function(){toast("承認箱の赤い札に入れました。押すまで、どなたにも出ません（デモ）");};
+  var b2=el("button","btn btn-opt-o","PDFにする");b2.type="button";
+  b2.onclick=function(){toast("PDFにしました（デモ・実際の書き出しは今後実装します）");};
+  var b3=el("button","btn btn-opt-o","空欄だけ一覧で見る");b3.type="button";
+  b3.onclick=function(){
+    var n=doc.pages.filter(function(p){return p.blank;}).length;
+    toast("空欄のある枚数は "+n+"枚です。金額・実績・連絡先は、人が入れてから出してください");
+  };
+  ab.appendChild(b1);ab.appendChild(b2);ab.appendChild(b3);
+  c3.appendChild(ab);
+  v.appendChild(c3);
+
+  v.appendChild(cantBox(
+    "案件・アポ管理の訪問記録、商談のメモ、見積の履歴、仕入れの記録を読んで、"+doc.pages.length+"枚の構成を作りました。",
+    "金額・実績・連絡先は空欄のまま赤で残しました。相手や範囲で変わる数字と、まだ決まっていない数字を番頭が埋めると、その資料は商談で嘘をつくことになるためです。空けてある枚数は"+
+      doc.pages.filter(function(p){return p.blank;}).length+"枚です。",
+    "根拠のある行には「どこから取ったか」を1行ずつ添えました。押していただければ、承認箱の赤い札に入ります。"));
+  v.appendChild(footer());
+  return v;
+}
+
 const VIEWS={
   shonin:viewShonin,
   oshieru:viewOshieru,
@@ -9605,6 +9867,7 @@ const VIEWS={
   genba:viewGenba,
   kaisha:viewKaisha,
   eigyobi:viewEigyobi,
+  shiryo:viewShiryo,
   kimarigoto:viewKimarigoto, denwaban:viewDenwaban,
   shitagoshirae:viewShitagoshirae, saiyo:viewSaiyo, uketsuke:viewUketsuke,
   tsuchi:viewTsuchi, options:viewOptions, "emp-home":viewEmpHome, "emp-eigyo":viewEmpEigyo
@@ -9700,6 +9963,7 @@ const FEATURE_INFO={
   uketsuke:{what:"今日の来客と予約、現場まわりの掲示の下書きをまとめます。当社が弱い分野です。",points:["来客・予約の予定を1枚に。重なりがあれば警告","工事のお知らせなどの掲示を、やさしい日本語ほかで下書き","近隣からの声を記録（強い口調のものは番頭が文を作りません）","※安全の掲示は訳しません。画面に人の姿を出す接客も行いません"]},
   kimarigoto:{what:"就業規則や安全ルールについての「聞きごと」に、どの文書の何番かを付けて答えます。書かれていないことは答えません。",points:["答えるときは、どの文書の何番かをかならず付けます","規程に書かれていないことは答えません（設定で外せない決まりです）","番頭に入っていない文書も、隠さず一覧に出します","答えられなかったものは、そのまま「規程の穴」の一覧になります"]},
   denwaban:{what:"夜のあいだに来た電話・メール・LINEを朝ひとまとめにして、折り返しの下書きまで作ります。",points:["用件の要約と、どこへ回すかの仕分け","折り返しの文の下書き（送るのは人です）","社長が先に文を決めた質問だけ、自動でお返しします","※番頭は電話に出ません。強い口調のお話には、文を作りません"]},
+  shiryo:{what:"営業資料・提案資料・見積のご説明を、番頭が下書きまで作ります。相手と目的を選ぶと、構成が変わります。",points:["1枚ずつ中身が見え、どこから取った数字かも書いてあります","相手（はじめて／一度お会いした／長いお付き合い）で、書くことが変わります","できたものは承認箱の赤い札へ。押すまで、どなたにも出ません","※金額・実績・連絡先は空欄のまま赤で残します。それっぽい数字を入れると、その資料は商談で嘘をつくことになるためです"]},
   eigyobi:{what:"外まわりの方が、朝これだけ見てから出るための画面です。訪問先では写真とひとことを送るだけで、戻ってからの入力をやめます。",points:["今日まわる順に、訪問前に読む3行（前回のこと／今日の用件／持ち物）","訪問のあとは写真1枚とひとこと。商談メモ・お礼の文・台帳の候補に分かれます","番頭が気づいたこと（連絡が空いている先・見積の返事待ち・初めての相手）","※番頭は自分から連絡しません。受注確率も作りません。人に点数もつけません"]},
   kaisha:{what:"やりたいことを1つ入れると、番頭が9つの部署に分けて動きます。いま何が動いていて、何が止まっているかが1画面で分かります。",points:["市場を見る／お客さまを知る／商品を考える／売り方を考える／作る／見た目／品質／出す準備／お金を見る","できたこと・できなかったことが、部署ごとに記録に残ります","「いま足りていないもの」と「次にやること1件」を出します","※部署が動いても、お金と社外に出るものは1つも出ません。押すのは社長です"]},
   genba:{what:"現場から写真とひとことを送るだけで、日報の下書きができます。事務所に戻ってからの清書をやめるための機能です。",points:["いつも撮っている写真＋ひとこと（声でも文字でも）","元請け・荷主・事業所へ出せる1枚と、集計用のCSVの両方で出せます","業種を変えると、日報の項目も面倒な作業も丸ごと入れ替わります","※読めなかった写真は入れません。分からない欄は空欄のまま赤で出します"]},
