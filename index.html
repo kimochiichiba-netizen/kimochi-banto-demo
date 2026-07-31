@@ -1360,6 +1360,82 @@ body.dark .kb-mawaru .st .go,body.dark .kb-kizu .act button{background:#152437}
   .kb-kizu .r{grid-template-columns:34px minmax(0,1fr);gap:10px}
   .kb-kizu .act{grid-column:2/-1;text-align:left}
 }
+
+/* ==== やりたいことで画面が入れ替わる（2026-07-31 追加） ==== */
+.kb-how{margin-top:6px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.kb-how .hh{padding:13px 18px;background:#f4f7f9;border-bottom:1px solid var(--line);
+  font-size:14.5px;font-weight:800;color:#16202b}
+.kb-how .hh span{float:right;font-size:12px;font-weight:400;color:var(--muted)}
+.kb-how table{width:100%;border-collapse:collapse;font-size:13px}
+.kb-how th,.kb-how td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+.kb-how th{background:#fbfcfd;font-weight:700;color:#43525f;white-space:nowrap;font-size:12.5px}
+.kb-how td b{color:#16202b}
+.kb-how tr:last-child td{border-bottom:0}
+.kb-how .pick td{background:#f0f8f3}
+.kb-how .pick td:first-child{box-shadow:inset 4px 0 0 var(--green)}
+.kb-how .no td{background:#fdf2f0;color:#8f2419}
+.kb-how .no td b{color:#8f2419}
+.kb-how .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.kb-goalhead{margin-top:6px;padding:15px 18px;border-radius:11px;background:#f0f8f3;
+  border:1px solid #b3cdbe;font-size:14px;line-height:1.9;color:#16202b}
+.kb-goalhead b{color:#12704a}
+body.dark .kb-how,body.dark .kb-how th,body.dark .kb-how td{border-color:#1f3247}
+body.dark .kb-how .hh{background:#152437;color:#e7eff7;border-bottom-color:#1f3247}
+body.dark .kb-how th{background:#0e1a28;color:#8ea6bb}
+body.dark .kb-how td{color:#b9cddf}
+body.dark .kb-how td b{color:#e7eff7}
+body.dark .kb-how .pick td{background:#0f2a1d}
+body.dark .kb-how .no td{background:#2a1613;color:#f0b5a4}
+body.dark .kb-how .no td b{color:#f0b5a4}
+body.dark .kb-goalhead{background:#0f2a1d;border-color:#2b5a41;color:#cfe8db}
+body.dark .kb-goalhead b{color:#7fdcae}
+@media (max-width:900px){ .kb-how{overflow-x:auto} .kb-how table{min-width:640px} }
+
+/* ==== 数字を動かす・中身を見る（2026-07-31 追加） ==== */
+.kb-sim{margin-top:6px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.kb-sim .q{padding:14px 18px;background:#f4f7f9;border-bottom:1px solid var(--line);font-size:14.5px;font-weight:800;color:#16202b}
+.kb-sim .q span{display:block;margin-top:4px;font-size:12.5px;font-weight:400;color:var(--muted)}
+.kb-sim .pk{display:flex;gap:9px;flex-wrap:wrap;padding:14px 18px 0}
+.kb-sim .pk button{min-height:46px;padding:0 20px;border-radius:9px;border:2px solid var(--line);
+  background:#fff;font-size:15px;font-weight:800;color:#43525f;cursor:pointer;font-variant-numeric:tabular-nums}
+.kb-sim .pk button:hover{border-color:var(--green);color:var(--green)}
+.kb-sim .pk button[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.kb-sim .rs{padding:16px 18px 18px}
+.kb-sim .rs .row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;padding:11px 0;
+  border-bottom:1px solid var(--line);align-items:baseline}
+.kb-sim .rs .row:last-child{border-bottom:0}
+.kb-sim .rs .l{font-size:13.5px;color:var(--muted)}
+.kb-sim .rs .v{font-size:17px;font-weight:800;color:#16202b;font-variant-numeric:tabular-nums;line-height:1.6}
+.kb-sim .rs .row.mi .v{font-size:15px;font-weight:400;color:#43525f}
+.kb-sim .rs .row.ng .v{color:#8f2419}
+.kb-sim .foot{padding:13px 18px;background:#fdf2f0;border-top:1px solid #f0c4bf;
+  font-size:13px;line-height:1.85;color:#8f2419}
+.kb-open{margin-left:9px;padding:3px 11px;border-radius:12px;border:1px solid #c3ced8;background:#fff;
+  color:#43525f;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.kb-open:hover{border-color:var(--green);color:var(--green)}
+.kb-inner{margin-top:10px;padding:14px 16px;border-radius:10px;background:#f4f7f9;border:1px solid var(--line)}
+.kb-inner b{display:block;font-size:13.5px;color:#16202b;margin-bottom:7px}
+.kb-inner ol,.kb-inner ul{margin:0;padding-left:19px}
+.kb-inner li{font-size:13px;line-height:1.9;color:#43525f;margin:3px 0}
+.kb-inner li b{display:inline;font-size:13px;margin:0;color:#16202b}
+body.dark .kb-sim{background:#111d2c;border-color:#1f3247}
+body.dark .kb-sim .q{background:#152437;border-bottom-color:#1f3247;color:#e7eff7}
+body.dark .kb-sim .q span,body.dark .kb-sim .rs .l{color:#8ea6bb}
+body.dark .kb-sim .pk button{background:#152437;border-color:#2a3f57;color:#b9cddf}
+body.dark .kb-sim .rs .row{border-bottom-color:#1f3247}
+body.dark .kb-sim .rs .v{color:#e7eff7}
+body.dark .kb-sim .rs .row.mi .v{color:#b9cddf}
+body.dark .kb-sim .rs .row.ng .v{color:#f0b5a4}
+body.dark .kb-sim .foot{background:#2a1613;border-top-color:#4a251f;color:#f0b5a4}
+body.dark .kb-inner{background:#152437;border-color:#1f3247}
+body.dark .kb-inner b{color:#e7eff7}
+body.dark .kb-inner li{color:#b9cddf}
+body.dark .kb-inner li b{color:#e7eff7}
+body.dark .kb-open{background:#152437;border-color:#2a3f57;color:#b9cddf}
+@media (max-width:900px){
+  .kb-sim .rs .row{grid-template-columns:minmax(0,1fr);gap:2px}
+  .kb-sim .pk button{flex:1 1 44%}
+}
 </style>
   <meta name="robots" content="noindex, nofollow">
 </head>
@@ -4397,6 +4473,9 @@ const STATE = {
   filter2:"",
   role:"admin",
   dark:false,
+  kzGoal:"uriage",
+  kzSim:0,
+  kzOpen:"",
   tasksTab:"list",
   hojoTab:"list",
   expenses:2210000,
@@ -8879,13 +8958,15 @@ function viewKaisha(){
     '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
     '1つ選んでください。選ぶと、下の図の動きが変わります。</p>';
   var gw=el("div","kbz-goal");
+  var _keys=["uriage","hito","shohin"];
   KZ_GOALS.forEach(function(x,i){
     var b=el("button");b.type="button";b.textContent=x.g;
-    b.setAttribute("aria-pressed", i===0?"true":"false");
-    b.onclick=function(){ toast(x.lead); };
+    b.setAttribute("aria-pressed", STATE.kzGoal===_keys[i]?"true":"false");
+    b.onclick=function(){ STATE.kzGoal=_keys[i]; render(); window.scrollTo({top:0,behavior:"smooth"}); toast(x.lead); };
     gw.appendChild(b);
   });
   g.appendChild(gw);
+  g.appendChild(el("div","kb-goalhead",kzP().head));
   g.appendChild(el("div","kb-rule",
     "はじめに聞かれるのは「どれを選ぶか」です。全部やろうとすると、どれも終わりません。"));
   v.appendChild(g);
@@ -8894,7 +8975,7 @@ function viewKaisha(){
   var z=el("div","kbz");
   var hd=el("div","kbz-hd");
   hd.innerHTML='<span class="dot"></span><b>いま、会社の中で動いていること</b>'+
-    '<span class="st">4つの部署が動いています ／ 1つ止まっています ／ 4つは社長待ちです</span>';
+    '<span class="st">'+kzP().st+'</span>';
   z.appendChild(hd);
 
   var body=el("div","kbz-body");
@@ -8903,25 +8984,31 @@ function viewKaisha(){
   var svg='<svg viewBox="0 0 100 100" preserveAspectRatio="none">';
   KZ_EDGES.forEach(function(e){
     var a=kzNode(e[0]), b=kzNode(e[1]); if(!a||!b) return;
-    svg+='<path class="ln '+(e[2]==="on"?"on":"wt")+'" d="M'+a.x+','+a.y+' L'+b.x+','+b.y+'" '+
+    var _nd=kzP().nodes||{};
+    var _live=(_nd[e[0]]==="on"||_nd[e[0]]==="dn"||e[0]==="ceo")&&(_nd[e[1]]==="on"||_nd[e[1]]==="dn"||e[1]==="ceo");
+    svg+='<path class="ln '+(_live?"on":"wt")+'" d="M'+a.x+','+a.y+' L'+b.x+','+b.y+'" '+
          'vector-effect="non-scaling-stroke"/>';
   });
   svg+='</svg>';
   map.innerHTML=svg;
   /* ノード */
   KZ_NODES.forEach(function(n){
-    var d=el("div","kbz-nd "+(n.ceo?"kbz-ceo ":"")+n.st);
+    var _st=n.ceo?"on":((kzP().nodes||{})[n.id]||n.st);
+    var d=el("div","kbz-nd "+(n.ceo?"kbz-ceo ":"")+_st);
     d.style.left=n.x+"%"; d.style.top=n.y+"%";
     d.innerHTML='<div class="cir">'+(n.ceo?"社長":n.n.slice(0,2))+'</div>'+
       '<div class="nm">'+n.n+'</div><div class="sub">'+n.s+'</div>';
     d.onclick=function(){
-      toast(n.ceo?"押すのはあなたです。番頭は下書きまで作ります"
-                 :n.n+"（"+n.s+"）："+({on:"いま動いています",dn:"終わりました",wt:"社長が押すまで動きません",st:"止まっています"}[n.st]));
+      if(n.ceo){toast("押すのはあなたです。番頭は下書きまで作ります");return;}
+      var q=KZ_BUSHO[n.id];
+      var st=({on:"いま動いています",dn:"終わりました",wt:"社長が押すまで動きません",st:"止まっています"})[_st];
+      toast(q?(n.n+"："+st+"／やったこと＝"+q.did+"／できなかったこと＝"+q.cant)
+             :(n.n+"："+st));
     };
     map.appendChild(d);
   });
   /* 吹き出し */
-  KZ_BUBS.forEach(function(b){
+  kzP().bubs.forEach(function(b){
     var d=el("div","kbz-bub "+(b.k||""));
     d.style.left=b.x+"%"; d.style.top=b.y+"%";
     d.textContent=b.t;
@@ -8931,7 +9018,7 @@ function viewKaisha(){
 
   var side=el("div","kbz-side");
   side.innerHTML='<div class="h">やり取りの記録（今日）</div>'+
-    KZ_SIDE.map(function(s){
+    kzP().side.map(function(s){
       return '<div class="it'+(s.warn?" warn":"")+'"><div class="t">'+s.t+'</div><div class="w">'+s.w+'</div></div>';
     }).join("");
   body.appendChild(side);
@@ -8940,12 +9027,50 @@ function viewKaisha(){
   /* ログ */
   var lg=el("div","kbz-log");
   lg.innerHTML='<div class="h"><div class="on">できたこと・できなかったこと</div><div>すべての記録</div></div>'+
-    '<div class="rows">'+KZ_LOG.map(function(r){
+    '<div class="rows">'+kzP().log.map(function(r){
       return '<div class="r"><span class="tm">'+r[0]+'</span><span class="wo">'+r[1]+'</span>'+
              '<span class="wt">'+r[2]+'</span><span class="rs '+r[3]+'">'+r[4]+'</span></div>';
     }).join("")+'</div>';
   z.appendChild(lg);
   v.appendChild(z);
+
+  var _h=kzP().how;
+  var how=el("div","card");
+  how.innerHTML='<div class="card-h"><h2>'+_h.ttl+'</h2></div>';
+  var _hw=el("div","kb-how");
+  _hw.innerHTML='<div class="hh">'+_h.ttl+'<span>'+_h.sub+'</span></div>'+
+    '<table><thead><tr>'+_h.head.map(function(x){return "<th>"+x+"</th>";}).join("")+'</tr></thead><tbody>'+
+    _h.rows.map(function(r){
+      var cls=r[r.length-1];
+      return '<tr'+(cls?' class="'+cls+'"':"")+'>'+
+        r.slice(0,r.length-1).map(function(c){return "<td>"+c+"</td>";}).join("")+"</tr>";
+    }).join("")+'</tbody></table>';
+  how.appendChild(_hw);
+  /* 数字を動かす。商談で「御社の数字でやってみましょう」ができる */
+  var _sm=KZ_SIM[STATE.kzGoal||"uriage"];
+  if(_sm){
+    if(STATE.kzSim>=_sm.opts.length) STATE.kzSim=0;
+    var sim=el("div","kb-sim");
+    sim.innerHTML='<div class="q">'+_sm.q+'<span>'+_sm.sub+'</span></div>';
+    var pk=el("div","pk");
+    _sm.opts.forEach(function(o,oi){
+      var b=el("button");b.type="button";b.textContent=o;
+      b.setAttribute("aria-pressed", STATE.kzSim===oi?"true":"false");
+      b.onclick=function(){STATE.kzSim=oi;render();};
+      pk.appendChild(b);
+    });
+    sim.appendChild(pk);
+    var rs=el("div","rs");
+    (_sm.rs[STATE.kzSim]||[]).forEach(function(r){
+      var row=el("div","row"+(r[2]?" "+r[2]:""));
+      row.innerHTML='<div class="l">'+r[0]+'</div><div class="v">'+r[1]+'</div>';
+      rs.appendChild(row);
+    });
+    sim.appendChild(rs);
+    sim.appendChild(el("div","foot",_sm.foot));
+    how.appendChild(sim);
+  }
+  v.appendChild(how);
 
   var rule=el("div","kb-rule");
   rule.innerHTML="部署が動いても、<b>お金と社外に出るものは1つも出ていません。</b>"+
@@ -8958,7 +9083,7 @@ function viewKaisha(){
     '<p style="font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px">'+
     '番頭が止まっているのは、能力の問題ではなく<b>材料が無い</b>からです。何を渡せば動くかを書きます。</p>';
   var lw=el("div","kb-lack");
-  KZ_LACK.forEach(function(x){
+  kzP().lack.forEach(function(x){
     var r=el("div","r");
     r.innerHTML='<div class="n">'+x.n+'</div><div><b>'+x.t+'</b><p>'+x.p+'</p></div>'+
       '<div class="who">'+x.w+'</div>';
@@ -8969,29 +9094,38 @@ function viewKaisha(){
 
   /* 次にやること1件 */
   var nx=el("div","kb-next");
-  nx.innerHTML='<div class="lb">売上を上げるために、次にやること（1件だけ）</div>'+
-    '<b>上位2社に8割が寄っています。3社目を作ることを、値上げより先に。</b>'+
-    '<p>取引先42社のうち、上位2社で売上の8割です。この状態で値上げをすると、'+
-    '断られたときの落ち込みが大きくなります。<b>まず3社目を作ってから、値上げの話をする</b>のが順番です。<br>'+
-    'ただし、これは<b>受注の記録から出した見立て</b>です。相手の事情までは番頭に分かりません。'+
-    '最後は社長がお決めください。</p>';
+  nx.innerHTML='<div class="lb">次にやること（1件だけ）</div>'+
+    '<b>'+kzP().next.t+'</b><p>'+kzP().next.p+'</p>';
   v.appendChild(nx);
 
   var out=el("div","card");
   out.innerHTML='<div class="card-h"><h2>今日できたもの（承認箱へ）</h2></div>'+
     '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>できたもの</th><th>作った部署</th><th>どうなるか</th></tr></thead><tbody>'+
-    '<tr><td><b>営業資料の下書き（12枚）</b></td><td>売り方を考える</td><td>承認箱の赤い札。<b>押すまで誰にも出ません</b></td></tr>'+
-    '<tr><td>受注の分析（業種別・月別）</td><td>市場を見る</td><td>社内メモ。自動で通ります</td></tr>'+
-    '<tr><td>取引先の並べ替え（金額順）</td><td>お客さまを知る</td><td>社内メモ。自動で通ります</td></tr>'+
-    '<tr><td>値上げ案・点数を増やす案</td><td>商品を考える</td><td>社内で確定。押す人を決めておきます</td></tr>'+
-    '<tr class="kb-no"><td>粗利の計算</td><td>お金を見る</td><td><b>できていません。</b>原価の表が要ります</td></tr>'+
+    kzP().out.map(function(r){
+      var plain=String(r[0]).replace(/<[^>]+>/g,'');
+      var has=!!KZ_INNER[plain];
+      var inner='';
+      if(has && STATE.kzOpen===plain){
+        var q=KZ_INNER[plain];
+        inner='<tr><td colspan="3"><div class="kb-inner"><b>'+q.b+'</b><ol>'+
+          q.ol.map(function(x){return '<li>'+x+'</li>';}).join('')+
+          '</ol><div style="margin-top:9px;font-size:12.5px;color:#8f2419">'+q.no+'</div></div></td></tr>';
+      }
+      return '<tr'+(r[3]==="no"?' class="kb-no"':'')+'><td>'+r[0]+
+        (has?'<button class="kb-open" data-in="'+plain+'">'+(STATE.kzOpen===plain?'とじる':'中身を見る')+'</button>':'')+
+        '</td><td>'+r[1]+'</td><td>'+r[2]+'</td></tr>'+inner;
+    }).join('')+
     '</tbody></table></div>';
+  [].forEach.call(out.querySelectorAll(".kb-open"),function(b){
+    b.onclick=function(){
+      var k=b.getAttribute("data-in");
+      STATE.kzOpen=(STATE.kzOpen===k)?"":k;
+      render();
+    };
+  });
   v.appendChild(out);
 
-  v.appendChild(cantBox(
-    "3年ぶんの受注記録と、取引先42社のやり取りを読みました。9つの部署のうち5つが動きました。",
-    "「お金を見る」は止まりました。原価の表が番頭に入っていないため、粗利が出せません。また、同業の値段と、11社が離れた理由も分かりません。番頭は外のサイトを見に行かず、記録に無いことは書かないためです。",
-    "動いた5つの部署の成果を承認箱に入れ、次にやることを1件だけお出ししました。"));
+  v.appendChild(cantBox(kzP().cant[0],kzP().cant[1],kzP().cant[2]));
   v.appendChild(footer());
   return v;
 }
@@ -9205,6 +9339,258 @@ function viewEigyobi(){
   v.appendChild(footer());
   return v;
 }
+
+
+/* ====================================================================
+   やりたいことで、画面がまるごと入れ替わる（2026-07-31 追加）
+   押すと部署の動き・記録・足りないもの・次の一手・成果物が変わる。
+   そして「具体的にどうするか」の表が出る。
+==================================================================== */
+var KZ_PLAN={
+
+/* ---------- ① 売上を1.5倍にしたい ---------- */
+uriage:{
+ head:"いまの売上から1.5倍にする道は、大きく3つしかありません。<b>どれを選ぶかで、動く部署が変わります。</b>",
+ st:"4つの部署が動いています ／ 1つ止まっています ／ 4つは社長待ちです",
+ nodes:{ichi:"dn",kyaku:"dn",shina:"on",uri:"on",tsuku:"wt",mie:"wt",hin:"wt",dasu:"wt",kane:"st"},
+ bubs:[{x:33,y:38,t:"取引先の8割が、上位2社に寄っています",k:"g"},
+       {x:70,y:38,t:"値上げか、点数を増やすかの2案を作りました",k:""},
+       {x:22,y:64,t:"原価がそろっていないので、粗利が出せません",k:"w"}],
+ side:[{t:"07:02",w:"<b>市場を見る</b> → 社長　業種別の受注をまとめました"},
+       {t:"07:14",w:"<b>お客さまを知る</b> → 商品を考える　上位2社への寄りを申し送り"},
+       {t:"07:31",w:"<b>商品を考える</b> → 売り方を考える　2案を渡しました"},
+       {t:"07:45",w:"<b>売り方を考える</b> → 社長　<b>営業資料の下書きができました</b>"},
+       {t:"07:52",w:"<b>お金を見る</b> が止まっています　原価の表が入っていません",warn:true},
+       {t:"08:00",w:"作る／見た目／品質／出す準備 は、社長が押すまで動きません"}],
+ log:[["07:02","市場を見る","3年ぶんの受注を業種別・月別に並べ、伸びと落ちを出した","ok","できた"],
+      ["07:09","市場を見る","同業の値段は調べていない。外のサイトを見に行かないため","ng","できず"],
+      ["07:14","お客さまを知る","取引先42社を金額順に並べ、上位2社で8割を占めると出した","ok","できた"],
+      ["07:22","お客さまを知る","なぜ離れたかは分からない。やり取りの記録が無い先が11社","ng","できず"],
+      ["07:31","商品を考える","値上げ案と、点数を増やす案の2つを作った","ok","できた"],
+      ["07:45","売り方を考える","<b>営業資料の下書き（12枚）を作った</b>","ok","承認箱へ"],
+      ["07:52","お金を見る","粗利が出せない。原価の表が番頭に入っていない","ng","止まり"],
+      ["08:00","作る","社長が押すまで動かない","wait","待ち"]],
+ how:{ttl:"売上を1.5倍にする、3つの道",sub:"いまの数字から番頭が試算しました（架空のサンプルです）",
+  head:["やり方","いまの数字","1.5倍に必要なこと","むずかしさ","番頭にできること"],
+  rows:[["<b>①　点数を増やす</b><br>取引の回数を増やす","月42件","<b>月63件（＋21件）</b>","高い。人手が要ります","声がけの下書き・訪問前の3行",""],
+        ["<b>②　単価を上げる</b><br>1件あたりを上げる","1件 平均 29,400円","<b>1件 44,100円（＋50%）</b>","中くらい。断られる先が出ます","値上げのご説明の下書き","pick"],
+        ["<b>③　新しい先を増やす</b><br>取引先そのものを増やす","42社","<b>63社（＋21社）</b>","高い。時間がかかります","初めての相手への持ち物",""],
+        ["<b>組み合わせ（現実的）</b><br>②を1割＋③を10社","—","<b>①②③を少しずつ</b>","中くらい","上の3つを全部",  "pick"],
+        ["原価から見た「上げられる幅」","<b>出せません</b>","—","—","<b>原価の表が入っていません</b>","no"]]},
+ lack:[{n:"1",t:"原価の表が入っていません",p:"仕入れ値・人件費・配送費の表が番頭に入っていないため、粗利が出せません。<b>値上げをいくらまでできるかが、ここで止まります。</b>",w:"Excel1枚<br>置いていただければ再開します"},
+       {n:"2",t:"離れたお客さまの記録がありません",p:"11社について、いつ・なぜ取引が止まったかの記録が残っていません。理由が分からないと、同じことが繰り返されます。",w:"分かる範囲で<br>1行ずつで足ります"},
+       {n:"3",t:"同業の値段が分かりません",p:"番頭は外のサイトを見に行かない作りです。相場は社長か、別オプション「与信・取引先チェック便」の役目になります。",w:"社長のお手元の<br>情報が要ります"}],
+ next:{t:"上位2社に8割が寄っています。3社目を作ることを、値上げより先に。",
+  p:"取引先42社のうち、上位2社で売上の8割です。この状態で値上げをすると、断られたときの落ち込みが大きくなります。<b>まず3社目を作ってから、値上げの話をする</b>のが順番です。<br>ただし、これは<b>受注の記録から出した見立て</b>です。相手の事情までは番頭に分かりません。最後は社長がお決めください。"},
+ out:[["<b>営業資料の下書き（12枚）</b>","売り方を考える","承認箱の赤い札。<b>押すまで誰にも出ません</b>",""],
+      ["受注の分析（業種別・月別）","市場を見る","社内メモ。自動で通ります",""],
+      ["取引先の並べ替え（金額順）","お客さまを知る","社内メモ。自動で通ります",""],
+      ["値上げのご説明の下書き","商品を考える","社内で確定。押す人を決めておきます",""],
+      ["粗利の計算","お金を見る","<b>できていません。</b>原価の表が要ります","no"]],
+ cant:["3年ぶんの受注記録と、取引先42社のやり取りを読みました。9つの部署のうち5つが動きました。",
+       "「お金を見る」は止まりました。原価の表が番頭に入っていないため、粗利が出せません。また、同業の値段と、11社が離れた理由も分かりません。番頭は外のサイトを見に行かず、記録に無いことは書かないためです。",
+       "動いた5つの部署の成果を承認箱に入れ、次にやることを1件だけお出ししました。"]},
+
+/* ---------- ② 人を増やさずに回したい ---------- */
+hito:{
+ head:"減らせるのは<b>手順が決まっている仕事だけ</b>です。まず、どこに何時間かかっているかを数えます。",
+ st:"3つの部署が動いています ／ 2つ止まっています ／ 4つは社長待ちです",
+ nodes:{ichi:"wt",kyaku:"wt",shina:"wt",uri:"wt",tsuku:"on",mie:"wt",hin:"on",dasu:"wt",kane:"on"},
+ bubs:[{x:22,y:60,t:"事務は月138時間。うち92時間が手順の決まった仕事です",k:"g"},
+       {x:72,y:60,t:"いちばん時間を食っているのは請求まわり（月34時間）",k:"g"},
+       {x:48,y:88,t:"作業時間の記録が無い仕事が3つあります",k:"w"}],
+ side:[{t:"07:05",w:"<b>お金を見る</b> → 社長　事務の時間を仕事ごとに数えました"},
+       {t:"07:18",w:"<b>作る</b> → 品質を見る　手順が書かれている仕事を仕分け"},
+       {t:"07:26",w:"<b>品質を見る</b> → 社長　<b>任せられる／人がやる の仕分け表ができました</b>"},
+       {t:"07:40",w:"<b>お金を見る</b>　時間の記録が無い仕事が3つあります",warn:true},
+       {t:"07:55",w:"市場／お客さま／商品／売り方 は、この目標では動きません"}],
+ log:[["07:05","お金を見る","事務の時間を12の仕事に分けて数えた（月138時間）","ok","できた"],
+      ["07:12","お金を見る","3つの仕事は時間が分からない。記録が残っていないため","ng","できず"],
+      ["07:18","作る","手順書がある仕事とない仕事に分けた（ある7・ない5）","ok","できた"],
+      ["07:26","品質を見る","<b>任せられる／人がやる の仕分け表を作った</b>","ok","承認箱へ"],
+      ["07:33","品質を見る","人が減った場合に確認が回るかは分からない。やってみないと出ない","ng","できず"],
+      ["07:40","お金を見る","浮く時間の見込みは出したが、<b>お約束はできない</b>","ok","試算"],
+      ["07:55","市場を見る","この目標では動かない","wait","待ち"]],
+ how:{ttl:"事務の時間を、何に使っているか",sub:"月138時間の内訳。番頭に任せられるかどうかで色を分けました（架空のサンプルです）",
+  head:["仕事","月あたり","手順書","番頭に任せられるか","まず任せるなら"],
+  rows:[["<b>請求書をつくる・出す</b>","34時間","あり","<b>下書きまで任せられます</b>","<b>ここから</b>","pick"],
+        ["<b>入金の消し込み</b>","22時間","あり","<b>下書きまで任せられます</b>","2番目","pick"],
+        ["経費の科目わけ","18時間","あり","下書きまで任せられます","3番目",""],
+        ["手書き・FAXの入力","16時間","なし","写真から文字にできます","",""],
+        ["給与の計算と明細","12時間","あり","下書きまで任せられます","",""],
+        ["電話・来客の一次対応","14時間","なし","<b>人がやる仕事です</b>","",""],
+        ["取引先とのやり取り","12時間","なし","<b>人がやる仕事です</b>","",""],
+        ["棚卸し・現物の確認","記録なし","なし","<b>番頭にはできません</b>","","no"],
+        ["採用の面接・評価","記録なし","なし","<b>やらないと決めています</b>","","no"],
+        ["クレームの対応","記録なし","なし","<b>人がやる仕事です</b>","","no"]]},
+ lack:[{n:"1",t:"3つの仕事は、時間が分かりません",p:"棚卸し・採用・クレーム対応は、かかった時間の記録が残っていません。<b>数えられないものは、減らせたかどうかも分かりません。</b>",w:"1か月だけ<br>ざっくり記録してみてください"},
+       {n:"2",t:"手順が書かれていない仕事が5つあります",p:"手順が人の頭の中にしかないと、番頭に任せることも、次の人に渡すこともできません。<b>録画して声で説明していただければ、番頭が手順書の下書きを作ります。</b>",w:"5分の録画で<br>1つぶん作れます"},
+       {n:"3",t:"人が減ったときに回るかは、やってみないと分かりません",p:"番頭は「たぶん回ります」とは申し上げません。<b>1つの仕事を30日試して、実際の数字を見てから</b>次を決めてください。",w:"30日の<br>お試しで確かめます"}],
+ next:{t:"請求書づくり（月34時間）だけを、30日、番頭に任せてみる。",
+  p:"12の仕事のうち、いちばん時間を食っていて、しかも手順が決まっているのが請求書づくりです。<b>ここだけを30日、下書きまで任せて、実際に何時間浮いたかを測ります。</b><br>全部を一度に任せると、どれが効いたのか分からなくなります。1つずつです。<br>なお、<b>何時間浮くかはお約束できません。</b>30日たってから、一緒に数字を見て決めていただきます。"},
+ out:[["<b>任せられる／人がやる の仕分け表</b>","品質を見る","承認箱の白い札。押す人を決めておきます",""],
+      ["事務の時間の内訳（12の仕事）","お金を見る","社内メモ。自動で通ります",""],
+      ["手順書がある／ない の一覧","作る","社内メモ。自動で通ります",""],
+      ["30日のお試しの段取り","品質を見る","社内で確定。押す人を決めておきます",""],
+      ["浮く時間の見込み","お金を見る","<b>試算です。</b>お約束するものではありません","no"]],
+ cant:["12の仕事について、月138時間の内訳と、手順書のあるなしを調べました。",
+       "3つの仕事は時間が分かりませんでした。棚卸し・採用・クレーム対応は、かかった時間の記録が残っていないためです。また、人が減ったときに回るかどうかも、番頭には分かりません。やってみないと出ない数字です。",
+       "任せられる仕事と人がやる仕事に分け、まず1つだけ30日試す段取りをお出ししました。"]},
+
+/* ---------- ③ 新しい商品を出したい ---------- */
+shohin:{
+ head:"作る前に、<b>買う人がいるかを確かめます。</b>ここを飛ばすと、在庫だけが残ります。",
+ st:"5つの部署が動いています ／ 1つ止まっています ／ 3つは社長待ちです",
+ nodes:{ichi:"on",kyaku:"on",shina:"on",uri:"wt",tsuku:"wt",mie:"on",hin:"on",dasu:"wt",kane:"st"},
+ bubs:[{x:33,y:38,t:"お客さまの声から、同じ困りごとが14件出ました",k:"g"},
+       {x:70,y:38,t:"商品の案を3つ作りました",k:""},
+       {x:22,y:64,t:"いくらで作れるかは、原価の表が無いと出せません",k:"w"}],
+ side:[{t:"07:04",w:"<b>市場を見る</b> → お客さまを知る　同じ困りごとが14件"},
+       {t:"07:16",w:"<b>お客さまを知る</b> → 商品を考える　困りごとを3つにまとめました"},
+       {t:"07:30",w:"<b>商品を考える</b> → 見た目を整える　<b>商品の案3つができました</b>"},
+       {t:"07:41",w:"<b>品質を見る</b> → 社長　出す前に確かめることの一覧"},
+       {t:"07:50",w:"<b>お金を見る</b> が止まっています　いくらで作れるかが出せません",warn:true},
+       {t:"08:02",w:"売り方／作る／出す準備 は、案が決まってから動きます"}],
+ log:[["07:04","市場を見る","過去2年のお問い合わせ・お断りの理由を読み、同じ困りごとを14件見つけた","ok","できた"],
+      ["07:11","市場を見る","よそが同じものを出しているかは分からない。外のサイトを見に行かないため","ng","できず"],
+      ["07:16","お客さまを知る","14件を3つの困りごとにまとめた","ok","できた"],
+      ["07:30","商品を考える","<b>商品の案を3つ作った（それぞれ根拠つき）</b>","ok","承認箱へ"],
+      ["07:41","品質を見る","出す前に確かめること（法令・表示・原材料）を並べた","ok","できた"],
+      ["07:47","品質を見る","この商品に許可が要るかは分からない。役所に聞く話","ng","できず"],
+      ["07:50","お金を見る","いくらで作れるかが出せない。原価の表が無い","ng","止まり"],
+      ["08:02","売り方を考える","案が決まるまで動かない","wait","待ち"]],
+ how:{ttl:"お客さまの声から出た、商品の案3つ",sub:"根拠は、過去2年のお問い合わせとお断りの理由です（架空のサンプルです）",
+  head:["案","もとになった声","作る手間","いくらで売れそうか","確かめること"],
+  rows:[["<b>①　小分けにして出す</b><br>いまの商品を少量から","「量が多すぎて使い切れない」<b>6件</b>","<b>小さい</b><br>いまの設備で作れます","<b>いまの単価×0.4ほど</b><br>数は増える見込み","<b>3社に聞く</b>","pick"],
+        ["<b>②　下ごしらえ済みで出す</b><br>手間を減らした形","「使う前の手間がかかる」<b>5件</b>","中くらい<br>работ手が要ります","いまの単価×1.6ほど","衛生の決まり・日持ち",""],
+        ["<b>③　定期でお届けする</b><br>毎月決まった量を","「毎回たのむのが面倒」<b>3件</b>","小さい<br>仕組みだけです","月ぎめ。読みやすくなります","途中でやめられる形にする",""],
+        ["いくらで作れるか（原価）","—","—","<b>出せません</b>","<b>原価の表が入っていません</b>","no"]]},
+ lack:[{n:"1",t:"いくらで作れるかが出せません",p:"原価の表（材料・人件費・容器・配送）が番頭に入っていないため、<b>売値を決められません。</b>案は作れても、儲かるかどうかがここで止まります。",w:"Excel1枚<br>置いていただければ再開します"},
+       {n:"2",t:"買う人がいるかは、まだ確かめていません",p:"14件の声は<b>すでにお付き合いのある先</b>からのものです。新しく買ってくれる人がいるかは別の話です。<b>作る前に3社に聞く</b>のが、いちばん安く確かめる方法です。",w:"3社に聞くだけ<br>1週間で足ります"},
+       {n:"3",t:"許可が要るかは分かりません",p:"作り方や表示によっては、届出や許可が要ることがあります。<b>番頭は法律の判断をしません。</b>役所か、専門の先生にご確認ください。",w:"保健所への<br>電話1本から"}],
+ next:{t:"作る前に、3社に聞いてください。案①「小分け」を、いまのお客さまに。",
+  p:"3つの案のうち、<b>いまの設備で作れて、いちばん手間が小さいのが案①</b>です。まずこれを、すでにお付き合いのある3社に「こういうものがあったら使いますか」と聞いてください。<br>「使う」と言われたら作る。言われなかったら作らない。<b>これが、いちばん安く確かめる方法です。</b><br>ただし、声は14件とも既存のお客さまからのものです。<b>新しく買ってくれる人がいるかまでは、番頭に分かりません。</b>"},
+ out:[["<b>商品の案3つ（根拠つき）</b>","商品を考える","承認箱の白い札。押す人を決めておきます",""],
+      ["お客さまの声のまとめ（14件→3つ）","お客さまを知る","社内メモ。自動で通ります",""],
+      ["出す前に確かめることの一覧","品質を見る","社内メモ。自動で通ります",""],
+      ["3社に聞くときの聞き方（質問5つ）","市場を見る","社内で確定。押す人を決めておきます",""],
+      ["いくらで作れるか（原価）","お金を見る","<b>できていません。</b>原価の表が要ります","no"]],
+ cant:["過去2年のお問い合わせとお断りの理由を読み、同じ困りごとを14件見つけました。5つの部署が動きました。",
+       "「お金を見る」は止まりました。原価の表が無く、いくらで作れるかが出せないためです。また、よそが同じものを出しているかと、この商品に許可が要るかも分かりません。外のサイトを見に行かず、法律の判断もしない作りだからです。",
+       "商品の案を3つ作り、作る前に3社へ聞く段取りをお出ししました。"]}
+};
+
+function kzP(){ return KZ_PLAN[STATE.kzGoal||"uriage"]; }
+
+
+/* ====================================================================
+   数字を動かす・中身を見る（2026-07-31 追加）
+   商談でいちばん効くのは「御社の数字を入れてみましょう」。
+==================================================================== */
+var KZ_SIM={
+uriage:{
+ q:"単価をどれだけ上げますか",
+ sub:"いまの数字：取引先42社／月42件／1件あたり平均 29,400円／月商 1,234,800円（架空のサンプルです）",
+ opts:["そのまま","＋10%","＋20%","＋30%"],
+ rs:[
+  [["1件あたり","29,400円"],["1.5倍に必要な件数","<b>月63件</b>（いま42件／＋21件）",""],
+   ["増やす人手","<b>おおよそ1人ぶん</b>","ng"],["番頭の見立て","件数だけで1.5倍にするのは、人手が足りません。単価と組み合わせるほうが現実的です","mi"]],
+  [["1件あたり","32,340円（＋2,940円）"],["1.5倍に必要な件数","<b>月58件</b>（＋16件）",""],
+   ["断られる見込み","記録からは出せません","ng"],["番頭の見立て","1割なら、長いお付き合いの先でも話が通りやすい幅です。ご説明の文を作れます","mi"]],
+  [["1件あたり","35,280円（＋5,880円）"],["1.5倍に必要な件数","<b>月53件</b>（＋11件）",""],
+   ["断られる見込み","記録からは出せません","ng"],["番頭の見立て","2割は、理由をきちんとご説明しないと通りません。原価が出せれば根拠を作れます","mi"]],
+  [["1件あたり","38,220円（＋8,820円）"],["1.5倍に必要な件数","<b>月48件</b>（＋6件）",""],
+   ["断られる見込み","記録からは出せません","ng"],["番頭の見立て","3割は、上位2社に8割が寄っているいまの状態では危ないです。3社目を作ってからにしてください","mi"]]],
+ foot:"どの案でも「断られる見込み」は出せません。<b>過去に値上げをした記録が残っていないためです。</b>数字ではなく、社長のご判断でお決めください。"},
+
+hito:{
+ q:"月に何時間、浮かせたいですか",
+ sub:"いまの事務は月138時間。うち手順が決まっているのは92時間です（架空のサンプルです）",
+ opts:["月20時間","月40時間","月60時間"],
+ rs:[
+  [["任せる仕事","<b>請求書をつくる・出す</b>（月34時間）",""],["下書きになる割合","おおよそ6割",""],
+   ["浮く見込み","<b>月20時間ほど</b>",""],["お試しの期間","30日","mi"],
+   ["番頭の見立て","1つだけなら、30日で効いたかどうかがはっきり分かります。まずここからをおすすめします","mi"]],
+  [["任せる仕事","請求書づくり＋<b>入金の消し込み</b>（月56時間）",""],["下書きになる割合","おおよそ7割",""],
+   ["浮く見込み","<b>月39時間ほど</b>",""],["お試しの期間","60日","mi"],
+   ["番頭の見立て","2つになると、どちらが効いたのか分けて見る必要があります。順に入れてください","mi"]],
+  [["任せる仕事","上の2つ＋<b>経費の科目わけ・手書きの入力</b>（月90時間）",""],["下書きになる割合","おおよそ7割",""],
+   ["浮く見込み","<b>月63時間ほど</b>",""],["お試しの期間","90日以上","mi"],
+   ["確認の手間","<b>増えます。</b>押す札が1日3〜4枚増えます","ng"],
+   ["番頭の見立て","一度に4つは多すぎます。押すのが仕事になってしまい、確認が形だけになります","ng"]]],
+ foot:"<b>浮く時間はお約束できません。</b>ここに出ているのは、手順が決まっている割合から出した見込みです。30日たってから、実際の数字を一緒に見て決めていただきます。"},
+
+shohin:{
+ q:"いくらで売りますか（案①・小分け）",
+ sub:"いまの商品は1点 1,480円。小分けは中身がおよそ4割です（架空のサンプルです）",
+ opts:["580円","680円","780円"],
+ rs:[
+  [["売値","580円"],["いまの単価との差","4割の量で、値段は約39%",""],
+   ["元が取れる数","<b>出せません</b>","ng"],["買っていただけそうか","安いぶん、数は出やすい見込み","mi"],
+   ["番頭の見立て","安くしすぎると、いまの商品を買っていた方がこちらに移るだけになります","mi"]],
+  [["売値","680円"],["いまの単価との差","4割の量で、値段は約46%",""],
+   ["元が取れる数","<b>出せません</b>","ng"],["買っていただけそうか","声をくださった6件の言い方に近い値ごろです","mi"],
+   ["番頭の見立て","「量が多すぎる」とおっしゃった方には、この辺りが通りやすい見込みです","mi"]],
+  [["売値","780円"],["いまの単価との差","4割の量で、値段は約53%",""],
+   ["元が取れる数","<b>出せません</b>","ng"],["買っていただけそうか","割高に見える見込み","mi"],
+   ["番頭の見立て","小分けの手間ぶんを乗せた形ですが、比べられると高く見えます","mi"]]],
+ foot:"<b>どの値段でも「元が取れる数」は出せません。原価の表が番頭に入っていないためです。</b>材料・容器・手間の表を1枚いただければ、その場で出します。"}
+};
+
+/* 成果物の中身。「営業資料12枚」と書くだけでなく、押したら中が見える */
+var KZ_INNER={
+ "営業資料の下書き（12枚）":{b:"12枚の見出し（中身は承認箱で直せます）",
+  ol:["表紙：御社のお名前と、今日の日付",
+      "こんなことでお困りではありませんか（3つ）",
+      "いまお取引のある42社の内訳（業種別）",
+      "うち上位2社で8割という現状",
+      "だから、3社目を作りたい",
+      "当社がお出しできるもの（点数を増やす／単価／新しい先）",
+      "お値段の考え方（<b>金額は空欄です。人が入れてください</b>）",
+      "納めるまでの流れ",
+      "よくいただくご質問（4つ）",
+      "他社さまとの違い（<b>他社を悪く書いていません</b>）",
+      "はじめかた（まず1つだけ）",
+      "会社概要（<b>連絡先は空欄です</b>）"],
+  no:"金額と連絡先は空欄のままです。番頭は、決まっていない数字を埋めません。"},
+ "任せられる／人がやる の仕分け表":{b:"12の仕事を3つに分けました",
+  ol:["<b>下書きまで任せられる（5つ）</b>：請求書・入金の消し込み・経費の科目わけ・給与明細・手書きの入力",
+      "<b>人がやる（3つ）</b>：電話と来客の一次対応・取引先とのやり取り・クレームの対応",
+      "<b>番頭にはできない／やらないと決めた（4つ）</b>：棚卸し（現物を数える）・採用の面接と評価・懲戒の判断・契約の最終解釈"],
+  no:"「やらないと決めた」ものは、設定でも外せません。"},
+ "商品の案3つ（根拠つき）":{b:"それぞれの根拠と、確かめること",
+  ol:["<b>①小分けにして出す</b>　根拠：「量が多すぎて使い切れない」6件／いまの設備で作れます",
+      "<b>②下ごしらえ済みで出す</b>　根拠：「使う前の手間がかかる」5件／衛生の決まりと日持ちの確認が要ります",
+      "<b>③定期でお届けする</b>　根拠：「毎回たのむのが面倒」3件／途中でやめられる形にしてください",
+      "<b>共通</b>：14件の声は、すべて<b>すでにお付き合いのある先</b>からのものです"],
+  no:"新しく買ってくださる方がいるかは、番頭には分かりません。作る前に3社へお聞きください。"},
+ "3社に聞くときの聞き方（質問5つ）":{b:"作る前に、これだけ聞いてください",
+  ol:["いま、この商品のどこが使いにくいですか",
+      "小分けにしたものがあったら、使いますか",
+      "<b>いくらまでなら出しますか</b>（こちらから値段を言わないでください）",
+      "月にどれくらい要りますか",
+      "ほかに、こういうものがあれば、というものはありますか"],
+  no:"3番目は必ず、相手に先に言っていただいてください。こちらから値段を出すと、そこに寄ってしまいます。"}
+};
+
+/* 部署を押したときの中身 */
+var KZ_BUSHO={
+ ichi:{n:"市場を見る",did:"3年ぶんの受注を業種別・月別に並べ、伸びと落ちを出しました",
+       cant:"同業の値段は調べていません。番頭は外のサイトを見に行かない作りです"},
+ kyaku:{n:"お客さまを知る",did:"取引先42社を金額順に並べ、上位2社で8割を占めることを出しました",
+        cant:"なぜ離れたかは分かりません。やり取りの記録が残っていない先が11社あります"},
+ shina:{n:"商品を考える",did:"値上げ案と、点数を増やす案の2つを作りました",
+        cant:"どちらが通りやすいかは分かりません。過去に値上げをした記録がないためです"},
+ uri:{n:"売り方を考える",did:"営業資料の下書き12枚を作り、承認箱に入れました",
+      cant:"金額と連絡先は空欄のままです。決まっていない数字を埋めないためです"},
+ tsuku:{n:"作る",did:"社長が押すまで動きません",cant:"—"},
+ mie:{n:"見た目を整える",did:"社長が押すまで動きません",cant:"—"},
+ hin:{n:"品質を見る",did:"出す前に確かめること（法令・表示）を並べました",
+      cant:"許可が要るかどうかは分かりません。番頭は法律の判断をしません"},
+ dasu:{n:"出す準備",did:"社長が押すまで動きません",cant:"—"},
+ kane:{n:"お金を見る",did:"止まっています",
+       cant:"原価の表が番頭に入っていないため、粗利も、いくらで作れるかも出せません"}
+};
 
 const VIEWS={
   shonin:viewShonin,
